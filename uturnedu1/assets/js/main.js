@@ -64,7 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (heroCarousel) {
     const heroTrack = heroCarousel.querySelector('[data-hero-track]');
     const heroSlides = Array.from(heroCarousel.querySelectorAll('.country-hero-slide'));
-    const heroDots = Array.from(heroCarousel.querySelectorAll('[data-hero-dot]'));
+    // Country cards sit below the banner, so keep their controls in the same carousel state.
+    const heroDots = Array.from(document.querySelectorAll('[data-hero-dot]'));
+    const heroDestinationNav = document.querySelector('.country-hero-destination-nav');
     const heroPrev = heroCarousel.querySelector('[data-hero-prev]');
     const heroNext = heroCarousel.querySelector('[data-hero-next]');
     const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -109,6 +111,14 @@ document.addEventListener('DOMContentLoaded', () => {
     heroCarousel.addEventListener('focusout', (event) => {
       if (!heroCarousel.contains(event.relatedTarget)) startHeroTimer();
     });
+    if (heroDestinationNav) {
+      heroDestinationNav.addEventListener('mouseenter', stopHeroTimer);
+      heroDestinationNav.addEventListener('mouseleave', startHeroTimer);
+      heroDestinationNav.addEventListener('focusin', stopHeroTimer);
+      heroDestinationNav.addEventListener('focusout', (event) => {
+        if (!heroDestinationNav.contains(event.relatedTarget)) startHeroTimer();
+      });
+    }
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) stopHeroTimer();
       else startHeroTimer();

@@ -69,15 +69,15 @@ if ($service_posts) {
 
     <button type="button" class="country-hero-control country-hero-prev" data-hero-prev aria-label="Previous study destination">‹</button>
     <button type="button" class="country-hero-control country-hero-next" data-hero-next aria-label="Next study destination">›</button>
-    <div class="container country-hero-navigation">
-      <div class="country-hero-dots" role="tablist" aria-label="Choose a study destination banner">
-        <?php foreach ($destinations as $index => $destination): ?>
-          <button type="button" class="country-hero-dot <?php echo $index === 0 ? 'is-active' : ''; ?>" data-hero-dot="<?php echo esc_attr($index); ?>" role="tab" aria-label="Show <?php echo esc_attr($destination['title']); ?> banner" aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>"><span><?php echo esc_html($destination['title']); ?></span></button>
-        <?php endforeach; ?>
-      </div>
-      <span class="country-hero-autoplay">Changes every 5 seconds</span>
-    </div>
   </section>
+
+  <div class="container country-hero-destination-nav">
+    <div class="country-hero-dots" role="tablist" aria-label="Choose a study destination">
+      <?php foreach ($destinations as $index => $destination): ?>
+        <button type="button" class="country-hero-dot <?php echo $index === 0 ? 'is-active' : ''; ?>" data-hero-dot="<?php echo esc_attr($index); ?>" role="tab" aria-label="Show <?php echo esc_attr($destination['title']); ?> banner" aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>"><span><?php echo esc_html($destination['title']); ?></span></button>
+      <?php endforeach; ?>
+    </div>
+  </div>
 
   <section class="trust-strip" aria-label="Our support principles">
     <div class="container trust-strip-grid">
@@ -125,8 +125,8 @@ if ($service_posts) {
               <div class="destination-journey" aria-label="Actions for <?php echo esc_attr($destination_label); ?>">
                 <a href="<?php echo esc_url($destination_url . '#why-this-country'); ?>" class="journey-link"><span>Why this country</span><span aria-hidden="true">→</span></a>
                 <a href="<?php echo esc_url($destination_url . '#universities'); ?>" class="journey-link"><span>Universities</span><span aria-hidden="true">→</span></a>
-                <button type="button" class="journey-link journey-link-strong" data-country="<?php echo esc_attr($destination_label); ?>" data-modal-title="Check your <?php echo esc_attr($destination_label); ?> eligibility"><span>Check eligibility</span><span aria-hidden="true">↗</span></button>
-                <button type="button" class="journey-link journey-link-primary" data-country="<?php echo esc_attr($destination_label); ?>" data-modal-title="Apply to <?php echo esc_attr($destination_label); ?>"><span>Apply now</span><span aria-hidden="true">↗</span></button>
+                <button type="button" class="journey-link journey-link-strong open-consultancy-modal" data-country="<?php echo esc_attr($destination_label); ?>" data-modal-title="Check your <?php echo esc_attr($destination_label); ?> eligibility"><span>Check eligibility</span><span aria-hidden="true">↗</span></button>
+                <button type="button" class="journey-link journey-link-primary open-consultancy-modal" data-country="<?php echo esc_attr($destination_label); ?>" data-modal-title="Apply to <?php echo esc_attr($destination_label); ?>"><span>Apply now</span><span aria-hidden="true">↗</span></button>
               </div>
             </div>
           </article>

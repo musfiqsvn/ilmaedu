@@ -61,38 +61,6 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
 <?php wp_body_open(); ?>
 <div class="site-boxed-container">
 
-  <!-- Top Announcement Bar / Header Ad Placement -->
-  <?php
-  $header_ads = get_posts([
-      'post_type'      => 'ad_banner',
-      'posts_per_page' => 1,
-      'post_status'    => 'publish',
-      'meta_query'     => [
-          ['key' => '_ad_placement', 'value' => 'header_top'],
-          ['key' => '_ad_active', 'value' => 'yes'],
-      ]
-  ]);
-  if (!empty($header_ads)) {
-      $h_ad = $header_ads[0];
-      $h_url = get_post_meta($h_ad->ID, '_ad_target_url', true) ?: home_url('/reserve-consultation/');
-      ?>
-      <div class="top-notice-bar">
-        <span>⚡ 2026/2027 Admissions Open!</span>
-        <span><?php echo esc_html($h_ad->post_title); ?> — Apply with clear guidance.</span>
-        <a href="<?php echo esc_url(home_url('/#eligibility')); ?>" class="track-ad-click" data-ad-id="<?php echo esc_attr($h_ad->ID); ?>">Check your eligibility →</a>
-      </div>
-      <?php
-  } else {
-      ?>
-      <div class="top-notice-bar">
-        <span>⚡ 2026/2027 Admissions Open!</span>
-        <span>Explore the UK, New Zealand, Canada, Malaysia, South Korea and Japan.</span>
-        <a href="<?php echo esc_url(home_url('/#eligibility')); ?>">Check your eligibility →</a>
-      </div>
-      <?php
-  }
-  ?>
-
   <!-- Sticky Header -->
   <header class="header-wrapper">
     <div class="container">
