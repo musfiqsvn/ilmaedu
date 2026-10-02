@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 100" width="420" height="100">
+  <defs>
+    <linearGradient id="uturnGradW" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818CF8" />
+      <stop offset="50%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#34D399" />
+    </linearGradient>
+  </defs>
+
+  <!-- Icon Group -->
+  <g transform="translate(10, 10)">
+    <rect x="0" y="0" width="80" height="80" rx="20" fill="rgba(255,255,255,0.08)" stroke="url(#uturnGradW)" stroke-width="2"/>
+
+    <!-- U-Turn Loop Arrow Path -->
+    <path d="M 26 58 L 26 36 C 26 26, 54 26, 54 36 L 54 54" fill="none" stroke="url(#uturnGradW)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 45 45 L 54 55 L 63 45" fill="none" stroke="url(#uturnGradW)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Pulse dot -->
+    <circle cx="26" cy="58" r="4" fill="#38BDF8" />
+  </g>
+
+  <!-- Typography -->
+  <text x="105" y="52" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="34" letter-spacing="1.5" fill="#FFFFFF">
+    UTURN
+  </text>
+  <text x="245" y="52" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="34" letter-spacing="1" fill="#38BDF8">
+    EDU
+  </text>
+  <text x="106" y="74" font-family="'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="12" letter-spacing="4" fill="#94A3B8">
+    DIGITAL SOLUTIONS
+  </text>
+</svg>
