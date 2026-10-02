@@ -14,6 +14,10 @@ if (!defined('ABSPATH')) {
 get_header();
 
 $settings = get_option('uturnedu_settings', []);
+$about_story_image = $settings['about_story_image'] ?? get_template_directory_uri() . '/assets/images/counseling-session.jpg';
+$about_admission_image = $settings['about_admission_image'] ?? get_template_directory_uri() . '/assets/images/WhatsApp-Image-2025-09-21-at-12.00.19-PM-819x1024.jpeg';
+$about_visa_image = $settings['about_visa_image'] ?? get_template_directory_uri() . '/assets/images/counseling-session.jpg';
+$about_asia_image = $settings['about_asia_image'] ?? get_template_directory_uri() . '/assets/images/hero-students-2026.jpg';
 ?>
 
 <section class="section section-bg-alt" style="padding: 4rem 0 3rem 0;">
@@ -31,7 +35,7 @@ $settings = get_option('uturnedu_settings', []);
   <div class="container">
     <div class="grid grid-2 gap-10 items-center">
       <div>
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/counseling-session.jpg'); ?>" alt="ILMA Education Consultancy counselors" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); width: 100%;">
+        <img src="<?php echo esc_url($about_story_image); ?>" alt="ILMA Education Consultancy counselors" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); width: 100%;">
       </div>
 
       <div>
@@ -115,7 +119,7 @@ $settings = get_option('uturnedu_settings', []);
 
     <div class="grid grid-3 gap-8">
       <div class="card text-center">
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/WhatsApp-Image-2025-09-21-at-12.00.19-PM-819x1024.jpeg'); ?>" alt="ILMA Education Consultancy counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
+        <img src="<?php echo esc_url($about_admission_image); ?>" alt="ILMA Education Consultancy counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
         <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Senior Admission Director</h3>
         <div style="font-size: 0.85rem; color: var(--primary); font-weight: 700; margin-bottom: 0.75rem;">UK &amp; Canada Specialist</div>
         <p style="font-size: 0.875rem; color: var(--text-muted);">
@@ -124,7 +128,7 @@ $settings = get_option('uturnedu_settings', []);
       </div>
 
       <div class="card text-center">
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/counseling-session.jpg'); ?>" alt="ILMA Education Consultancy counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
+        <img src="<?php echo esc_url($about_visa_image); ?>" alt="ILMA Education Consultancy counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
         <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Visa &amp; Interview Strategist</h3>
         <div style="font-size: 0.85rem; color: var(--accent-red); font-weight: 700; margin-bottom: 0.75rem;">South Korea &amp; Japan guidance</div>
         <p style="font-size: 0.875rem; color: var(--text-muted);">
@@ -133,7 +137,7 @@ $settings = get_option('uturnedu_settings', []);
       </div>
 
       <div class="card text-center">
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/hero-students-2026.jpg'); ?>" alt="ILMA Education Consultancy counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
+        <img src="<?php echo esc_url($about_asia_image); ?>" alt="ILMA Education Consultancy counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
         <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Scholarship &amp; Asian Hub Lead</h3>
         <div style="font-size: 0.85rem; color: var(--accent-emerald); font-weight: 700; margin-bottom: 0.75rem;">Malaysia &amp; New Zealand</div>
         <p style="font-size: 0.875rem; color: var(--text-muted);">

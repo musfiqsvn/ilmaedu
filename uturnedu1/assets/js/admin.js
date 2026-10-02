@@ -54,4 +54,76 @@ document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('.uturnedu-crm-status').forEach((select) => {
     select.addEventListener('change', () => saveLead(select.closest('[data-lead-row]'), select));
   });
+
+  // WordPress Media Library picker used by logos, popup media, homepage video posters,
+  // destination images and ad banners. Every picker writes back to its paired URL field.
+  document.querySelectorAll('.uturnedu-media-button').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (!window.wp || !window.wp.media) {
+        window.alert('The WordPress Media Library is not available on this screen.');
+        return;
+      }
+      const target = document.getElementById(button.dataset.mediaTarget);
+      if (!target) return;
+      const frame = window.wp.media({
+        title: button.dataset.mediaTitle || 'Choose an image',
+        button: { text: 'Use this image' },
+        multiple: false,
+        library: { type: 'image' }
+      });
+      frame.on('select', () => {
+        const attachment = frame.state().get('selection').first().toJSON();
+        target.value = attachment.url || '';
+        target.dispatchEvent(new Event('change', { bubbles: true }));
+        target.focus();
+      });
+      frame.open();
+    });
+  });
+
+  // Add a small preview and clear affordance beside every media URL field.
+  document.querySelectorAll('.uturnedu-media-row').forEach((row) => {
+    const target = row.querySelector('input[type="url"]');
+    if (!target) return;
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'uturnedu-media-clear';
+    clear.textContent = 'Clear';
+    clear.setAttribute('aria-label', 'Clear selected image');
+    const preview = document.createElement('img');
+    preview.className = 'uturnedu-media-preview';
+    preview.alt = '';
+    preview.loading = 'lazy';
+    row.append(clear, preview);
+    const renderMediaState = () => {
+      const value = target.value.trim();
+      preview.src = value;
+      preview.hidden = !value;
+      clear.hidden = !value;
+    };
+    clear.addEventListener('click', () => {
+      target.value = '';
+      target.dispatchEvent(new Event('change', { bubbles: true }));
+      target.focus();
+      renderMediaState();
+    });
+    target.addEventListener('input', renderMediaState);
+    target.addEventListener('change', renderMediaState);
+    renderMediaState();
+  });
+
+  // Quick filters in Content Studio keep the library calm on sites with many items.
+  document.querySelectorAll('[data-content-filter]').forEach((filterButton) => {
+    filterButton.addEventListener('click', () => {
+      const filter = filterButton.dataset.contentFilter;
+      const isAlreadySelected = filterButton.classList.contains('is-selected');
+      document.querySelectorAll('[data-content-library]').forEach((library) => {
+        library.hidden = !isAlreadySelected && library.dataset.contentLibrary !== filter;
+      });
+      document.querySelectorAll('[data-content-filter]').forEach((button) => {
+        button.classList.toggle('is-selected', !isAlreadySelected && button === filterButton);
+      });
+    });
+  });
 });

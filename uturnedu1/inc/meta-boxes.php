@@ -117,10 +117,15 @@ function uturnedu_render_destination_metabox($post) {
             <label><strong>Flag Emoji / Code:</strong></label><br>
             <input type="text" name="_dest_flag" value="<?php echo esc_attr($flag); ?>" class="widefat" placeholder="e.g. 🇨🇦 or ca">
         </p>
+        <p>
+            <label><strong>Homepage order:</strong></label><br>
+            <input type="number" min="0" name="_uturnedu_menu_order" value="<?php echo esc_attr($post->menu_order); ?>" class="widefat">
+            <small>Lower numbers appear first in destination cards.</small>
+        </p>
         <p style="grid-column:1 / -1;">
-            <label><strong>Managed Destination Image URL:</strong></label><br>
-            <input type="url" name="_dest_image_url" value="<?php echo esc_url($image_url); ?>" class="widefat" placeholder="Paste a Media Library URL, or leave blank for the theme image.">
-            <small>Used by homepage cards and the six-country hero. Upload the image in Media first, then paste its URL here.</small>
+            <label><strong>Managed Destination Image:</strong></label><br>
+            <div class="uturnedu-media-row"><input type="url" id="uturnedu-dest-image-<?php echo esc_attr($post->ID); ?>" name="_dest_image_url" value="<?php echo esc_url($image_url); ?>" class="widefat" placeholder="Choose a Media Library image, or leave blank for the theme image."><button type="button" class="button uturnedu-media-button" data-media-target="uturnedu-dest-image-<?php echo esc_attr($post->ID); ?>">Choose image</button></div>
+            <small>Used by homepage cards and the six-country hero. Choose a replacement without leaving the destination editor.</small>
         </p>
         <p>
             <label><strong>Country ISO Code:</strong></label><br>
@@ -177,6 +182,11 @@ function uturnedu_render_service_metabox($post) {
     $badge = get_post_meta($post->ID, '_service_badge', true);
     $process = get_post_meta($post->ID, '_service_process', true);
     ?>
+    <p>
+        <label><strong>Homepage order:</strong></label><br>
+        <input type="number" min="0" name="_uturnedu_menu_order" value="<?php echo esc_attr($post->menu_order); ?>" class="widefat">
+        <small>Lower numbers appear first in service cards.</small>
+    </p>
     <p>
         <label><strong>Service Icon (Dashicon / SVG name / Emoji):</strong></label><br>
         <input type="text" name="_service_icon" value="<?php echo esc_attr($icon); ?>" class="widefat" placeholder="e.g. 🎓, 📄, ✈️, 🏛️">
@@ -457,8 +467,8 @@ function uturnedu_render_ad_metabox($post) {
             <input type="text" name="_ad_target_url" value="<?php echo esc_url($target_url); ?>" class="widefat" placeholder="https://...">
         </p>
         <p>
-            <label><strong>Banner Image URL:</strong></label><br>
-            <input type="text" name="_ad_image_url" value="<?php echo esc_url($image_url); ?>" class="widefat" placeholder="/assets/images/banner.jpg or https://...">
+            <label><strong>Banner Image:</strong></label><br>
+            <div class="uturnedu-media-row"><input type="url" id="uturnedu-ad-image-<?php echo esc_attr($post->ID); ?>" name="_ad_image_url" value="<?php echo esc_url($image_url); ?>" class="widefat" placeholder="Choose an image from the Media Library"><button type="button" class="button uturnedu-media-button" data-media-target="uturnedu-ad-image-<?php echo esc_attr($post->ID); ?>">Choose image</button></div>
         </p>
         <p>
             <label><strong>Total Recorded Clicks:</strong></label><br>
@@ -480,6 +490,15 @@ function uturnedu_save_custom_meta($post_id) {
     }
     if (!current_user_can('edit_post', $post_id)) {
         return;
+    }
+
+    if (isset($_POST['_uturnedu_menu_order']) && in_array(get_post_type($post_id), ['destination', 'service'], true)) {
+        remove_action('save_post', 'uturnedu_save_custom_meta');
+        wp_update_post([
+            'ID'         => $post_id,
+            'menu_order' => absint($_POST['_uturnedu_menu_order']),
+        ]);
+        add_action('save_post', 'uturnedu_save_custom_meta');
     }
 
     $fields = [

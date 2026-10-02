@@ -83,10 +83,14 @@ add_action('wp_enqueue_scripts', 'uturnedu_enqueue_scripts');
  * Enqueue admin scripts and styles for SaaS Dashboard
  */
 function uturnedu_admin_enqueue_scripts($hook) {
-    if (strpos($hook, 'uturnedu') !== false || strpos($hook, 'uturnedu_dashboard') !== false) {
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    $is_content_editor = $screen && in_array($screen->post_type, ['page', 'destination', 'service', 'testimonial', 'counselor', 'ad_banner'], true);
+    $is_dashboard = strpos($hook, 'uturnedu') !== false || strpos($hook, 'uturnedu_dashboard') !== false;
+    if ($is_dashboard || $is_content_editor) {
         wp_enqueue_style('uturnedu-google-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap', [], null);
-        wp_enqueue_style('uturnedu-admin-css', get_template_directory_uri() . '/assets/css/admin.css', [], '2.2.0');
-        wp_enqueue_script('uturnedu-admin-js', get_template_directory_uri() . '/assets/js/admin.js', ['jquery'], '2.2.1', true);
+        wp_enqueue_style('uturnedu-admin-css', get_template_directory_uri() . '/assets/css/admin.css', [], UTURNEDU_VERSION);
+        wp_enqueue_media();
+        wp_enqueue_script('uturnedu-admin-js', get_template_directory_uri() . '/assets/js/admin.js', ['jquery'], UTURNEDU_VERSION, true);
         wp_localize_script('uturnedu-admin-js', 'uturneduAdminData', [
             'nonce' => wp_create_nonce('uturnedu_admin_nonce'),
         ]);

@@ -14,8 +14,8 @@ $phone1       = $settings['phone_primary'] ?? '01329272046';
 $phone2       = $settings['phone_secondary'] ?? '01823345573';
 $email        = $settings['email_primary'] ?? 'info@ilmaedubd.com';
 $address      = !empty($settings['address']) ? $settings['address'] : 'CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh';
-$logo_rgb     = get_template_directory_uri() . '/assets/images/ILMA-Education-logo-rgb.png';
-$favicon      = get_template_directory_uri() . '/assets/images/canada.png';
+$logo_rgb     = !empty($settings['site_logo_primary']) ? $settings['site_logo_primary'] : get_template_directory_uri() . '/assets/images/ILMA-Education-logo-rgb.png';
+$favicon      = !empty($settings['site_favicon']) ? $settings['site_favicon'] : get_template_directory_uri() . '/assets/images/canada.png';
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>

@@ -34,8 +34,17 @@ function uturnedu_register_admin_menu() {
 
     add_submenu_page(
         'uturnedu_dashboard',
+        __('Content Studio', 'uturnedu1'),
+        __('✦ Content Studio', 'uturnedu1'),
+        'manage_options',
+        'uturnedu_dashboard#tab-content',
+        'uturnedu_render_dashboard_page'
+    );
+
+    add_submenu_page(
+        'uturnedu_dashboard',
         __('Site Builder', 'uturnedu1'),
-        __('🧩 Site Builder', 'uturnedu1'),
+        __('🧩 Homepage Builder', 'uturnedu1'),
         'manage_options',
         'uturnedu_dashboard#tab-builder',
         'uturnedu_render_dashboard_page'
@@ -132,6 +141,10 @@ function uturnedu_handle_settings_save() {
         'site_logo_transparent'   => esc_url_raw($_POST['site_logo_transparent'] ?? ''),
         'site_logo_dashboard'     => esc_url_raw($_POST['site_logo_dashboard'] ?? ''),
         'site_favicon'            => esc_url_raw($_POST['site_favicon'] ?? ''),
+        'about_story_image'       => esc_url_raw($_POST['about_story_image'] ?? ''),
+        'about_admission_image'   => esc_url_raw($_POST['about_admission_image'] ?? ''),
+        'about_visa_image'        => esc_url_raw($_POST['about_visa_image'] ?? ''),
+        'about_asia_image'        => esc_url_raw($_POST['about_asia_image'] ?? ''),
 
         // Office Location & Contacts (Editable at any time)
         'address'                 => sanitize_text_field($_POST['address'] ?? 'CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh'),
@@ -255,7 +268,6 @@ function uturnedu_render_dashboard_page() {
     $default_logo_primary   = get_template_directory_uri() . '/assets/images/ILMA-Education-Final1-1024x911.png';
     $default_logo_trans     = get_template_directory_uri() . '/assets/images/ILMA-Education-logo-transparent.png';
     $default_uturn_logo     = get_template_directory_uri() . '/assets/images/uturn-official-logo-transparent.png';
-    $default_uturn_white    = get_template_directory_uri() . '/assets/images/uturn-official-logo-transparent.png';
 
     $logo_primary = !empty($settings['site_logo_primary']) ? $settings['site_logo_primary'] : $default_logo_primary;
     $logo_trans   = !empty($settings['site_logo_transparent']) ? $settings['site_logo_transparent'] : $default_logo_trans;
@@ -319,6 +331,41 @@ function uturnedu_render_dashboard_page() {
         'posts_per_page' => -1,
         'post_status'    => 'publish',
     ]);
+    $managed_pages = get_posts([
+        'post_type'      => 'page',
+        'posts_per_page' => -1,
+        'post_status'    => ['publish', 'draft', 'pending', 'private'],
+        'orderby'        => 'menu_order title',
+        'order'          => 'ASC',
+    ]);
+    $managed_destinations = get_posts([
+        'post_type'      => 'destination',
+        'posts_per_page' => -1,
+        'post_status'    => ['publish', 'draft', 'pending', 'private'],
+        'orderby'        => 'menu_order title',
+        'order'          => 'ASC',
+    ]);
+    $managed_services = get_posts([
+        'post_type'      => 'service',
+        'posts_per_page' => -1,
+        'post_status'    => ['publish', 'draft', 'pending', 'private'],
+        'orderby'        => 'menu_order title',
+        'order'          => 'ASC',
+    ]);
+    $managed_testimonials = get_posts([
+        'post_type'      => 'testimonial',
+        'posts_per_page' => -1,
+        'post_status'    => ['publish', 'draft', 'pending', 'private'],
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    ]);
+    $managed_counselors = get_posts([
+        'post_type'      => 'counselor',
+        'posts_per_page' => -1,
+        'post_status'    => ['publish', 'draft', 'pending', 'private'],
+        'orderby'        => 'menu_order title',
+        'order'          => 'ASC',
+    ]);
     ?>
     <div class="wrap uturnedu-dashboard-wrap">
         <?php if (isset($_GET['updated'])): ?>
@@ -332,40 +379,45 @@ function uturnedu_render_dashboard_page() {
             </div>
         <?php endif; ?>
 
-        <!-- Modern SaaS Dashboard Header with UTurn Branding -->
+        <!-- Agency dashboard header -->
         <div class="uturnedu-dash-header">
-            <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="uturnedu-dash-brand">
                 <div class="uturnedu-logo-badge">
-                    <img src="<?php echo esc_url($default_uturn_white); ?>" alt="UTurn Digital Solutions" style="height: 38px; width: auto;">
+                    <img src="<?php echo esc_url($logo_primary); ?>" alt="ILMA Education Consultancy" style="height: 42px; width: auto; object-fit: contain;">
                 </div>
                 <div>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <h1 class="uturnedu-dash-title">UTurnEdu Management Suite</h1>
-                        <span class="uturnedu-pill uturnedu-pill-accent">Production v2.2.1</span>
+                    <div class="uturnedu-dash-title-row">
+                        <h1 class="uturnedu-dash-title">ILMA Education Consultancy</h1>
+                        <span class="uturnedu-pill uturnedu-pill-accent">Admin workspace</span>
                     </div>
                     <p class="uturnedu-dash-sub">
-                        📍 Primary Agency: <strong>ILMA Education Consultancy</strong> &nbsp;•&nbsp; 🏢 Office: <strong><?php echo esc_html($settings['office_area'] ?? 'Mohammadpur, Dhaka'); ?></strong> &nbsp;•&nbsp; Powered by <strong>UTurn Digital Solutions</strong>
+                        Website control centre <span aria-hidden="true">•</span> <?php echo esc_html($settings['office_area'] ?? 'Mohammadpur, Dhaka'); ?> <span aria-hidden="true">•</span> Manage content, media and student enquiries
                     </p>
                 </div>
             </div>
-            <div style="display: flex; gap: 12px; align-items: center;">
-                <a href="<?php echo esc_url(home_url('/')); ?>" target="_blank" class="uturnedu-btn uturnedu-btn-light">
-                    🌐 View Live Website &rarr;
-                </a>
+            <div class="uturnedu-dash-actions">
+                <a href="<?php echo esc_url(home_url('/')); ?>" target="_blank" rel="noopener" class="uturnedu-btn uturnedu-btn-light">🌐 View live site <span aria-hidden="true">↗</span></a>
             </div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="uturnedu-nav-tabs">
-            <button type="button" class="uturnedu-tab-btn active" data-tab="tab-overview">📊 Overview & Metrics</button>
-            <button type="button" class="uturnedu-tab-btn" data-tab="tab-builder">🧩 Site Builder</button>
-            <button type="button" class="uturnedu-tab-btn" data-tab="tab-leads">📥 Leads CRM <span class="uturnedu-counter"><?php echo esc_html($leads_count); ?></span></button>
-            <button type="button" class="uturnedu-tab-btn" data-tab="tab-appointments">📅 Office Visits & Bookings <span class="uturnedu-counter"><?php echo esc_html($appts_count); ?></span></button>
-            <button type="button" class="uturnedu-tab-btn" data-tab="tab-slots">⏰ Slot Capacity Manager</button>
-            <button type="button" class="uturnedu-tab-btn" data-tab="tab-popup">🎯 Popup Builder (Image & Text)</button>
-            <button type="button" class="uturnedu-tab-btn" data-tab="tab-ads">📢 Marketing Ad Banners</button>
-            <button type="button" class="uturnedu-tab-btn" data-tab="tab-settings">⚙️ Agency, Office & Logo Settings</button>
-        </div>
+        <div class="uturnedu-dashboard-layout">
+          <!-- Workspace navigation -->
+          <aside class="uturnedu-nav-tabs" aria-label="Agency dashboard sections">
+            <div class="uturnedu-nav-heading"><span class="uturnedu-section-eyebrow">Workspace</span><strong>Manage ILMA</strong></div>
+            <button type="button" class="uturnedu-tab-btn active" data-tab="tab-overview"><span class="uturnedu-nav-icon">⌂</span><span>Overview</span></button>
+            <button type="button" class="uturnedu-tab-btn" data-tab="tab-content"><span class="uturnedu-nav-icon">✦</span><span>Content Studio</span></button>
+            <button type="button" class="uturnedu-tab-btn" data-tab="tab-builder"><span class="uturnedu-nav-icon">◈</span><span>Homepage Builder</span></button>
+            <div class="uturnedu-nav-divider"><span>Student operations</span></div>
+            <button type="button" class="uturnedu-tab-btn" data-tab="tab-leads"><span class="uturnedu-nav-icon">♧</span><span>Leads CRM</span><span class="uturnedu-counter"><?php echo esc_html($leads_count); ?></span></button>
+            <button type="button" class="uturnedu-tab-btn" data-tab="tab-appointments"><span class="uturnedu-nav-icon">◷</span><span>Bookings</span><span class="uturnedu-counter"><?php echo esc_html($appts_count); ?></span></button>
+            <button type="button" class="uturnedu-tab-btn" data-tab="tab-slots"><span class="uturnedu-nav-icon">⌚</span><span>Availability</span></button>
+            <div class="uturnedu-nav-divider"><span>Marketing</span></div>
+            <button type="button" class="uturnedu-tab-btn" data-tab="tab-popup"><span class="uturnedu-nav-icon">◎</span><span>Popup Campaign</span></button>
+            <button type="button" class="uturnedu-tab-btn" data-tab="tab-ads"><span class="uturnedu-nav-icon">▱</span><span>Ad Banners</span></button>
+            <button type="button" class="uturnedu-tab-btn" data-tab="tab-settings"><span class="uturnedu-nav-icon">⚙</span><span>Agency Settings</span></button>
+            <div class="uturnedu-nav-help"><strong>Need to publish?</strong><span>Use Content Studio to edit pages, destinations, services and media.</span></div>
+          </aside>
+          <main class="uturnedu-dashboard-main">
 
         <!-- ==========================================
              1. TAB: OVERVIEW
@@ -390,7 +442,7 @@ function uturnedu_render_dashboard_page() {
                     <div class="uturnedu-stat-icon" style="background: rgba(5, 150, 105, 0.1); color: #059669;">🌍</div>
                     <div class="uturnedu-stat-num" style="color: #059669;"><?php echo esc_html($dest_count); ?></div>
                     <div class="uturnedu-stat-label">Destinations Active</div>
-                    <div class="uturnedu-stat-meta">UK, USA, Canada, Australia, MY, NZ</div>
+                    <div class="uturnedu-stat-meta">United Kingdom, New Zealand, Canada, Malaysia, South Korea &amp; Japan</div>
                 </div>
 
                 <div class="uturnedu-card uturnedu-stat-card">
@@ -422,7 +474,89 @@ function uturnedu_render_dashboard_page() {
         </div>
 
         <!-- ==========================================
-             2. TAB: SITE BUILDER
+             2. TAB: CONTENT STUDIO
+             ========================================== -->
+        <div id="tab-content" class="uturnedu-tab-pane">
+            <section class="uturnedu-content-hero">
+                <div>
+                    <span class="uturnedu-section-eyebrow">Your publishing workspace</span>
+                    <h2>Everything your students see, in one place.</h2>
+                    <p>Edit page copy, destination guides, service pages, images, menus and campaign media without touching theme files. Use <strong>Homepage Builder</strong> for the homepage sections and <strong>Content Studio</strong> for the rest of the website.</p>
+                </div>
+                <div class="uturnedu-content-hero-actions">
+                    <a class="uturnedu-btn uturnedu-btn-primary" href="<?php echo esc_url(admin_url('post-new.php?post_type=page')); ?>">＋ Add new page</a>
+                    <a class="uturnedu-btn uturnedu-btn-outline" href="<?php echo esc_url(admin_url('upload.php')); ?>">＋ Upload media</a>
+                </div>
+            </section>
+
+            <div class="uturnedu-content-metrics">
+                <button type="button" class="uturnedu-mini-stat" data-content-filter="pages"><span class="uturnedu-mini-stat-icon">▤</span><span><strong><?php echo esc_html(count($managed_pages)); ?></strong><small>Pages to manage</small></span></button>
+                <button type="button" class="uturnedu-mini-stat" data-content-filter="destinations"><span class="uturnedu-mini-stat-icon">◎</span><span><strong><?php echo esc_html(count($managed_destinations)); ?></strong><small>Destination guides</small></span></button>
+                <button type="button" class="uturnedu-mini-stat" data-content-filter="services"><span class="uturnedu-mini-stat-icon">✦</span><span><strong><?php echo esc_html(count($managed_services)); ?></strong><small>Service pages</small></span></button>
+                <a class="uturnedu-mini-stat" href="<?php echo esc_url(admin_url('upload.php')); ?>"><span class="uturnedu-mini-stat-icon">▧</span><span><strong>Media</strong><small>Images &amp; files</small></span></a>
+            </div>
+
+            <div class="uturnedu-content-grid">
+                <section class="uturnedu-card uturnedu-library-card" data-content-library="pages">
+                    <div class="uturnedu-library-heading"><div><span class="uturnedu-section-eyebrow">Page library</span><h3>Pages &amp; landing screens</h3><p>Edit titles, page copy, SEO fields, featured images and templates from the familiar WordPress editor.</p></div><a class="uturnedu-btn uturnedu-btn-outline uturnedu-btn-sm" href="<?php echo esc_url(admin_url('edit.php?post_type=page')); ?>">Open full list ↗</a></div>
+                    <div class="uturnedu-page-list">
+                        <?php if (!empty($managed_pages)): foreach ($managed_pages as $page):
+                            $page_status = get_post_status_object($page->post_status);
+                            $page_template = get_page_template_slug($page->ID);
+                            $page_url = get_permalink($page->ID);
+                            $delete_url = get_delete_post_link($page->ID);
+                        ?>
+                            <article class="uturnedu-page-row">
+                                <span class="uturnedu-content-type-icon">▤</span>
+                                <div class="uturnedu-page-row-main"><strong><?php echo esc_html($page->post_title); ?></strong><span><?php echo esc_html($page->post_name ? '/' . $page->post_name . '/' : 'No slug'); ?><?php if ($page_template): ?> <em><?php echo esc_html(str_replace('page-', '', str_replace('.php', '', $page_template))); ?></em><?php endif; ?></span></div>
+                                <span class="uturnedu-status-dot <?php echo $page->post_status === 'publish' ? 'is-live' : 'is-draft'; ?>"><?php echo esc_html($page_status ? $page_status->label : ucfirst($page->post_status)); ?></span>
+                                <div class="uturnedu-row-actions"><a href="<?php echo esc_url(get_edit_post_link($page->ID)); ?>">Edit</a><?php if ($page_url): ?><a href="<?php echo esc_url($page_url); ?>" target="_blank" rel="noopener">View</a><?php endif; ?><?php if ($delete_url): ?><a class="is-danger" href="<?php echo esc_url($delete_url); ?>" onclick="return confirm('Move this page to the trash?');">Remove</a><?php endif; ?></div>
+                            </article>
+                        <?php endforeach; else: ?><div class="uturnedu-empty-content">No pages found. Create the first page above.</div><?php endif; ?>
+                    </div>
+                </section>
+
+                <aside class="uturnedu-card uturnedu-publishing-card">
+                    <span class="uturnedu-section-eyebrow">Simple publishing flow</span>
+                    <h3>Make a change safely</h3>
+                    <ol class="uturnedu-publishing-steps"><li><b>1</b><span>Choose a page or content type.</span></li><li><b>2</b><span>Edit copy and choose images.</span></li><li><b>3</b><span>Preview the live page.</span></li><li><b>4</b><span>Publish when everything looks right.</span></li></ol>
+                    <div class="uturnedu-publishing-tip"><strong>Tip</strong><span>Use the Media Library to reuse the same approved logo, banner or destination image anywhere on the site.</span></div>
+                    <a class="uturnedu-text-action" href="<?php echo esc_url(admin_url('nav-menus.php')); ?>">Manage navigation menus <span aria-hidden="true">→</span></a>
+                </aside>
+            </div>
+
+            <section class="uturnedu-card uturnedu-library-card" data-content-library="destinations">
+                <div class="uturnedu-library-heading"><div><span class="uturnedu-section-eyebrow">Destination library</span><h3>Hero slides, destination cards &amp; guides</h3><p>Each destination controls its public card, hero slide, guide copy, facts and image from one editor.</p></div><div class="uturnedu-library-actions"><a class="uturnedu-btn uturnedu-btn-primary uturnedu-btn-sm" href="<?php echo esc_url(admin_url('post-new.php?post_type=destination')); ?>">＋ Add destination</a><a class="uturnedu-btn uturnedu-btn-outline uturnedu-btn-sm" href="<?php echo esc_url(admin_url('edit.php?post_type=destination')); ?>">View all</a></div></div>
+                <div class="uturnedu-content-item-grid">
+                    <?php if (!empty($managed_destinations)): foreach ($managed_destinations as $destination):
+                        $destination_code = get_post_meta($destination->ID, '_dest_code', true) ?: $destination->post_name;
+                        $destination_image = uturnedu_get_destination_image($destination_code);
+                        $destination_url = get_permalink($destination->ID);
+                        $destination_delete_url = get_delete_post_link($destination->ID);
+                    ?>
+                        <article class="uturnedu-content-item-card"><div class="uturnedu-content-item-image"><img src="<?php echo esc_url($destination_image); ?>" alt="" loading="lazy"><span class="uturnedu-content-item-badge">Destination</span></div><div class="uturnedu-content-item-body"><strong><?php echo esc_html($destination->post_title); ?></strong><span><?php echo esc_html($destination->post_status === 'publish' ? 'Live on website' : ucfirst($destination->post_status)); ?></span><div class="uturnedu-row-actions"><a href="<?php echo esc_url(get_edit_post_link($destination->ID)); ?>">Edit guide &amp; image</a><?php if ($destination_url): ?><a href="<?php echo esc_url($destination_url); ?>" target="_blank" rel="noopener">View ↗</a><?php endif; ?><?php if ($destination_delete_url): ?><a class="is-danger" href="<?php echo esc_url($destination_delete_url); ?>" onclick="return confirm('Move this destination to the trash?');">Remove</a><?php endif; ?></div></div></article>
+                    <?php endforeach; else: ?><div class="uturnedu-empty-content">No destinations found. Add one to create a new guide and hero card.</div><?php endif; ?>
+                </div>
+            </section>
+
+            <section class="uturnedu-card uturnedu-library-card" data-content-library="services">
+                <div class="uturnedu-library-heading"><div><span class="uturnedu-section-eyebrow">Service library</span><h3>Services and process pages</h3><p>Keep your service descriptions, process steps, badges and featured images current.</p></div><div class="uturnedu-library-actions"><a class="uturnedu-btn uturnedu-btn-primary uturnedu-btn-sm" href="<?php echo esc_url(admin_url('post-new.php?post_type=service')); ?>">＋ Add service</a><a class="uturnedu-btn uturnedu-btn-outline uturnedu-btn-sm" href="<?php echo esc_url(admin_url('edit.php?post_type=service')); ?>">View all</a></div></div>
+                <div class="uturnedu-service-list">
+                    <?php if (!empty($managed_services)): foreach ($managed_services as $service): $service_delete_url = get_delete_post_link($service->ID); ?><article class="uturnedu-service-row"><span class="uturnedu-content-type-icon is-service">✦</span><div class="uturnedu-page-row-main"><strong><?php echo esc_html($service->post_title); ?></strong><span><?php echo esc_html($service->post_status === 'publish' ? 'Published service page' : ucfirst($service->post_status)); ?></span></div><div class="uturnedu-row-actions"><a href="<?php echo esc_url(get_edit_post_link($service->ID)); ?>">Edit service</a><?php if (get_permalink($service->ID)): ?><a href="<?php echo esc_url(get_permalink($service->ID)); ?>" target="_blank" rel="noopener">View ↗</a><?php endif; ?><?php if ($service_delete_url): ?><a class="is-danger" href="<?php echo esc_url($service_delete_url); ?>" onclick="return confirm('Move this service to the trash?');">Remove</a><?php endif; ?></div></article><?php endforeach; else: ?><div class="uturnedu-empty-content">No services found. Add a service page above.</div><?php endif; ?>
+                </div>
+            </section>
+
+            <section class="uturnedu-card uturnedu-library-card" data-content-library="people">
+                <div class="uturnedu-library-heading"><div><span class="uturnedu-section-eyebrow">People &amp; proof</span><h3>Testimonials and counselors</h3><p>Keep real student perspectives and counselor profiles current. Use the WordPress editor to update copy, details and featured images.</p></div><div class="uturnedu-library-actions"><a class="uturnedu-btn uturnedu-btn-primary uturnedu-btn-sm" href="<?php echo esc_url(admin_url('post-new.php?post_type=testimonial')); ?>">＋ Add testimonial</a><a class="uturnedu-btn uturnedu-btn-outline uturnedu-btn-sm" href="<?php echo esc_url(admin_url('post-new.php?post_type=counselor')); ?>">＋ Add counselor</a></div></div>
+                <div class="uturnedu-people-grid">
+                    <div><div class="uturnedu-sub-library-heading"><strong>Student perspectives</strong><a href="<?php echo esc_url(admin_url('edit.php?post_type=testimonial')); ?>">View all</a></div><?php if (!empty($managed_testimonials)): foreach ($managed_testimonials as $testimonial): $testimonial_delete_url = get_delete_post_link($testimonial->ID); ?><article class="uturnedu-person-row"><span class="uturnedu-content-type-icon">❝</span><div class="uturnedu-page-row-main"><strong><?php echo esc_html($testimonial->post_title); ?></strong><span><?php echo esc_html($testimonial->post_status === 'publish' ? 'Published testimonial' : ucfirst($testimonial->post_status)); ?></span></div><div class="uturnedu-row-actions"><a href="<?php echo esc_url(get_edit_post_link($testimonial->ID)); ?>">Edit</a><?php if (get_permalink($testimonial->ID)): ?><a href="<?php echo esc_url(get_permalink($testimonial->ID)); ?>" target="_blank" rel="noopener">View ↗</a><?php endif; ?><?php if ($testimonial_delete_url): ?><a class="is-danger" href="<?php echo esc_url($testimonial_delete_url); ?>" onclick="return confirm('Move this testimonial to the trash?');">Remove</a><?php endif; ?></div></article><?php endforeach; else: ?><div class="uturnedu-empty-content">No testimonials yet.</div><?php endif; ?></div>
+                    <div><div class="uturnedu-sub-library-heading"><strong>Our counselors</strong><a href="<?php echo esc_url(admin_url('edit.php?post_type=counselor')); ?>">View all</a></div><?php if (!empty($managed_counselors)): foreach ($managed_counselors as $counselor): $counselor_delete_url = get_delete_post_link($counselor->ID); ?><article class="uturnedu-person-row"><span class="uturnedu-content-type-icon is-service">♙</span><div class="uturnedu-page-row-main"><strong><?php echo esc_html($counselor->post_title); ?></strong><span><?php echo esc_html($counselor->post_status === 'publish' ? 'Published profile' : ucfirst($counselor->post_status)); ?></span></div><div class="uturnedu-row-actions"><a href="<?php echo esc_url(get_edit_post_link($counselor->ID)); ?>">Edit</a><?php if ($counselor_delete_url): ?><a class="is-danger" href="<?php echo esc_url($counselor_delete_url); ?>" onclick="return confirm('Move this counselor profile to the trash?');">Remove</a><?php endif; ?></div></article><?php endforeach; else: ?><div class="uturnedu-empty-content">No counselor profiles yet.</div><?php endif; ?></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==========================================
+             3. TAB: SITE BUILDER
              ========================================== -->
         <div id="tab-builder" class="uturnedu-tab-pane">
             <form method="post" class="uturnedu-card uturnedu-builder-form">
@@ -465,7 +599,9 @@ function uturnedu_render_dashboard_page() {
                         <label class="uturnedu-label">Contact copy<textarea class="uturnedu-textarea" name="contact_text" rows="3"><?php echo esc_textarea($homepage_content['contact_text']); ?></textarea></label>
                         <label class="uturnedu-label">Show homepage video<select class="uturnedu-select" name="video_enabled"><option value="no" <?php selected($homepage_content['video_enabled'], 'no'); ?>>No</option><option value="yes" <?php selected($homepage_content['video_enabled'], 'yes'); ?>>Yes</option></select></label>
                         <label class="uturnedu-label">Video URL<input type="url" class="uturnedu-input" name="video_url" value="<?php echo esc_url($homepage_content['video_url']); ?>" placeholder="YouTube, Vimeo or MP4 URL"></label>
-                        <label class="uturnedu-label">Video poster image URL<input type="url" class="uturnedu-input" name="video_poster" value="<?php echo esc_url($homepage_content['video_poster']); ?>"></label>
+                        <label class="uturnedu-label">Video poster image
+                            <div class="uturnedu-media-row"><input type="url" id="uturnedu-video-poster" class="uturnedu-input" name="video_poster" value="<?php echo esc_url($homepage_content['video_poster']); ?>"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-video-poster">Choose image</button></div>
+                        </label>
                         <label class="uturnedu-label">Video heading<input class="uturnedu-input" name="video_title" value="<?php echo esc_attr($homepage_content['video_title']); ?>"></label>
                         <label class="uturnedu-label">Video supporting copy<textarea class="uturnedu-textarea" name="video_text" rows="2"><?php echo esc_textarea($homepage_content['video_text']); ?></textarea></label>
                     </fieldset>
@@ -696,8 +832,8 @@ function uturnedu_render_dashboard_page() {
 
                     <!-- Popup Image URL -->
                     <div class="uturnedu-form-group">
-                        <label class="uturnedu-label">Popup Banner Image URL</label>
-                        <input type="text" name="popup_image_url" class="uturnedu-input" placeholder="e.g. <?php echo esc_url(get_template_directory_uri() . '/assets/images/scholarship-celebration.jpg'); ?>" value="<?php echo esc_attr($settings['popup_image_url'] ?? get_template_directory_uri() . '/assets/images/scholarship-celebration.jpg'); ?>">
+                        <label class="uturnedu-label">Popup Banner Image</label>
+                        <div class="uturnedu-media-row"><input type="url" id="uturnedu-popup-image" name="popup_image_url" class="uturnedu-input" placeholder="Choose an image from the Media Library" value="<?php echo esc_attr($settings['popup_image_url'] ?? get_template_directory_uri() . '/assets/images/scholarship-celebration.jpg'); ?>"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-popup-image">Choose image</button></div>
                         <span class="uturnedu-help">Image used for Image-Only and Combined Image+Text popups.</span>
                     </div>
 
@@ -829,27 +965,44 @@ function uturnedu_render_dashboard_page() {
 
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
                         <div class="uturnedu-form-group">
-                            <label class="uturnedu-label">Header Primary Logo URL</label>
-                            <input type="text" name="site_logo_primary" class="uturnedu-input" value="<?php echo esc_attr($settings['site_logo_primary'] ?? $default_logo_primary); ?>">
+                            <label class="uturnedu-label">Header Primary Logo</label>
+                            <div class="uturnedu-media-row"><input type="url" id="uturnedu-site-logo-primary" name="site_logo_primary" class="uturnedu-input" value="<?php echo esc_attr($settings['site_logo_primary'] ?? $default_logo_primary); ?>"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-site-logo-primary">Choose image</button></div>
                             <span class="uturnedu-help">Main logo displayed on white / light headers.</span>
                         </div>
 
                         <div class="uturnedu-form-group">
-                            <label class="uturnedu-label">Dark / Transparent Footer Logo URL</label>
-                            <input type="text" name="site_logo_transparent" class="uturnedu-input" value="<?php echo esc_attr($settings['site_logo_transparent'] ?? $default_logo_trans); ?>">
+                            <label class="uturnedu-label">Dark / Transparent Footer Logo</label>
+                            <div class="uturnedu-media-row"><input type="url" id="uturnedu-site-logo-transparent" name="site_logo_transparent" class="uturnedu-input" value="<?php echo esc_attr($settings['site_logo_transparent'] ?? $default_logo_trans); ?>"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-site-logo-transparent">Choose image</button></div>
                             <span class="uturnedu-help">Transparent logo used on dark footers and custom login screen.</span>
                         </div>
 
                         <div class="uturnedu-form-group">
-                            <label class="uturnedu-label">Dashboard / Engine Logo URL</label>
-                            <input type="text" name="site_logo_dashboard" class="uturnedu-input" value="<?php echo esc_attr($settings['site_logo_dashboard'] ?? $default_uturn_logo); ?>">
-                            <span class="uturnedu-help">Logo used for UTurnEdu backend suite and attribution.</span>
+                            <label class="uturnedu-label">Dashboard Logo</label>
+                            <div class="uturnedu-media-row"><input type="url" id="uturnedu-site-logo-dashboard" name="site_logo_dashboard" class="uturnedu-input" value="<?php echo esc_attr($settings['site_logo_dashboard'] ?? $default_uturn_logo); ?>"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-site-logo-dashboard">Choose image</button></div>
+                            <span class="uturnedu-help">Optional logo used in the admin workspace.</span>
+                        </div>
+
+                        <div class="uturnedu-form-group">
+                            <label class="uturnedu-label">Site Favicon</label>
+                            <div class="uturnedu-media-row"><input type="url" id="uturnedu-site-favicon" name="site_favicon" class="uturnedu-input" value="<?php echo esc_attr($settings['site_favicon'] ?? ''); ?>" placeholder="Choose a square image"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-site-favicon">Choose image</button></div>
+                            <span class="uturnedu-help">Use a square PNG or SVG for the browser tab icon.</span>
                         </div>
 
                         <div class="uturnedu-form-group">
                             <label class="uturnedu-label">Official Tagline</label>
                             <input type="text" name="site_tagline" class="uturnedu-input" value="<?php echo esc_attr($settings['site_tagline'] ?? 'Study Abroad, See the World, Build Career!'); ?>">
                         </div>
+                    </div>
+                </div>
+
+                <div class="uturnedu-card" style="margin-bottom:24px;">
+                    <h2 style="margin:0 0 6px 0; font-size:18px; font-weight:700;">🖼️ Page Visuals</h2>
+                    <p style="margin:0 0 20px 0; font-size:13px; color:#64748B;">Replace the supporting images used on the About page. Choose files from the Media Library instead of copying URLs.</p>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                        <div class="uturnedu-form-group"><label class="uturnedu-label">About story image</label><div class="uturnedu-media-row"><input type="url" id="uturnedu-about-story-image" name="about_story_image" class="uturnedu-input" value="<?php echo esc_attr($settings['about_story_image'] ?? ''); ?>" placeholder="Default theme image"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-about-story-image">Choose image</button></div></div>
+                        <div class="uturnedu-form-group"><label class="uturnedu-label">Admission counselor image</label><div class="uturnedu-media-row"><input type="url" id="uturnedu-about-admission-image" name="about_admission_image" class="uturnedu-input" value="<?php echo esc_attr($settings['about_admission_image'] ?? ''); ?>" placeholder="Default theme image"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-about-admission-image">Choose image</button></div></div>
+                        <div class="uturnedu-form-group"><label class="uturnedu-label">Visa counselor image</label><div class="uturnedu-media-row"><input type="url" id="uturnedu-about-visa-image" name="about_visa_image" class="uturnedu-input" value="<?php echo esc_attr($settings['about_visa_image'] ?? ''); ?>" placeholder="Default theme image"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-about-visa-image">Choose image</button></div></div>
+                        <div class="uturnedu-form-group"><label class="uturnedu-label">Asia-Pacific counselor image</label><div class="uturnedu-media-row"><input type="url" id="uturnedu-about-asia-image" name="about_asia_image" class="uturnedu-input" value="<?php echo esc_attr($settings['about_asia_image'] ?? ''); ?>" placeholder="Default theme image"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-about-asia-image">Choose image</button></div></div>
                     </div>
                 </div>
 
@@ -931,7 +1084,8 @@ function uturnedu_render_dashboard_page() {
                 </div>
             </form>
         </div>
-
+          </main>
+        </div>
     </div>
     <?php
 }
