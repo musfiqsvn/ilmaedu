@@ -2165,25 +2165,6 @@ html, body {
   box-sizing: border-box;
 }
 
-/* Header Top Flash Notice */
-.header-top-banner {
-  background: linear-gradient(90deg, #1E3A8A 0%, #2563EB 50%, #E11D48 100%);
-  color: #FFFFFF;
-  padding: 0.5rem 1rem;
-  font-size: 0.825rem;
-  font-weight: 600;
-  text-align: center;
-  position: relative;
-  z-index: 100;
-}
-
-.header-top-banner a {
-  color: #FEF08A;
-  text-decoration: underline;
-  margin-left: 0.4rem;
-  font-weight: 700;
-}
-
 /* Header Main Navigation Bar */
 .header-wrapper {
   background: #FFFFFF;
@@ -2352,12 +2333,6 @@ html, body {
   .container {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
-  }
-
-  .header-top-banner {
-    padding: 0.4rem 0.75rem !important;
-    font-size: 0.72rem !important;
-    line-height: 1.4 !important;
   }
 
   .hero-section {

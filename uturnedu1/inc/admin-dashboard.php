@@ -866,7 +866,7 @@ function uturnedu_render_dashboard_page() {
                         <div class="uturnedu-form-group" style="grid-column: span 2;">
                             <label class="uturnedu-label">Full Office Address <span style="color:#DC2626;">*</span></label>
                             <input type="text" name="address" class="uturnedu-input" value="<?php echo esc_attr($address); ?>" required>
-                            <span class="uturnedu-help">Displayed in Header topbar, Footer contact column, Contact Us page, and Google Schema.</span>
+                            <span class="uturnedu-help">Displayed in the footer contact column, Contact Us page, and Google Schema.</span>
                         </div>
 
                         <div class="uturnedu-form-group">

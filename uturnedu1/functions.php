@@ -64,29 +64,19 @@ function uturnedu_render_ad($placement = 'home_middle') {
         $url = get_post_meta($ad->ID, '_ad_target_url', true) ?: home_url('/reserve-consultation/');
         $img = get_post_meta($ad->ID, '_ad_image_url', true);
 
-        if ($placement === 'header_top') {
-            ?>
-            <div class="top-flash-banner">
-                <a href="<?php echo esc_url($url); ?>" class="track-ad-click" data-ad-id="<?php echo esc_attr($ad->ID); ?>">
-                    <strong>🔥 Special Notice:</strong> <?php echo esc_html($ad->post_title); ?> — <span style="text-decoration:underline;">Book 1-on-1 Profile Assessment &rarr;</span>
-                </a>
-            </div>
-            <?php
-        } else {
-            ?>
-            <div class="ad-banner-wrapper placement-<?php echo esc_attr($placement); ?>">
-                <a href="<?php echo esc_url($url); ?>" class="track-ad-click" data-ad-id="<?php echo esc_attr($ad->ID); ?>">
-                    <?php if ($img): ?>
-                        <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($ad->post_title); ?>" class="ad-banner-img">
-                    <?php else: ?>
-                        <div class="ad-banner-placeholder">
-                            <h3><?php echo esc_html($ad->post_title); ?></h3>
-                            <p>Click here to learn more and reserve your consultation</p>
-                        </div>
-                    <?php endif; ?>
-                </a>
-            </div>
-            <?php
-        }
+        ?>
+        <div class="ad-banner-wrapper placement-<?php echo esc_attr($placement); ?>">
+            <a href="<?php echo esc_url($url); ?>" class="track-ad-click" data-ad-id="<?php echo esc_attr($ad->ID); ?>">
+                <?php if ($img): ?>
+                    <img src="<?php echo esc_url($img); ?>" alt="<?php echo esc_attr($ad->post_title); ?>" class="ad-banner-img">
+                <?php else: ?>
+                    <div class="ad-banner-placeholder">
+                        <h3><?php echo esc_html($ad->post_title); ?></h3>
+                        <p>Click here to learn more and reserve your consultation</p>
+                    </div>
+                <?php endif; ?>
+            </a>
+        </div>
+        <?php
     }
 }

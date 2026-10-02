@@ -147,7 +147,7 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
       </div>
 
       <form id="globalConsultancyForm" class="ajax-lead-form">
-        <input type="hidden" name="source_page" value="<?php echo esc_attr(get_the_title()); ?>">
+        <input type="hidden" name="source" value="Consultancy modal: <?php echo esc_attr(get_the_title()); ?>">
 
         <div class="form-group">
           <label class="form-label" for="modal-full-name">Full Name <span style="color: var(--danger);">*</span></label>
@@ -192,7 +192,7 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
 
         <div class="form-group">
           <label class="form-label" for="modal-english-status">English Test Status (IELTS / PTE / Duolingo / None)</label>
-          <input id="modal-english-status" type="text" name="ielts_status" class="form-control" placeholder="e.g. IELTS 6.5 or Appearing next month">
+          <input id="modal-english-status" type="text" name="ielts_score" class="form-control" placeholder="e.g. IELTS 6.5 or Appearing next month">
         </div>
 
         <button type="submit" class="btn btn-accent btn-block" style="padding: 0.85rem; font-size: 1rem; margin-top: 0.5rem;">

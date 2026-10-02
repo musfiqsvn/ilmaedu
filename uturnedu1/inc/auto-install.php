@@ -474,12 +474,6 @@ function uturnedu_run_auto_installer($force = false) {
                 'url'       => home_url('/reserve-consultation/'),
                 'image'     => get_template_directory_uri() . '/assets/images/hero-students-2026.jpg',
             ],
-            [
-                'title'     => 'Header Flash Notice: Free consultation days',
-                'placement' => 'header_top',
-                'url'       => home_url('/reserve-consultation/'),
-                'image'     => '',
-            ],
         ];
         foreach ($starter_ads as $ad) {
             $post_id = wp_insert_post([
@@ -522,7 +516,7 @@ function uturnedu_run_auto_installer($force = false) {
         'popup_enabled'         => 'yes',
         'popup_delay'           => '5',
         'popup_heading'         => 'Start your study abroad journey with clear, practical guidance.',
-        'popup_subheading'      => 'Meet our counselors at the office or request a practical profile review.'
+        'popup_subheading'      => 'Meet our counselors at the office or request a practical profile review.',
         'popup_cta_text'        => 'Book Free Consultation',
         'popup_cta_action'      => 'modal',
         'popup_frequency'       => 'session',

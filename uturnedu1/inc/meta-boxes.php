@@ -271,7 +271,8 @@ function uturnedu_render_lead_metabox($post) {
     $ielts = get_post_meta($post->ID, '_lead_ielts', true);
     $budget = get_post_meta($post->ID, '_lead_budget', true);
     $source = get_post_meta($post->ID, '_lead_source', true);
-    $status = get_post_meta($post->ID, '_lead_status', true) ?: 'new';
+    $status = get_post_meta($post->ID, '_lead_status', true) ?: 'New';
+    $status = ['new' => 'New', 'contacted' => 'Contacted', 'interested' => 'Qualified', 'qualified' => 'Qualified', 'follow-up' => 'Follow-up', 'applied' => 'Applied', 'converted' => 'Converted', 'closed' => 'Closed'][$status] ?? $status;
     $notes = get_post_meta($post->ID, '_lead_notes', true);
     $follow_up_date = get_post_meta($post->ID, '_lead_follow_up_date', true);
     $follow_up_note = get_post_meta($post->ID, '_lead_follow_up_note', true);
@@ -311,11 +312,12 @@ function uturnedu_render_lead_metabox($post) {
         <p>
             <label><strong>Lead Status:</strong></label><br>
             <select name="_lead_status" class="widefat">
-                <option value="new" <?php selected($status, 'new'); ?>>New Inquiry</option>
-                <option value="contacted" <?php selected($status, 'contacted'); ?>>Contacted</option>
-                <option value="interested" <?php selected($status, 'interested'); ?>>Interested / In-Progress</option>
-                <option value="converted" <?php selected($status, 'converted'); ?>>Converted / Applied</option>
-                <option value="closed" <?php selected($status, 'closed'); ?>>Closed / Unqualified</option>
+                <option value="New" <?php selected($status, 'New'); ?>>New Inquiry</option>
+                <option value="Contacted" <?php selected($status, 'Contacted'); ?>>Contacted</option>
+                <option value="Qualified" <?php selected($status, 'Qualified'); ?>>Qualified / In-Progress</option>
+                <option value="Applied" <?php selected($status, 'Applied'); ?>>Applied</option>
+                <option value="Converted" <?php selected($status, 'Converted'); ?>>Converted</option>
+                <option value="Closed" <?php selected($status, 'Closed'); ?>>Closed / Unqualified</option>
             </select>
         </p>
     </div>
@@ -341,7 +343,8 @@ function uturnedu_render_appointment_metabox($post) {
     $date = get_post_meta($post->ID, '_appt_date', true);
     $time = get_post_meta($post->ID, '_appt_time', true);
     $counselor = get_post_meta($post->ID, '_appt_counselor', true);
-    $status = get_post_meta($post->ID, '_appt_status', true) ?: 'confirmed';
+    $status = get_post_meta($post->ID, '_appt_status', true) ?: 'Confirmed';
+    $status = ['confirmed' => 'Confirmed', 'completed' => 'Completed', 'cancelled' => 'Cancelled', 'no-show' => 'No-show'][$status] ?? $status;
     ?>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
         <p>
@@ -375,10 +378,10 @@ function uturnedu_render_appointment_metabox($post) {
         <p>
             <label><strong>Appointment Status:</strong></label><br>
             <select name="_appt_status" class="widefat">
-                <option value="confirmed" <?php selected($status, 'confirmed'); ?>>Confirmed</option>
-                <option value="completed" <?php selected($status, 'completed'); ?>>Completed</option>
-                <option value="cancelled" <?php selected($status, 'cancelled'); ?>>Cancelled</option>
-                <option value="no-show" <?php selected($status, 'no-show'); ?>>No-Show</option>
+                <option value="Confirmed" <?php selected($status, 'Confirmed'); ?>>Confirmed</option>
+                <option value="Completed" <?php selected($status, 'Completed'); ?>>Completed</option>
+                <option value="Cancelled" <?php selected($status, 'Cancelled'); ?>>Cancelled</option>
+                <option value="No-show" <?php selected($status, 'No-show'); ?>>No-Show</option>
             </select>
         </p>
     </div>
@@ -437,7 +440,6 @@ function uturnedu_render_ad_metabox($post) {
         <p>
             <label><strong>Placement Position:</strong></label><br>
             <select name="_ad_placement" class="widefat">
-                <option value="header_top" <?php selected($placement, 'header_top'); ?>>Header Top Notification Bar</option>
                 <option value="home_middle" <?php selected($placement, 'home_middle'); ?>>Homepage Mid-Banner</option>
                 <option value="sidebar" <?php selected($placement, 'sidebar'); ?>>Sidebar Ad Space</option>
                 <option value="footer_top" <?php selected($placement, 'footer_top'); ?>>Pre-Footer Promotional Banner</option>
@@ -488,7 +490,7 @@ function uturnedu_save_custom_meta($post_id) {
         '_testi_country', '_testi_university', '_testi_program', '_testi_rating',
         '_counselor_role', '_counselor_exp', '_counselor_countries', '_counselor_email', '_counselor_phone',
         '_lead_phone', '_lead_email', '_lead_ielts', '_lead_budget', '_lead_country', '_lead_qualification', '_lead_target_intake', '_lead_study_level', '_lead_source', '_lead_status', '_lead_notes', '_lead_follow_up_date', '_lead_follow_up_note', '_lead_owner',
-        '_appt_ref', '_appt_date', '_appt_time', '_appt_counselor', '_appt_phone', '_appt_email', '_appt_country', '_appt_status',
+        '_appt_ref', '_appt_date', '_appt_time', '_appt_slot_id', '_appt_slot_time', '_appt_counselor', '_appt_phone', '_appt_email', '_appt_country', '_appt_destination', '_appt_type', '_appt_study_level', '_appt_education_level', '_appt_ielts_score', '_appt_notes', '_appt_created_at', '_appt_status',
         '_slot_start_time', '_slot_end_time', '_slot_capacity', '_slot_counselor_name', '_slot_active',
         '_ad_placement', '_ad_target_url', '_ad_image_url', '_ad_active'
     ];

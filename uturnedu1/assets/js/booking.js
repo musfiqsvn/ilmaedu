@@ -36,15 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set min date to tomorrow
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
+  // If tomorrow is Friday (day 5), start on Saturday because the office is closed.
+  if (tomorrow.getDay() === 5) {
+    tomorrow.setDate(tomorrow.getDate() + 1);
+  }
   const minDateStr = tomorrow.toISOString().split('T')[0];
   if (dateInput) {
     dateInput.min = minDateStr;
-
-    // If tomorrow is Friday (day 5), bump to Saturday
-    if (tomorrow.getDay() === 5) {
-      tomorrow.setDate(tomorrow.getDate() + 1);
-    }
-    dateInput.value = tomorrow.toISOString().split('T')[0];
+    dateInput.value = minDateStr;
 
     // Fetch slots whenever date changes
     dateInput.addEventListener('change', () => {

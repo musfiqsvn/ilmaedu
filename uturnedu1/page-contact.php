@@ -106,7 +106,7 @@ $whatsapp = uturnedu_whatsapp_url('Hello ILMA Education Consultancy, I would lik
             Fill out the form below. A certified education advisor will review your message and reply promptly.
           </p>
 
-          <form class="ajax-lead-form">
+          <form id="contactPageForm">
             <input type="hidden" name="source" value="Contact Us Page Form">
 
             <div class="grid grid-2 gap-4">

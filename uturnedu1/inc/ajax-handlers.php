@@ -164,7 +164,7 @@ function uturnedu_ajax_get_available_slots() {
                 'meta_query'     => [
                     ['key' => '_appt_date', 'value' => $date],
                     ['key' => '_appt_time', 'value' => $ds['time']],
-                    ['key' => '_appt_status', 'value' => 'Cancelled', 'compare' => '!=']
+                    ['key' => '_appt_status', 'value' => ['Cancelled', 'cancelled'], 'compare' => 'NOT IN']
                 ]
             ]));
 
@@ -197,7 +197,7 @@ function uturnedu_ajax_get_available_slots() {
                 'meta_query'     => [
                     ['key' => '_appt_date', 'value' => $date],
                     ['key' => '_appt_time', 'value' => $time_str],
-                    ['key' => '_appt_status', 'value' => 'Cancelled', 'compare' => '!=']
+                    ['key' => '_appt_status', 'value' => ['Cancelled', 'cancelled'], 'compare' => 'NOT IN']
                 ]
             ]));
 
@@ -258,7 +258,14 @@ function uturnedu_ajax_submit_appointment() {
         wp_send_json_error(['message' => __('Please fill all mandatory fields (Name, Phone, Date, and Time Slot).', 'uturnedu1')]);
     }
 
-    $booking_ref = 'ILMA-' . date('Ymd') . '-' . strtoupper(wp_generate_password(4, false, false));
+    $parsed_date = DateTime::createFromFormat('!Y-m-d', $date);
+    $date_is_valid = $parsed_date && $parsed_date->format('Y-m-d') === $date;
+    $is_friday = $date_is_valid && (int) $parsed_date->format('w') === 5;
+    if (!$date_is_valid || $date <= current_time('Y-m-d') || $is_friday) {
+        wp_send_json_error(['message' => __('Please choose a future consultation date from Saturday to Thursday.', 'uturnedu1')]);
+    }
+
+    $booking_ref = 'ILMA-' . current_time('Ymd') . '-' . strtoupper(wp_generate_password(4, false, false));
 
     // 1. Create Appointment Post
     $post_id = wp_insert_post([
@@ -388,12 +395,13 @@ function uturnedu_ajax_admin_update_appointment_status() {
         wp_send_json_error(['message' => 'Unauthorized']);
     }
     $appt_id = (int) ($_POST['appointment_id'] ?? 0);
-    $status  = sanitize_text_field($_POST['status'] ?? 'Confirmed');
-    if ($appt_id) {
+    $allowed_statuses = ['Confirmed', 'Completed', 'Cancelled', 'No-show'];
+    $status = sanitize_text_field($_POST['status'] ?? 'Confirmed');
+    if ($appt_id && get_post_type($appt_id) === 'appointment' && in_array($status, $allowed_statuses, true)) {
         update_post_meta($appt_id, '_appt_status', $status);
         wp_send_json_success();
     }
-    wp_send_json_error();
+    wp_send_json_error(['message' => 'Invalid appointment update.']);
 }
 add_action('wp_ajax_uturnedu_admin_update_appointment_status', 'uturnedu_ajax_admin_update_appointment_status');
 
