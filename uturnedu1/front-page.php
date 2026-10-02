@@ -24,51 +24,42 @@ $services = uturnedu_service_catalog();
 ?>
 
 <main>
-  <!-- Compact hero: the image supports the message instead of taking over the page. -->
-  <section class="hero-section home-hero-section" aria-labelledby="home-hero-title">
-    <div class="hero-glow-1" aria-hidden="true"></div>
-    <div class="hero-glow-2" aria-hidden="true"></div>
-    <div class="container">
-      <div class="home-hero-grid">
-        <div class="home-hero-copy">
-          <span class="hero-tag"><span aria-hidden="true">✦</span> International study guidance, made clear</span>
-          <h1 id="home-hero-title" class="hero-title">Choose your next <span class="hero-title-accent">study destination</span> with confidence.</h1>
-          <p class="hero-desc">Personalised counselling for students planning university study in the United Kingdom, New Zealand, Canada, Malaysia, South Korea or Japan.</p>
-
-          <div class="hero-ctas">
-            <button type="button" class="btn btn-accent btn-lg open-consultancy-modal" data-modal-title="Check your eligibility">
-              <span>Check your eligibility</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </button>
-            <a href="#destinations" class="btn btn-outline-white btn-lg">
-              <span>Explore destinations</span>
-            </a>
-          </div>
-
-          <div class="hero-destination-line" aria-label="Study destinations available through ILMA">
-            <span class="hero-destination-label">Explore</span>
-            <?php foreach ($destinations as $index => $destination): ?>
-              <span><?php echo esc_html($destination['title']); ?></span><?php if ($index < count($destinations) - 1): ?><span aria-hidden="true">•</span><?php endif; ?>
-            <?php endforeach; ?>
-          </div>
-        </div>
-
-        <div class="home-hero-visual" aria-label="Students preparing for international study">
-          <div class="hero-visual-image-wrap">
-            <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/hero-students-2026.jpg'); ?>" alt="Students preparing for university study abroad" width="900" height="600" fetchpriority="high">
-            <div class="hero-visual-caption">
-              <span class="hero-caption-icon" aria-hidden="true">✓</span>
-              <span><strong>A clearer route to your next step</strong><small>Guidance from shortlist to departure</small></span>
+  <!-- Full-width six-country banner carousel. Each slide keeps the primary CTA above the fold. -->
+  <section class="hero-section home-hero-section country-hero-carousel" data-hero-carousel aria-label="Study destination banners">
+    <div class="country-hero-track" data-hero-track>
+      <?php foreach ($destinations as $index => $destination):
+          $destination_post = uturnedu_get_destination_post($destination['slug']);
+          $destination_url = $destination_post ? get_permalink($destination_post->ID) : home_url('/destinations/' . $destination['slug'] . '/');
+          $heading_tag = $index === 0 ? 'h1' : 'h2';
+      ?>
+        <article class="country-hero-slide <?php echo $index === 0 ? 'is-active' : ''; ?>" data-slide-index="<?php echo esc_attr($index); ?>" aria-hidden="<?php echo $index === 0 ? 'false' : 'true'; ?>">
+          <img class="country-hero-image" src="<?php echo esc_url(uturnedu_get_destination_image($destination['code'])); ?>" alt="Study in <?php echo esc_attr($destination['title']); ?>" width="1600" height="720" <?php echo $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'; ?>>
+          <div class="country-hero-overlay" aria-hidden="true"></div>
+          <div class="container country-hero-container">
+            <div class="country-hero-content">
+              <div class="country-hero-kicker"><span><?php echo esc_html(sprintf('%02d', $index + 1)); ?></span><i aria-hidden="true"></i> Study destination</div>
+              <<?php echo $heading_tag; ?> class="country-hero-title"<?php echo $index === 0 ? ' id="home-hero-title"' : ''; ?>>Study in <?php echo esc_html($destination['title']); ?></<?php echo $heading_tag; ?>>
+              <p class="country-hero-copy"><?php echo esc_html($destination['summary']); ?> Find a course and application route that fits your goals.</p>
+              <div class="country-hero-actions">
+                <button type="button" class="btn btn-accent btn-lg open-consultancy-modal" data-country="<?php echo esc_attr($destination['title']); ?>" data-modal-title="Check your <?php echo esc_attr($destination['title']); ?> eligibility">Check your eligibility <span aria-hidden="true">↗</span></button>
+                <a href="<?php echo esc_url($destination_url); ?>" class="btn btn-outline-white btn-lg">Explore <?php echo esc_html($destination['title']); ?> <span aria-hidden="true">→</span></a>
+              </div>
+              <div class="country-hero-trust"><span>Why this country</span><span>Universities</span><span>Apply with guidance</span></div>
             </div>
           </div>
-          <div class="hero-route-card">
-            <span class="route-card-kicker">Your journey, simplified</span>
-            <div class="route-steps" aria-label="ILMA student journey">
-              <span><b>01</b> Explore</span><span><b>02</b> Assess</span><span><b>03</b> Apply</span>
-            </div>
-          </div>
-        </div>
+        </article>
+      <?php endforeach; ?>
+    </div>
+
+    <button type="button" class="country-hero-control country-hero-prev" data-hero-prev aria-label="Previous study destination">‹</button>
+    <button type="button" class="country-hero-control country-hero-next" data-hero-next aria-label="Next study destination">›</button>
+    <div class="container country-hero-navigation">
+      <div class="country-hero-dots" role="tablist" aria-label="Choose a study destination banner">
+        <?php foreach ($destinations as $index => $destination): ?>
+          <button type="button" class="country-hero-dot <?php echo $index === 0 ? 'is-active' : ''; ?>" data-hero-dot="<?php echo esc_attr($index); ?>" role="tab" aria-label="Show <?php echo esc_attr($destination['title']); ?> banner" aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>"><span><?php echo esc_html($destination['title']); ?></span></button>
+        <?php endforeach; ?>
       </div>
+      <span class="country-hero-autoplay">Auto-changing destinations</span>
     </div>
   </section>
 

@@ -59,7 +59,65 @@ document.addEventListener('DOMContentLoaded', () => {
   if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
   document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', closeDrawer));
 
-  // 3. FAQ Accordion
+  // 3. Full-width six-country hero carousel
+  const heroCarousel = document.querySelector('[data-hero-carousel]');
+  if (heroCarousel) {
+    const heroTrack = heroCarousel.querySelector('[data-hero-track]');
+    const heroSlides = Array.from(heroCarousel.querySelectorAll('.country-hero-slide'));
+    const heroDots = Array.from(heroCarousel.querySelectorAll('[data-hero-dot]'));
+    const heroPrev = heroCarousel.querySelector('[data-hero-prev]');
+    const heroNext = heroCarousel.querySelector('[data-hero-next]');
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let heroIndex = 0;
+    let heroTimer;
+
+    function showHeroSlide(nextIndex) {
+      if (!heroSlides.length || !heroTrack) return;
+      heroIndex = (nextIndex + heroSlides.length) % heroSlides.length;
+      heroTrack.style.transform = `translate3d(-${heroIndex * (100 / heroSlides.length)}%, 0, 0)`;
+      heroSlides.forEach((slide, index) => {
+        const active = index === heroIndex;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+      });
+      heroDots.forEach((dot, index) => {
+        const active = index === heroIndex;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+    }
+
+    function stopHeroTimer() {
+      if (heroTimer) window.clearInterval(heroTimer);
+      heroTimer = null;
+    }
+
+    function startHeroTimer() {
+      stopHeroTimer();
+      if (!reduceMotion && heroSlides.length > 1) {
+        heroTimer = window.setInterval(() => showHeroSlide(heroIndex + 1), 6500);
+      }
+    }
+
+    if (heroPrev) heroPrev.addEventListener('click', () => { showHeroSlide(heroIndex - 1); startHeroTimer(); });
+    if (heroNext) heroNext.addEventListener('click', () => { showHeroSlide(heroIndex + 1); startHeroTimer(); });
+    heroDots.forEach((dot, index) => dot.addEventListener('click', () => { showHeroSlide(index); startHeroTimer(); }));
+    heroCarousel.addEventListener('mouseenter', stopHeroTimer);
+    heroCarousel.addEventListener('mouseleave', startHeroTimer);
+    heroCarousel.addEventListener('focusin', stopHeroTimer);
+    heroCarousel.addEventListener('focusout', (event) => {
+      if (!heroCarousel.contains(event.relatedTarget)) startHeroTimer();
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopHeroTimer();
+      else startHeroTimer();
+    });
+
+    showHeroSlide(0);
+    startHeroTimer();
+  }
+
+  // 4. FAQ Accordion
   const faqQuestions = document.querySelectorAll('.faq-question');
   faqQuestions.forEach(btn => {
     btn.addEventListener('click', () => {

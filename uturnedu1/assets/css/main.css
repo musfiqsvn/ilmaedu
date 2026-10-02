@@ -2853,3 +2853,105 @@ button:disabled { cursor: wait; opacity: 0.7; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* ==========================================================================
+   FULL-WIDTH SIX-COUNTRY HERO CAROUSEL
+   ========================================================================== */
+
+.country-hero-carousel {
+  position: relative;
+  isolation: isolate;
+  height: clamp(430px, 40vw, 520px);
+  min-height: 430px;
+  padding: 0 !important;
+  overflow: hidden;
+  background: var(--primary-deep);
+}
+.country-hero-track {
+  display: flex;
+  width: 600%;
+  height: 100%;
+  transition: transform .65s cubic-bezier(.22,.61,.36,1);
+  will-change: transform;
+}
+.country-hero-slide {
+  position: relative;
+  flex: 0 0 16.666666%;
+  width: 16.666666%;
+  height: 100%;
+  overflow: hidden;
+  isolation: isolate;
+}
+.country-hero-image,
+.country-hero-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.country-hero-image { object-fit: cover; object-position: center; z-index: -2; }
+.country-hero-overlay {
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(3,11,36,.92) 0%, rgba(3,11,36,.76) 35%, rgba(3,11,36,.26) 73%, rgba(3,11,36,.42) 100%), linear-gradient(0deg, rgba(3,11,36,.55), transparent 38%);
+}
+.country-hero-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+.country-hero-content { max-width: 700px; padding: 2.3rem 0 3.3rem; color: #fff; }
+.country-hero-kicker { display: inline-flex; align-items: center; gap: .6rem; color: #FDE68A; text-transform: uppercase; letter-spacing: .14em; font-size: .68rem; font-weight: 800; margin-bottom: .85rem; }
+.country-hero-kicker span { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; color: var(--primary-deep); background: #FDE68A; border-radius: 50%; letter-spacing: 0; }
+.country-hero-kicker i { width: 1.5rem; height: 1px; background: rgba(253,230,138,.7); }
+.country-hero-title { color: #fff; font-size: clamp(2.35rem, 5vw, 4.6rem); line-height: 1.04; letter-spacing: -.045em; margin-bottom: .9rem; max-width: 680px; }
+.country-hero-copy { color: #E2E8F0; font-size: clamp(.93rem, 1.25vw, 1.08rem); line-height: 1.6; max-width: 570px; margin-bottom: 1.45rem; }
+.country-hero-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+.country-hero-actions .btn { min-height: 3.05rem; }
+.country-hero-trust { display: flex; flex-wrap: wrap; gap: .6rem 1.15rem; padding-top: 1.2rem; margin-top: 1.45rem; border-top: 1px solid rgba(255,255,255,.2); color: #CBD5E1; font-size: .72rem; font-weight: 700; }
+.country-hero-trust span { display: inline-flex; align-items: center; gap: .4rem; }
+.country-hero-trust span::before { content: '✓'; color: #A7F3D0; font-weight: 900; }
+.country-hero-control { position: absolute; top: 50%; z-index: 3; display: grid; place-items: center; width: 2.8rem; height: 2.8rem; transform: translateY(-50%); border: 1px solid rgba(255,255,255,.35); border-radius: 50%; background: rgba(3,11,36,.35); color: #fff; font-size: 2rem; line-height: 1; cursor: pointer; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+.country-hero-control:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.8); }
+.country-hero-control:active { transform: translateY(-50%) scale(.95); }
+.country-hero-prev { left: 1.5rem; }
+.country-hero-next { right: 1.5rem; }
+.country-hero-navigation { position: absolute; z-index: 3; left: 50%; bottom: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; transform: translateX(-50%); }
+.country-hero-dots { display: flex; align-items: center; gap: .45rem; }
+.country-hero-dot { position: relative; display: inline-flex; align-items: center; height: 1.85rem; padding: 0 .65rem; border: 0; border-radius: 999px; background: rgba(3,11,36,.44); color: #CBD5E1; font: inherit; font-size: .66rem; font-weight: 700; cursor: pointer; transition: background .2s ease, color .2s ease, transform .2s ease; }
+.country-hero-dot:hover { color: #fff; background: rgba(255,255,255,.16); }
+.country-hero-dot.is-active { color: var(--primary-deep); background: #fff; }
+.country-hero-dot:active { transform: scale(.96); }
+.country-hero-autoplay { color: rgba(255,255,255,.7); font-size: .65rem; white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .country-hero-carousel { height: 455px; min-height: 455px; }
+  .country-hero-control { width: 2.45rem; height: 2.45rem; }
+  .country-hero-prev { left: .8rem; }
+  .country-hero-next { right: .8rem; }
+  .country-hero-content { padding-left: 2.2rem; padding-right: 2.2rem; }
+  .country-hero-navigation { left: 0; right: 0; width: auto; max-width: none; padding-left: 4.6rem; padding-right: 4.6rem; transform: none; }
+  .country-hero-dot { padding: 0 .55rem; }
+  .country-hero-dot span { display: none; }
+  .country-hero-dot::after { content: ''; display: block; width: .42rem; height: .42rem; border-radius: 50%; background: currentColor; }
+}
+@media (max-width: 560px) {
+  .country-hero-carousel { height: 425px; min-height: 425px; }
+  .country-hero-overlay { background: linear-gradient(90deg, rgba(3,11,36,.9), rgba(3,11,36,.54)), linear-gradient(0deg, rgba(3,11,36,.62), transparent 60%); }
+  .country-hero-content { padding: 1.8rem 2.5rem 3.5rem; }
+  .country-hero-title { font-size: clamp(2rem, 10vw, 2.8rem); line-height: 1.07; }
+  .country-hero-copy { font-size: .86rem; line-height: 1.5; margin-bottom: 1.1rem; }
+  .country-hero-actions { flex-direction: column; gap: .55rem; }
+  .country-hero-actions .btn { width: 100%; min-height: 2.75rem; padding: .7rem 1rem; font-size: .84rem; }
+  .country-hero-trust { gap: .45rem .8rem; margin-top: 1rem; padding-top: .85rem; font-size: .63rem; }
+  .country-hero-control { width: 2rem; height: 2rem; font-size: 1.5rem; }
+  .country-hero-prev { left: .45rem; }
+  .country-hero-next { right: .45rem; }
+  .country-hero-navigation { bottom: .8rem; padding-left: 3.25rem; padding-right: 3.25rem; }
+  .country-hero-autoplay { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .country-hero-track { transition: none; }
+}
