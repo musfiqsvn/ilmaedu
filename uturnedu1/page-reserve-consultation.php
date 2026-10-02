@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 get_header();
 
 $settings = get_option('uturnedu_settings', []);
+$settings = is_array($settings) ? $settings : [];
 $phone1   = $settings['phone_primary'] ?? '01329272046';
 $phone2   = $settings['phone_secondary'] ?? '01823345573';
 $address  = $settings['address'] ?? 'CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh';
@@ -22,9 +23,9 @@ $address  = $settings['address'] ?? 'CL Tower, 772/1A, Bosila Road, Mohammadpur,
 <section class="section section-bg-alt" style="padding: 4rem 0 3rem 0;">
   <div class="container text-center">
     <span class="section-badge section-badge-accent">📍 Office Address</span>
-    <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;">Reserve In-Person Consultation</h1>
+    <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;"><?php echo esc_html($settings['reserve_hero_title'] ?? 'Reserve In-Person Consultation'); ?></h1>
     <p style="max-width: 720px; margin: 0 auto; font-size: 1.1rem;">
-      Schedule a dedicated 1-on-1 counseling session with our senior admission and visa advisors at CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh Zero waiting time guaranteed.
+      <?php echo esc_html($settings['reserve_hero_intro'] ?? 'Schedule a dedicated 1-on-1 counselling session at our Mohammadpur office.'); ?>
     </p>
   </div>
 </section>

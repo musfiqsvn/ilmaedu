@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
  * examples to explore, not as a claim of partnership or admission guarantee.
  */
 function uturnedu_destination_catalog() {
-    return [
+    $catalog = [
         [
             'title'        => 'United Kingdom',
             'slug'         => 'uk',
@@ -183,6 +183,64 @@ function uturnedu_destination_catalog() {
             'content'      => "Japan offers a distinctive mix of respected academics, innovation and cultural depth. Students can explore English-taught and Japanese-taught routes across technology, business, design and the sciences with careful course matching.\n\n### Why consider Japan?\n- Strong academic and research tradition\n- Innovation-led programmes across many disciplines\n- Safe, well-connected cities and campuses\n- A chance to build international experience in a unique setting",
         ],
     ];
+
+    // Published destination posts become the single source of truth for the public
+    // country carousel and cards. The static catalog remains a safe fallback for a
+    // fresh install before the starter content has been created.
+    $managed_posts = get_posts([
+        'post_type'      => 'destination',
+        'posts_per_page' => -1,
+        'post_status'    => 'publish',
+        'orderby'        => 'menu_order title',
+        'order'          => 'ASC',
+    ]);
+    if (empty($managed_posts)) {
+        return get_option('uturnedu_installed', 0) ? [] : $catalog;
+    }
+
+    $managed_catalog = [];
+    foreach ($managed_posts as $post) {
+        $slug = $post->post_name;
+        $base = null;
+        foreach ($catalog as $catalog_item) {
+            if ($catalog_item['slug'] === $slug || strtoupper($catalog_item['code']) === strtoupper(get_post_meta($post->ID, '_dest_code', true))) {
+                $base = $catalog_item;
+                break;
+            }
+        }
+        $base = $base ?: [
+            'title' => get_the_title($post->ID), 'slug' => $slug,
+            'code' => strtoupper(substr(preg_replace('/[^a-zA-Z]/', '', $slug), 0, 2)),
+            'flag' => '🌍', 'image' => 'hero-students-2026.jpg', 'flag_image' => 'flag.png',
+            'summary' => '', 'hero_heading' => '', 'hero_description' => '', 'cta_label' => '', 'cta_url' => '', 'why' => [], 'universities' => [], 'tuition' => '', 'living' => '',
+            'intakes' => '', 'work_rights' => '', 'psw' => '', 'ielts' => '', 'content' => '',
+        ];
+        $code = get_post_meta($post->ID, '_dest_code', true) ?: $base['code'];
+        $universities = get_post_meta($post->ID, '_dest_universities', true);
+        $summary = get_the_excerpt($post->ID);
+        $managed_catalog[] = array_merge($base, [
+            'title'        => get_the_title($post->ID),
+            'slug'         => $slug,
+            'code'         => strtoupper($code),
+            'flag'         => get_post_meta($post->ID, '_dest_flag', true) ?: $base['flag'],
+            'summary'      => $summary ?: wp_trim_words(wp_strip_all_tags($post->post_content), 28),
+            'hero_heading' => get_post_meta($post->ID, '_dest_hero_heading', true) ?: 'Study in ' . get_the_title($post->ID),
+            'hero_description' => get_post_meta($post->ID, '_dest_hero_description', true) ?: ($summary ?: wp_trim_words(wp_strip_all_tags($post->post_content), 28)),
+            'cta_label'   => get_post_meta($post->ID, '_dest_cta_label', true) ?: 'Explore destination',
+            'cta_url'     => get_post_meta($post->ID, '_dest_cta_url', true) ?: get_permalink($post->ID),
+            'why'          => $base['why'],
+            'universities' => $universities ? array_values(array_filter(array_map('trim', explode(',', $universities)))) : $base['universities'],
+            'tuition'      => get_post_meta($post->ID, '_dest_tuition', true) ?: $base['tuition'],
+            'living'       => get_post_meta($post->ID, '_dest_living_cost', true) ?: $base['living'],
+            'intakes'      => get_post_meta($post->ID, '_dest_intakes', true) ?: $base['intakes'],
+            'work_rights'  => get_post_meta($post->ID, '_dest_work_rights', true) ?: $base['work_rights'],
+            'psw'          => get_post_meta($post->ID, '_dest_psw', true) ?: $base['psw'],
+            'ielts'        => get_post_meta($post->ID, '_dest_ielts', true) ?: $base['ielts'],
+            'content'      => $post->post_content ?: $base['content'],
+        ]);
+    }
+
+    return $managed_catalog;
 }
 
 /** Resolve a destination post and keep legacy USA/Australia starter URLs useful. */
@@ -329,6 +387,10 @@ function uturnedu_get_destination_image($code) {
     $managed_image = $post ? get_post_meta($post->ID, '_dest_image_url', true) : '';
     if ($managed_image) {
         return esc_url($managed_image);
+    }
+    $featured_image = $post ? get_the_post_thumbnail_url($post->ID, 'full') : '';
+    if ($featured_image) {
+        return esc_url($featured_image);
     }
     $filename = $destination['image'] ?? 'hero-students-2026.jpg';
     return get_template_directory_uri() . '/assets/images/' . $filename;

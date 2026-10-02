@@ -15,9 +15,10 @@ get_header();
 <section class="section section-bg-alt" style="padding: 4rem 0 3rem 0;">
   <div class="container text-center">
     <span class="section-badge">Comprehensive Support</span>
-    <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;">Our Educational Consultancy Services</h1>
+    <?php $service_page_settings = get_option('uturnedu_settings', []); $service_page_settings = is_array($service_page_settings) ? $service_page_settings : []; ?>
+    <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;"><?php echo esc_html($service_page_settings['services_hero_title'] ?? 'Our Educational Consultancy Services'); ?></h1>
     <p style="max-width: 720px; margin: 0 auto; font-size: 1.1rem;">
-      ILMA Education Consultancy provides practical guidance from your first course conversation through application preparation and pre-departure planning.
+      <?php echo esc_html($service_page_settings['services_hero_intro'] ?? 'ILMA Education Consultancy provides practical guidance from your first course conversation through application preparation and pre-departure planning.'); ?>
     </p>
   </div>
 </section>

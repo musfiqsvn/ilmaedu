@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 get_header();
 
 $settings = get_option('uturnedu_settings', []);
+$settings = is_array($settings) ? $settings : [];
 $phone1   = $settings['phone_primary'] ?? '01329272046';
 $phone2   = $settings['phone_secondary'] ?? '01823345573';
 $email    = $settings['email_primary'] ?? 'info@ilmaedubd.com';
@@ -25,9 +26,9 @@ $whatsapp = uturnedu_whatsapp_url('Hello ILMA Education Consultancy, I would lik
 <section class="section section-bg-alt" style="padding: 4rem 0 3rem 0;">
   <div class="container text-center">
     <span class="section-badge section-badge-accent">Mohammadpur, Dhaka</span>
-    <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;">Contact ILMA Education Consultancy</h1>
+    <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;"><?php echo esc_html($settings['contact_hero_title'] ?? 'Contact ILMA Education Consultancy'); ?></h1>
     <p style="max-width: 720px; margin: 0 auto; font-size: 1.1rem;">
-      Have questions about entry requirements, IELTS waivers, or visa processing? Visit our office or send us an inquiry directly.
+      <?php echo esc_html($settings['contact_hero_intro'] ?? 'Have questions about entry requirements, IELTS waivers, or visa processing? Visit our office or send us an inquiry directly.'); ?>
     </p>
   </div>
 </section>

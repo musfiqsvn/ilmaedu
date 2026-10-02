@@ -100,6 +100,10 @@ function uturnedu_render_destination_metabox($post) {
     wp_nonce_field('uturnedu_save_meta', 'uturnedu_meta_nonce');
     $flag = get_post_meta($post->ID, '_dest_flag', true);
     $image_url = get_post_meta($post->ID, '_dest_image_url', true);
+    $hero_heading = get_post_meta($post->ID, '_dest_hero_heading', true);
+    $hero_description = get_post_meta($post->ID, '_dest_hero_description', true);
+    $cta_label = get_post_meta($post->ID, '_dest_cta_label', true);
+    $cta_url = get_post_meta($post->ID, '_dest_cta_url', true);
     $country_code = get_post_meta($post->ID, '_dest_code', true);
     $capital = get_post_meta($post->ID, '_dest_capital', true);
     $currency = get_post_meta($post->ID, '_dest_currency', true);
@@ -125,7 +129,23 @@ function uturnedu_render_destination_metabox($post) {
         <p style="grid-column:1 / -1;">
             <label><strong>Managed Destination Image:</strong></label><br>
             <div class="uturnedu-media-row"><input type="url" id="uturnedu-dest-image-<?php echo esc_attr($post->ID); ?>" name="_dest_image_url" value="<?php echo esc_url($image_url); ?>" class="widefat" placeholder="Choose a Media Library image, or leave blank for the theme image."><button type="button" class="button uturnedu-media-button" data-media-target="uturnedu-dest-image-<?php echo esc_attr($post->ID); ?>">Choose image</button></div>
-            <small>Used by homepage cards and the six-country hero. Choose a replacement without leaving the destination editor.</small>
+            <small>Used by homepage cards and the country hero. Choose a replacement without leaving the destination editor.</small>
+        </p>
+        <p>
+            <label><strong>Hero heading override:</strong></label><br>
+            <input type="text" name="_dest_hero_heading" value="<?php echo esc_attr($hero_heading); ?>" class="widefat" placeholder="Default: Study in Country">
+        </p>
+        <p>
+            <label><strong>Hero / card description:</strong></label><br>
+            <textarea name="_dest_hero_description" class="widefat" rows="3" placeholder="Short description for the homepage hero and card."><?php echo esc_textarea($hero_description); ?></textarea>
+        </p>
+        <p>
+            <label><strong>Primary CTA label:</strong></label><br>
+            <input type="text" name="_dest_cta_label" value="<?php echo esc_attr($cta_label); ?>" class="widefat" placeholder="Explore destination">
+        </p>
+        <p>
+            <label><strong>Primary CTA URL:</strong></label><br>
+            <input type="url" name="_dest_cta_url" value="<?php echo esc_url($cta_url); ?>" class="widefat" placeholder="Leave blank to use the destination page.">
         </p>
         <p>
             <label><strong>Country ISO Code:</strong></label><br>
@@ -502,7 +522,7 @@ function uturnedu_save_custom_meta($post_id) {
     }
 
     $fields = [
-        '_dest_flag', '_dest_image_url', '_dest_code', '_dest_capital', '_dest_currency', '_dest_tuition',
+        '_dest_flag', '_dest_image_url', '_dest_hero_heading', '_dest_hero_description', '_dest_cta_label', '_dest_cta_url', '_dest_code', '_dest_capital', '_dest_currency', '_dest_tuition',
         '_dest_living_cost', '_dest_intakes', '_dest_work_rights', '_dest_psw',
         '_dest_ielts', '_dest_visa_rate', '_dest_universities',
         '_service_icon', '_service_badge', '_service_process',

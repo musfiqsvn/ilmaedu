@@ -42,7 +42,7 @@ require_once UTURNEDU_DIR . '/inc/admin-dashboard.php';
  */
 function uturnedu_get_setting($key, $default = '') {
     $settings = get_option('uturnedu_settings', []);
-    return $settings[$key] ?? $default;
+    return is_array($settings) && array_key_exists($key, $settings) ? $settings[$key] : $default;
 }
 
 /**

@@ -6,6 +6,8 @@
  */
 if (!defined('ABSPATH')) { exit; }
 get_header();
+$settings = get_option('uturnedu_settings', []);
+$settings = is_array($settings) ? $settings : [];
 $whatsapp = uturnedu_whatsapp_url('Hello ILMA Education Consultancy, I would like help with my application.');
 $destinations = uturnedu_destination_catalog();
 ?>
@@ -14,8 +16,8 @@ $destinations = uturnedu_destination_catalog();
     <div class="container apply-hero-grid">
       <div class="apply-hero-copy">
         <span class="section-badge section-badge-accent">Start your next step</span>
-        <h1 id="apply-page-title">Apply with a clearer plan.</h1>
-        <p>Tell us a little about your study goals. One of our advisors will review your profile and help you understand suitable destinations, course routes and what to prepare next.</p>
+        <h1 id="apply-page-title"><?php echo esc_html($settings['apply_hero_title'] ?? 'Apply with a clearer plan.'); ?></h1>
+        <p><?php echo esc_html($settings['apply_hero_intro'] ?? 'Tell us a little about your study goals. One of our advisors will review your profile and help you understand suitable destinations, course routes and what to prepare next.'); ?></p>
         <ul class="apply-trust-list">
           <li><span aria-hidden="true">✓</span> Personalised destination guidance</li>
           <li><span aria-hidden="true">✓</span> Practical application and document support</li>

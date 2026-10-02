@@ -15,6 +15,7 @@ if (!defined('ABSPATH')) {
 get_header();
 
 $settings = get_option('uturnedu_settings', []);
+$settings = is_array($settings) ? $settings : [];
 $address  = $settings['address'] ?? 'CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh';
 $phone    = $settings['phone_primary'] ?? '01329272046';
 $email    = $settings['email_primary'] ?? 'info@ilmaedubd.com';
@@ -43,9 +44,12 @@ if ($service_posts) {
     <div class="country-hero-track" data-hero-track>
       <?php foreach ($destinations as $index => $destination):
           $destination_post = uturnedu_get_destination_post($destination['slug']);
-          $destination_url = $destination_post ? get_permalink($destination_post->ID) : home_url('/destinations/' . $destination['slug'] . '/');
+          $destination_view_url = $destination_post ? get_permalink($destination_post->ID) : home_url('/destinations/' . $destination['slug'] . '/');
+          $destination_url = !empty($destination['cta_url']) ? $destination['cta_url'] : $destination_view_url;
           $heading_tag = $index === 0 ? 'h1' : 'h2';
           $destination_label = $destination_post ? get_the_title($destination_post->ID) : $destination['title'];
+          $hero_heading = !empty($destination['hero_heading']) ? $destination['hero_heading'] : 'Study in ' . $destination_label;
+          $hero_summary = !empty($destination['hero_description']) ? $destination['hero_description'] : ($destination_post ? get_the_excerpt($destination_post->ID) : $destination['summary']);
       ?>
         <article class="country-hero-slide <?php echo $index === 0 ? 'is-active' : ''; ?>" data-slide-index="<?php echo esc_attr($index); ?>" aria-hidden="<?php echo $index === 0 ? 'false' : 'true'; ?>">
           <img class="country-hero-image" src="<?php echo esc_url(uturnedu_get_destination_image($destination['code'])); ?>" alt="Study in <?php echo esc_attr($destination_label); ?>" width="1600" height="720" <?php echo $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'; ?>>
@@ -53,12 +57,11 @@ if ($service_posts) {
           <div class="container country-hero-container">
             <div class="country-hero-content">
               <div class="country-hero-kicker"><span><?php echo esc_html(sprintf('%02d', $index + 1)); ?></span><i aria-hidden="true"></i> <?php echo esc_html($home_content['hero_kicker']); ?></div>
-              <<?php echo $heading_tag; ?> class="country-hero-title"<?php echo $index === 0 ? ' id="home-hero-title"' : ''; ?>>Study in <?php echo esc_html($destination_label); ?></<?php echo $heading_tag; ?>>
-              <?php $hero_summary = $destination_post ? get_the_excerpt($destination_post->ID) : $destination['summary']; ?>
-              <p class="country-hero-copy"><?php echo esc_html($hero_summary ?: $destination['summary']); ?> Find a course and application route that fits your goals.</p>
+              <<?php echo $heading_tag; ?> class="country-hero-title"<?php echo $index === 0 ? ' id="home-hero-title"' : ''; ?>><?php echo esc_html($hero_heading); ?></<?php echo $heading_tag; ?>>
+              <p class="country-hero-copy"><?php echo esc_html($hero_summary ?: $destination['summary']); ?></p>
               <div class="country-hero-actions">
                 <button type="button" class="btn btn-accent btn-lg open-consultancy-modal" data-country="<?php echo esc_attr($destination_label); ?>" data-modal-title="Check your <?php echo esc_attr($destination_label); ?> eligibility"><?php echo esc_html($home_content['hero_cta']); ?> <span aria-hidden="true">↗</span></button>
-                <a href="<?php echo esc_url($destination_url); ?>" class="btn btn-outline-white btn-lg"><?php echo esc_html($home_content['hero_secondary_cta']); ?> <span aria-hidden="true">→</span></a>
+                <a href="<?php echo esc_url($destination_url); ?>" class="btn btn-outline-white btn-lg"><?php echo esc_html(!empty($destination['cta_label']) ? $destination['cta_label'] : $home_content['hero_secondary_cta']); ?> <span aria-hidden="true">→</span></a>
               </div>
               <div class="country-hero-trust"><span>Why this country</span><span>Universities</span><span>Apply with guidance</span></div>
             </div>

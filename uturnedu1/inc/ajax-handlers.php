@@ -11,6 +11,28 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/** Return the administrator's configured form confirmation copy. */
+function uturnedu_get_form_success_message($fallback) {
+    $settings = get_option('uturnedu_settings', []);
+    if (is_array($settings) && !empty($settings['form_success_message'])) {
+        return sanitize_text_field($settings['form_success_message']);
+    }
+    return $fallback;
+}
+
+/** Notify the configured agency inbox without making delivery a requirement for saving a lead. */
+function uturnedu_notify_form_submission($subject, $body, $reply_to = '') {
+    $settings = get_option('uturnedu_settings', []);
+    $settings = is_array($settings) ? $settings : [];
+    $recipient = sanitize_email($settings['form_notification_email'] ?? $settings['email_primary'] ?? '');
+    if ($recipient && function_exists('wp_mail')) {
+        wp_mail($recipient, sanitize_text_field($subject), wp_strip_all_tags($body));
+    }
+    if (($settings['form_auto_reply_enabled'] ?? 'no') === 'yes' && is_email($reply_to) && function_exists('wp_mail')) {
+        wp_mail($reply_to, 'We received your ILMA enquiry', uturnedu_get_form_success_message('Thank you. Our team will contact you shortly.'));
+    }
+}
+
 /**
  * 1. Submit Lead AJAX Handler (Frontend Modal & Forms)
  */
@@ -73,9 +95,10 @@ function uturnedu_ajax_submit_lead() {
     update_post_meta($post_id, '_lead_page_url', $page_url);
     update_post_meta($post_id, '_lead_status', 'New');
     update_post_meta($post_id, '_lead_submitted_at', current_time('mysql'));
+    uturnedu_notify_form_submission('New ILMA website enquiry: ' . $name, "Name: {$name}\nPhone: {$phone}\nEmail: {$email}\nCountry: {$country}\nSource: {$source}\nNotes: {$notes}", $email);
 
     wp_send_json_success([
-        'message' => __('Thank you! Your inquiry has been received. Our counselor will contact you shortly.', 'uturnedu1'),
+        'message' => uturnedu_get_form_success_message(__('Thank you! Your inquiry has been received. Our counselor will contact you shortly.', 'uturnedu1')),
         'lead_id' => $post_id,
     ]);
 }
@@ -120,10 +143,11 @@ function uturnedu_ajax_submit_contact() {
         update_post_meta($post_id, '_lead_notes', $message);
         update_post_meta($post_id, '_lead_status', 'New');
         update_post_meta($post_id, '_lead_submitted_at', current_time('mysql'));
+        uturnedu_notify_form_submission('New ILMA contact form message: ' . $name, "Name: {$name}\nPhone: {$phone}\nEmail: {$email}\nSubject: {$subject}\nMessage: {$message}", $email);
     }
 
     wp_send_json_success([
-        'message' => __('Thank you for contacting ILMA Education Consultancy. We will reply to your message promptly.', 'uturnedu1')
+        'message' => uturnedu_get_form_success_message(__('Thank you for contacting ILMA Education Consultancy. We will reply to your message promptly.', 'uturnedu1'))
     ]);
 }
 add_action('wp_ajax_uturnedu_submit_contact', 'uturnedu_ajax_submit_contact');
@@ -314,6 +338,7 @@ function uturnedu_ajax_submit_appointment() {
         update_post_meta($lead_id, '_lead_status', 'New');
         update_post_meta($lead_id, '_lead_submitted_at', current_time('mysql'));
     }
+    uturnedu_notify_form_submission('New ILMA consultation booking: ' . $name, "Booking: {$booking_ref}\nName: {$name}\nPhone: {$phone}\nEmail: {$email}\nDate: {$date}\nSlot: {$slot_time}\nCountry: {$country}", $email);
 
     wp_send_json_success([
         'message'      => __('Appointment successfully confirmed!', 'uturnedu1'),

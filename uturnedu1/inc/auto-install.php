@@ -505,6 +505,21 @@ function uturnedu_run_auto_installer($force = false) {
         'phone_hotline'         => '+880 1848-638406',
         'email_primary'         => 'info@ilmaedubd.com',
         'email_support'         => 'rawshan@ilmaedubd.com',
+        'form_notification_email' => 'info@ilmaedubd.com',
+        'form_auto_reply_enabled' => 'no',
+        'form_success_message'  => 'Thank you. Our team will review your details and contact you shortly.',
+        'footer_description'   => 'Helping Bangladeshi students make informed international study decisions with clear counselling, application guidance and practical support from shortlist to departure.',
+        'footer_copyright'     => 'All Rights Reserved.',
+        'about_hero_title'    => 'About ILMA Education Consultancy',
+        'about_hero_intro'    => 'Practical, ethical and student-first guidance for your study abroad journey.',
+        'contact_hero_title'  => 'Contact ILMA Education Consultancy',
+        'contact_hero_intro'  => 'Have questions about entry requirements, study destinations or your next application step?',
+        'apply_hero_title'    => 'Start your study abroad application',
+        'apply_hero_intro'    => 'Share your profile and our advisors will help you understand suitable destinations and next steps.',
+        'reserve_hero_title'  => 'Reserve In-Person Consultation',
+        'reserve_hero_intro'  => 'Schedule a dedicated 1-on-1 counselling session at our Mohammadpur office.',
+        'services_hero_title' => 'Our Services',
+        'services_hero_intro' => 'Explore practical support for each important decision in your application journey.',
         'stat_universities'     => '',
         'stat_free_consult'     => '',
         'stat_successful_apps'  => '',
@@ -541,6 +556,7 @@ function uturnedu_migrate_public_copy_polish() {
         }
     }
     $settings = get_option('uturnedu_settings', []);
+    $settings = is_array($settings) ? $settings : [];
     $safe_defaults = [
         'popup_heading' => ['Start Your Study Abroad Journey with 100% Free Guidance!', 'Start your study abroad journey with clear, practical guidance.'],
         'stat_universities' => ['100+', ''],

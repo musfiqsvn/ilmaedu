@@ -14,6 +14,7 @@ if (!defined('ABSPATH')) {
 get_header();
 
 $settings = get_option('uturnedu_settings', []);
+$settings = is_array($settings) ? $settings : [];
 $about_story_image = $settings['about_story_image'] ?? get_template_directory_uri() . '/assets/images/counseling-session.jpg';
 $about_admission_image = $settings['about_admission_image'] ?? get_template_directory_uri() . '/assets/images/WhatsApp-Image-2025-09-21-at-12.00.19-PM-819x1024.jpeg';
 $about_visa_image = $settings['about_visa_image'] ?? get_template_directory_uri() . '/assets/images/counseling-session.jpg';
@@ -23,9 +24,9 @@ $about_asia_image = $settings['about_asia_image'] ?? get_template_directory_uri(
 <section class="section section-bg-alt" style="padding: 4rem 0 3rem 0;">
   <div class="container text-center">
     <span class="section-badge">About us</span>
-    <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;">Expand Your Journey to Global Insight</h1>
+    <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;"><?php echo esc_html($settings['about_hero_title'] ?? 'Expand Your Journey to Global Insight'); ?></h1>
     <p style="max-width: 700px; margin: 0 auto; font-size: 1.1rem;">
-      Helping ambitious Bangladeshi students explore university opportunities across the United Kingdom, New Zealand, Canada, Malaysia, South Korea, and Japan.
+      <?php echo esc_html($settings['about_hero_intro'] ?? 'Helping ambitious Bangladeshi students explore university opportunities across the United Kingdom, New Zealand, Canada, Malaysia, South Korea, and Japan.'); ?>
     </p>
   </div>
 </section>

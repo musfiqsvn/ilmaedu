@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 $settings     = get_option('uturnedu_settings', []);
+$settings     = is_array($settings) ? $settings : [];
 $phone1       = $settings['phone_primary'] ?? '01329272046';
 $phone2       = $settings['phone_secondary'] ?? '01823345573';
 $email        = $settings['email_primary'] ?? 'info@ilmaedubd.com';
@@ -96,7 +97,7 @@ $favicon      = !empty($settings['site_favicon']) ? $settings['site_favicon'] : 
                   </li>
                 <?php endforeach; ?>
                 <li class="dropdown-more-link">
-                  <a href="<?php echo esc_url(home_url('/destinations/')); ?>" class="dropdown-link">View all six destinations <span aria-hidden="true">→</span></a>
+                  <a href="<?php echo esc_url(home_url('/destinations/')); ?>" class="dropdown-link">View all destinations <span aria-hidden="true">→</span></a>
                 </li>
               </ul>
             </li>

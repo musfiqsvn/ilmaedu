@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 $settings     = get_option('uturnedu_settings', []);
+$settings     = is_array($settings) ? $settings : [];
 $phone1       = $settings['phone_primary'] ?? '01329272046';
 $phone2       = $settings['phone_secondary'] ?? '01823345573';
 $email        = $settings['email_primary'] ?? 'info@ilmaedubd.com';
@@ -19,6 +20,8 @@ $fb           = $settings['facebook_url'] ?? 'https://www.facebook.com/ilmaeduca
 $whatsapp_url = uturnedu_whatsapp_url('Hello ILMA Education Consultancy, I would like to know more about study abroad opportunities.');
 $insta        = $settings['instagram_url'] ?? 'https://www.instagram.com/ilmaeducation';
 $site_title   = get_bloginfo('name');
+$footer_description = $settings['footer_description'] ?? 'Helping Bangladeshi students make informed international study decisions with clear counselling, application guidance and practical support from shortlist to departure.';
+$footer_copyright = $settings['footer_copyright'] ?? 'All Rights Reserved.';
 $logo_dark    = !empty($settings['site_logo_transparent']) ? $settings['site_logo_transparent'] : get_template_directory_uri() . '/assets/images/ILMA-Education-logo-transparent.png';
 
 // Popup Configuration (Textual, Image Only, Combined Image + Text)
@@ -220,7 +223,7 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
         </a>
 
         <p class="footer-desc">
-          Helping Bangladeshi students make informed international study decisions with clear counselling, application guidance and practical support from shortlist to departure.
+          <?php echo esc_html($footer_description); ?>
         </p>
 
         <div class="social-links" style="margin-top: 1.25rem;">
@@ -240,12 +243,9 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
       <div class="footer-col">
         <h4 class="footer-col-title">Study Destinations</h4>
         <ul class="footer-links">
-          <li><a href="<?php echo esc_url(home_url('/destinations/uk/')); ?>">Study in United Kingdom</a></li>
-          <li><a href="<?php echo esc_url(home_url('/destinations/new-zealand/')); ?>">Study in New Zealand</a></li>
-          <li><a href="<?php echo esc_url(home_url('/destinations/canada/')); ?>">Study in Canada</a></li>
-          <li><a href="<?php echo esc_url(home_url('/destinations/malaysia/')); ?>">Study in Malaysia</a></li>
-          <li><a href="<?php echo esc_url(home_url('/destinations/south-korea/')); ?>">Study in South Korea</a></li>
-          <li><a href="<?php echo esc_url(home_url('/destinations/japan/')); ?>">Study in Japan</a></li>
+          <?php foreach (uturnedu_destination_catalog() as $footer_destination): $footer_destination_post = uturnedu_get_destination_post($footer_destination['slug']); $footer_destination_url = $footer_destination_post ? get_permalink($footer_destination_post->ID) : home_url('/destinations/' . $footer_destination['slug'] . '/'); ?>
+            <li><a href="<?php echo esc_url($footer_destination_url); ?>">Study in <?php echo esc_html($footer_destination['title']); ?></a></li>
+          <?php endforeach; ?>
         </ul>
       </div>
 
@@ -295,7 +295,7 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
     <div class="footer-bottom">
       <div class="container footer-bottom-inner" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
         <div class="copyright">
-          © <?php echo date('Y'); ?> <strong>ILMA Education Consultancy</strong>. All Rights Reserved.
+          © <?php echo esc_html(date('Y')); ?> <strong>ILMA Education Consultancy</strong>. <?php echo esc_html($footer_copyright); ?>
         </div>
 
         <div class="uturn-attribution" style="color: #94A3B8; font-size: 0.8rem;">

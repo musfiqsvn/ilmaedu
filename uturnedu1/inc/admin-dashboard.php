@@ -14,8 +14,8 @@ if (!defined('ABSPATH')) {
  */
 function uturnedu_register_admin_menu() {
     add_menu_page(
-        __('UTurnEdu Engine', 'uturnedu1'),
-        __('UTurnEdu Suite', 'uturnedu1'),
+        __('ILMA Admin Dashboard', 'uturnedu1'),
+        __('ILMA Admin Dashboard', 'uturnedu1'),
         'manage_options',
         'uturnedu_dashboard',
         'uturnedu_render_dashboard_page',
@@ -56,6 +56,15 @@ function uturnedu_register_admin_menu() {
         __('📥 Leads CRM', 'uturnedu1'),
         'manage_options',
         'uturnedu_dashboard#tab-leads',
+        'uturnedu_render_dashboard_page'
+    );
+
+    add_submenu_page(
+        'uturnedu_dashboard',
+        __('Forms & Submissions', 'uturnedu1'),
+        __('▣ Forms & Submissions', 'uturnedu1'),
+        'manage_options',
+        'uturnedu_dashboard#tab-forms',
         'uturnedu_render_dashboard_page'
     );
 
@@ -133,6 +142,7 @@ function uturnedu_handle_settings_save() {
     }
 
     $existing = get_option('uturnedu_settings', []);
+    $existing = is_array($existing) ? $existing : [];
 
     $settings = [
         // Branding & Logos
@@ -145,6 +155,16 @@ function uturnedu_handle_settings_save() {
         'about_admission_image'   => esc_url_raw($_POST['about_admission_image'] ?? ''),
         'about_visa_image'        => esc_url_raw($_POST['about_visa_image'] ?? ''),
         'about_asia_image'        => esc_url_raw($_POST['about_asia_image'] ?? ''),
+        'about_hero_title'       => sanitize_text_field($_POST['about_hero_title'] ?? ''),
+        'about_hero_intro'       => sanitize_textarea_field($_POST['about_hero_intro'] ?? ''),
+        'contact_hero_title'     => sanitize_text_field($_POST['contact_hero_title'] ?? ''),
+        'contact_hero_intro'     => sanitize_textarea_field($_POST['contact_hero_intro'] ?? ''),
+        'apply_hero_title'       => sanitize_text_field($_POST['apply_hero_title'] ?? ''),
+        'apply_hero_intro'       => sanitize_textarea_field($_POST['apply_hero_intro'] ?? ''),
+        'reserve_hero_title'     => sanitize_text_field($_POST['reserve_hero_title'] ?? ''),
+        'reserve_hero_intro'     => sanitize_textarea_field($_POST['reserve_hero_intro'] ?? ''),
+        'services_hero_title'    => sanitize_text_field($_POST['services_hero_title'] ?? ''),
+        'services_hero_intro'    => sanitize_textarea_field($_POST['services_hero_intro'] ?? ''),
 
         // Office Location & Contacts (Editable at any time)
         'address'                 => sanitize_text_field($_POST['address'] ?? 'CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh'),
@@ -156,6 +176,11 @@ function uturnedu_handle_settings_save() {
         'email_primary'           => sanitize_email($_POST['email_primary'] ?? ''),
         'email_support'           => sanitize_email($_POST['email_support'] ?? ''),
         'whatsapp_number'         => sanitize_text_field($_POST['whatsapp_number'] ?? ''),
+        'form_notification_email' => sanitize_email($_POST['form_notification_email'] ?? ''),
+        'form_auto_reply_enabled' => sanitize_text_field($_POST['form_auto_reply_enabled'] ?? 'no') === 'yes' ? 'yes' : 'no',
+        'form_success_message'    => sanitize_textarea_field($_POST['form_success_message'] ?? 'Thank you. Our team will review your details and contact you shortly.'),
+        'footer_description'      => sanitize_textarea_field($_POST['footer_description'] ?? ''),
+        'footer_copyright'        => sanitize_text_field($_POST['footer_copyright'] ?? ''),
 
         // Stats & Badges
         'stat_universities'       => sanitize_text_field($_POST['stat_universities'] ?? ''),
@@ -262,6 +287,7 @@ add_action('admin_post_uturnedu_export_leads', 'uturnedu_export_leads_csv');
  */
 function uturnedu_render_dashboard_page() {
     $settings = get_option('uturnedu_settings', []);
+    $settings = is_array($settings) ? $settings : [];
     $homepage_content = uturnedu_get_homepage_content();
 
     // Default Assets
@@ -280,11 +306,38 @@ function uturnedu_render_dashboard_page() {
     $dest_count  = wp_count_posts('destination')->publish ?? 0;
     $serv_count  = wp_count_posts('service')->publish ?? 0;
     $ads_count   = wp_count_posts('ad_banner')->publish ?? 0;
+    $lead_status_counts = [];
+    foreach (['New' => ['New', 'new'], 'Contacted' => ['Contacted', 'contacted'], 'Qualified' => ['Qualified', 'qualified', 'interested'], 'Converted' => ['Converted', 'converted']] as $label => $values) {
+        $status_query = new WP_Query([
+            'post_type'      => 'lead',
+            'post_status'    => 'publish',
+            'posts_per_page' => 1,
+            'fields'         => 'ids',
+            'meta_query'     => [['key' => '_lead_status', 'value' => $values, 'compare' => 'IN']],
+        ]);
+        $lead_status_counts[$label] = (int) $status_query->found_posts;
+        wp_reset_postdata();
+    }
+    $recent_lead_query = new WP_Query([
+        'post_type'      => 'lead', 'post_status' => 'publish', 'posts_per_page' => 1, 'fields' => 'ids',
+        'date_query'     => [['after' => gmdate('Y-m-d', strtotime('-30 days'))]],
+    ]);
+    $recent_leads_count = (int) $recent_lead_query->found_posts;
+    wp_reset_postdata();
 
     // CRM filters are URL-driven so the table remains usable on large lead volumes.
     $lead_search = sanitize_text_field(wp_unslash($_GET['lead_search'] ?? ''));
     $lead_status_filter = sanitize_text_field(wp_unslash($_GET['lead_status'] ?? ''));
     $lead_source_filter = sanitize_text_field(wp_unslash($_GET['lead_source'] ?? ''));
+    $lead_date_from = sanitize_text_field(wp_unslash($_GET['lead_date_from'] ?? ''));
+    $lead_date_to = sanitize_text_field(wp_unslash($_GET['lead_date_to'] ?? ''));
+    $lead_date_query = [];
+    if ($lead_date_from !== '') {
+        $lead_date_query['after'] = $lead_date_from . ' 00:00:00';
+    }
+    if ($lead_date_to !== '') {
+        $lead_date_query['before'] = $lead_date_to . ' 23:59:59';
+    }
     $lead_meta_query = [];
     if ($lead_search !== '') {
         $lead_meta_query[] = [
@@ -308,6 +361,7 @@ function uturnedu_render_dashboard_page() {
         'orderby'        => 'date',
         'order'          => 'DESC',
         'meta_query'     => $lead_meta_query,
+        'date_query'     => $lead_date_query,
     ]);
 
     $recent_appts = get_posts([
@@ -409,6 +463,7 @@ function uturnedu_render_dashboard_page() {
             <button type="button" class="uturnedu-tab-btn" data-tab="tab-builder"><span class="uturnedu-nav-icon">◈</span><span>Homepage Builder</span></button>
             <div class="uturnedu-nav-divider"><span>Student operations</span></div>
             <button type="button" class="uturnedu-tab-btn" data-tab="tab-leads"><span class="uturnedu-nav-icon">♧</span><span>Leads CRM</span><span class="uturnedu-counter"><?php echo esc_html($leads_count); ?></span></button>
+            <button type="button" class="uturnedu-tab-btn" data-tab="tab-forms"><span class="uturnedu-nav-icon">▣</span><span>Forms &amp; submissions</span></button>
             <button type="button" class="uturnedu-tab-btn" data-tab="tab-appointments"><span class="uturnedu-nav-icon">◷</span><span>Bookings</span><span class="uturnedu-counter"><?php echo esc_html($appts_count); ?></span></button>
             <button type="button" class="uturnedu-tab-btn" data-tab="tab-slots"><span class="uturnedu-nav-icon">⌚</span><span>Availability</span></button>
             <div class="uturnedu-nav-divider"><span>Marketing</span></div>
@@ -453,6 +508,14 @@ function uturnedu_render_dashboard_page() {
                 </div>
             </div>
 
+            <div class="uturnedu-dashboard-stat-strip" aria-label="Lead statistics">
+                <div><span>New</span><strong><?php echo esc_html($lead_status_counts['New']); ?></strong><small>Needs first response</small></div>
+                <div><span>Contacted</span><strong><?php echo esc_html($lead_status_counts['Contacted']); ?></strong><small>In conversation</small></div>
+                <div><span>Qualified</span><strong><?php echo esc_html($lead_status_counts['Qualified']); ?></strong><small>Profile reviewed</small></div>
+                <div><span>Converted</span><strong><?php echo esc_html($lead_status_counts['Converted']); ?></strong><small>Marked converted</small></div>
+                <div><span>Last 30 days</span><strong><?php echo esc_html($recent_leads_count); ?></strong><small>New submissions</small></div>
+            </div>
+
             <!-- Quick Action Shortcuts -->
             <div class="uturnedu-card" style="margin-top: 24px;">
                 <h3 style="margin: 0 0 16px 0; font-size: 16px; font-weight: 700;">🚀 Quick Management Controls</h3>
@@ -484,6 +547,7 @@ function uturnedu_render_dashboard_page() {
                     <p>Edit page copy, destination guides, service pages, images, menus and campaign media without touching theme files. Use <strong>Homepage Builder</strong> for the homepage sections and <strong>Content Studio</strong> for the rest of the website.</p>
                 </div>
                 <div class="uturnedu-content-hero-actions">
+                    <input type="search" class="uturnedu-content-search" data-content-search placeholder="Search content" aria-label="Search content">
                     <a class="uturnedu-btn uturnedu-btn-primary" href="<?php echo esc_url(admin_url('post-new.php?post_type=page')); ?>">＋ Add new page</a>
                     <a class="uturnedu-btn uturnedu-btn-outline" href="<?php echo esc_url(admin_url('upload.php')); ?>">＋ Upload media</a>
                 </div>
@@ -625,6 +689,8 @@ function uturnedu_render_dashboard_page() {
                     <input class="uturnedu-input" type="search" name="lead_search" value="<?php echo esc_attr($lead_search); ?>" placeholder="Search name, phone, email or country">
                     <select class="uturnedu-select" name="lead_status"><option value="">All statuses</option><?php foreach (['New','Contacted','Qualified','Follow-up','Applied','Converted','Closed'] as $filter_status): ?><option value="<?php echo esc_attr($filter_status); ?>" <?php selected($lead_status_filter, $filter_status); ?>><?php echo esc_html($filter_status); ?></option><?php endforeach; ?></select>
                     <input class="uturnedu-input" type="search" name="lead_source" value="<?php echo esc_attr($lead_source_filter); ?>" placeholder="Source, e.g. Meta Ads">
+                    <label class="uturnedu-filter-date">From <input class="uturnedu-input" type="date" name="lead_date_from" value="<?php echo esc_attr($lead_date_from); ?>"></label>
+                    <label class="uturnedu-filter-date">To <input class="uturnedu-input" type="date" name="lead_date_to" value="<?php echo esc_attr($lead_date_to); ?>"></label>
                     <button class="uturnedu-btn uturnedu-btn-primary" type="submit">Filter leads</button>
                     <a class="uturnedu-btn uturnedu-btn-light" href="<?php echo esc_url(admin_url('admin.php?page=uturnedu_dashboard&tab=leads')); ?>">Reset</a>
                 </form>
@@ -637,17 +703,17 @@ function uturnedu_render_dashboard_page() {
                             $phone = get_post_meta($lead->ID, '_lead_phone', true); $email = get_post_meta($lead->ID, '_lead_email', true); $country = get_post_meta($lead->ID, '_lead_country', true);
                             $level = get_post_meta($lead->ID, '_lead_level', true) ?: get_post_meta($lead->ID, '_lead_study_level', true); $source = get_post_meta($lead->ID, '_lead_source', true) ?: 'Website';
                             $status = get_post_meta($lead->ID, '_lead_status', true) ?: 'New'; $status = ['new' => 'New', 'contacted' => 'Contacted', 'interested' => 'Qualified', 'converted' => 'Converted', 'closed' => 'Closed'][$status] ?? $status; $follow_date = get_post_meta($lead->ID, '_lead_follow_up_date', true); $follow_note = get_post_meta($lead->ID, '_lead_follow_up_note', true);
-                            $owner = get_post_meta($lead->ID, '_lead_owner', true); $notes = get_post_meta($lead->ID, '_lead_notes', true); $clean_phone = preg_replace('/[^0-9]/', '', $phone);
+                            $owner = get_post_meta($lead->ID, '_lead_owner', true); $notes = get_post_meta($lead->ID, '_lead_notes', true); $clean_phone = preg_replace('/[^0-9]/', '', $phone); $lead_delete_url = get_delete_post_link($lead->ID);
                             $status_class = in_array($status, ['Converted','Applied'], true) ? 'uturnedu-badge-confirmed' : ($status === 'Closed' ? 'uturnedu-badge-cancelled' : ($status === 'Contacted' || $status === 'Qualified' ? 'uturnedu-badge-blue' : 'uturnedu-badge-pending'));
                         ?>
                             <tr data-lead-row="<?php echo esc_attr($lead->ID); ?>">
-                                <td><strong><?php echo esc_html(get_post_meta($lead->ID, '_lead_name', true) ?: $lead->post_title); ?></strong><small><?php echo esc_html($level ?: 'Study enquiry'); ?></small></td>
+                                <td><strong><?php echo esc_html(get_post_meta($lead->ID, '_lead_name', true) ?: $lead->post_title); ?></strong><small><?php echo esc_html($level ?: 'Study enquiry'); ?></small><button type="button" class="uturnedu-view-lead" data-lead-name="<?php echo esc_attr(get_post_meta($lead->ID, '_lead_name', true) ?: $lead->post_title); ?>" data-lead-phone="<?php echo esc_attr($phone); ?>" data-lead-email="<?php echo esc_attr($email); ?>" data-lead-country="<?php echo esc_attr($country); ?>" data-lead-source="<?php echo esc_attr($source); ?>" data-lead-received="<?php echo esc_attr(get_the_date('M j, Y g:i a', $lead->ID)); ?>" data-lead-status="<?php echo esc_attr($status); ?>" data-lead-message="<?php echo esc_attr($notes); ?>">View details</button></td>
                                 <td><a href="tel:<?php echo esc_attr($phone); ?>"><?php echo esc_html($phone ?: '—'); ?></a><?php if ($clean_phone): ?><a href="https://wa.me/<?php echo esc_attr($clean_phone); ?>" target="_blank" rel="noopener" title="Chat with Us" class="uturnedu-crm-whatsapp">Chat with Us</a><?php endif; ?><a href="mailto:<?php echo esc_attr($email); ?>"><?php echo esc_html($email ?: '—'); ?></a></td>
                                 <td><span class="uturnedu-badge uturnedu-badge-blue"><?php echo esc_html($country ?: 'General'); ?></span><small><?php echo esc_html(get_post_meta($lead->ID, '_lead_target_intake', true) ?: 'Intake not set'); ?></small></td>
                                 <td><strong><?php echo esc_html($source); ?></strong><?php $campaign = get_post_meta($lead->ID, '_lead_utm_campaign', true); if ($campaign): ?><small>Campaign: <?php echo esc_html($campaign); ?></small><?php endif; ?></td>
                                 <td style="font-size:12px;color:#64748B;"><?php echo esc_html(get_the_date('M j, Y', $lead->ID)); ?></td>
                                 <td><input class="uturnedu-crm-date" type="date" value="<?php echo esc_attr($follow_date); ?>" data-lead-field="follow_up_date" aria-label="Follow-up date"><small><?php echo esc_html($follow_note); ?></small></td>
-                                <td><input class="uturnedu-crm-owner" type="text" value="<?php echo esc_attr($owner); ?>" data-lead-field="owner" placeholder="Assign owner" aria-label="Lead owner"><textarea class="uturnedu-crm-note" data-lead-field="notes" rows="2" placeholder="Notes"><?php echo esc_textarea($notes); ?></textarea><button type="button" class="uturnedu-btn uturnedu-btn-light uturnedu-save-lead" data-lead-id="<?php echo esc_attr($lead->ID); ?>">Save</button></td>
+                                <td><input class="uturnedu-crm-owner" type="text" value="<?php echo esc_attr($owner); ?>" data-lead-field="owner" placeholder="Assign owner" aria-label="Lead owner"><textarea class="uturnedu-crm-note" data-lead-field="notes" rows="2" placeholder="Notes"><?php echo esc_textarea($notes); ?></textarea><button type="button" class="uturnedu-btn uturnedu-btn-light uturnedu-save-lead" data-lead-id="<?php echo esc_attr($lead->ID); ?>">Save</button><?php if ($lead_delete_url): ?><a class="uturnedu-crm-delete" href="<?php echo esc_url($lead_delete_url); ?>" onclick="return confirm('Move this lead to the trash?');">Remove lead</a><?php endif; ?></td>
                                 <td><select class="uturnedu-crm-status <?php echo esc_attr($status_class); ?>" data-lead-id="<?php echo esc_attr($lead->ID); ?>" aria-label="Lead status"><?php foreach (['New','Contacted','Qualified','Follow-up','Applied','Converted','Closed'] as $option): ?><option value="<?php echo esc_attr($option); ?>" <?php selected($status, $option); ?>><?php echo esc_html($option); ?></option><?php endforeach; ?></select><span class="uturnedu-crm-save-state" aria-live="polite"></span></td>
                             </tr>
                         <?php endforeach; else: ?><tr><td colspan="8" class="uturnedu-empty-state">No leads match these filters.</td></tr><?php endif; ?>
@@ -658,7 +724,23 @@ function uturnedu_render_dashboard_page() {
         </div>
 
         <!-- ==========================================
-             3. TAB: APPOINTMENTS CRM
+             3. TAB: FORMS & SUBMISSIONS
+             ========================================== -->
+        <div id="tab-forms" class="uturnedu-tab-pane">
+            <section class="uturnedu-content-hero uturnedu-forms-hero">
+                <div><span class="uturnedu-section-eyebrow">All website enquiries</span><h2>Forms &amp; submissions</h2><p>Every contact, application, eligibility and consultation request is stored safely in the dashboard. Review the submission, follow up, and choose where new notifications should be sent.</p></div>
+                <div class="uturnedu-content-hero-actions"><button type="button" class="uturnedu-btn uturnedu-btn-primary" data-tab-jump="tab-leads">Open lead inbox</button><button type="button" class="uturnedu-btn uturnedu-btn-outline" data-tab-jump="tab-appointments">Open bookings</button></div>
+            </section>
+            <div class="uturnedu-form-overview-grid">
+                <article class="uturnedu-card"><span class="uturnedu-mini-stat-icon">✉</span><strong><?php echo esc_html($leads_count); ?></strong><h3>Website lead submissions</h3><p>Modal, contact, apply-now and destination enquiry forms.</p><button type="button" class="uturnedu-text-action" data-tab-jump="tab-leads">Review submissions →</button></article>
+                <article class="uturnedu-card"><span class="uturnedu-mini-stat-icon">◷</span><strong><?php echo esc_html($appts_count); ?></strong><h3>Consultation bookings</h3><p>In-person office visits and consultation reservations.</p><button type="button" class="uturnedu-text-action" data-tab-jump="tab-appointments">Review bookings →</button></article>
+                <article class="uturnedu-card"><span class="uturnedu-mini-stat-icon">✓</span><strong>Live</strong><h3>Form connections</h3><p>Submissions are connected to the existing WordPress lead and appointment records.</p><span class="uturnedu-form-status">Connected</span></article>
+            </div>
+            <section class="uturnedu-card uturnedu-form-settings-card"><div class="uturnedu-library-heading"><div><span class="uturnedu-section-eyebrow">Notification settings</span><h3>How should new submissions reach your team?</h3><p>These controls are saved with the agency settings form. Email delivery also depends on your WordPress hosting mail configuration.</p></div><button type="button" class="uturnedu-btn uturnedu-btn-outline uturnedu-btn-sm" data-tab-jump="tab-settings">Open agency settings</button></div><div class="uturnedu-form-connection-list"><div><span>Contact form</span><strong>Creates a lead record</strong></div><div><span>Apply / eligibility form</span><strong>Creates a lead record</strong></div><div><span>Reserve consultation</span><strong>Creates an appointment record</strong></div><div><span>Notification email</span><strong><?php echo esc_html($settings['form_notification_email'] ?? $settings['email_primary'] ?? 'info@ilmaedubd.com'); ?></strong></div></div></section>
+        </div>
+
+        <!-- ==========================================
+             4. TAB: APPOINTMENTS CRM
              ========================================== -->
         <div id="tab-appointments" class="uturnedu-tab-pane">
             <div class="uturnedu-card">
@@ -992,6 +1074,14 @@ function uturnedu_render_dashboard_page() {
                             <label class="uturnedu-label">Official Tagline</label>
                             <input type="text" name="site_tagline" class="uturnedu-input" value="<?php echo esc_attr($settings['site_tagline'] ?? 'Study Abroad, See the World, Build Career!'); ?>">
                         </div>
+                        <div class="uturnedu-form-group" style="grid-column: span 2;">
+                            <label class="uturnedu-label">Footer description</label>
+                            <textarea name="footer_description" class="uturnedu-textarea" rows="3"><?php echo esc_textarea($settings['footer_description'] ?? 'Helping Bangladeshi students make informed international study decisions with clear counselling, application guidance and practical support from shortlist to departure.'); ?></textarea>
+                        </div>
+                        <div class="uturnedu-form-group" style="grid-column: span 2;">
+                            <label class="uturnedu-label">Footer copyright line</label>
+                            <input type="text" name="footer_copyright" class="uturnedu-input" value="<?php echo esc_attr($settings['footer_copyright'] ?? 'All Rights Reserved.'); ?>">
+                        </div>
                     </div>
                 </div>
 
@@ -1003,6 +1093,18 @@ function uturnedu_render_dashboard_page() {
                         <div class="uturnedu-form-group"><label class="uturnedu-label">Admission counselor image</label><div class="uturnedu-media-row"><input type="url" id="uturnedu-about-admission-image" name="about_admission_image" class="uturnedu-input" value="<?php echo esc_attr($settings['about_admission_image'] ?? ''); ?>" placeholder="Default theme image"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-about-admission-image">Choose image</button></div></div>
                         <div class="uturnedu-form-group"><label class="uturnedu-label">Visa counselor image</label><div class="uturnedu-media-row"><input type="url" id="uturnedu-about-visa-image" name="about_visa_image" class="uturnedu-input" value="<?php echo esc_attr($settings['about_visa_image'] ?? ''); ?>" placeholder="Default theme image"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-about-visa-image">Choose image</button></div></div>
                         <div class="uturnedu-form-group"><label class="uturnedu-label">Asia-Pacific counselor image</label><div class="uturnedu-media-row"><input type="url" id="uturnedu-about-asia-image" name="about_asia_image" class="uturnedu-input" value="<?php echo esc_attr($settings['about_asia_image'] ?? ''); ?>" placeholder="Default theme image"><button type="button" class="uturnedu-media-button" data-media-target="uturnedu-about-asia-image">Choose image</button></div></div>
+                    </div>
+                </div>
+
+                <div class="uturnedu-card" style="margin-bottom:24px;">
+                    <h2 style="margin:0 0 6px 0; font-size:18px; font-weight:700;">✎ Core Page Copy</h2>
+                    <p style="margin:0 0 20px 0; font-size:13px; color:#64748B;">Update the hero title and introduction shown on the main About, Services, Contact, Apply and Consultation pages.</p>
+                    <div class="uturnedu-core-page-copy-grid">
+                        <div class="uturnedu-form-group"><label class="uturnedu-label">About page title</label><input type="text" name="about_hero_title" class="uturnedu-input" value="<?php echo esc_attr($settings['about_hero_title'] ?? 'About ILMA Education Consultancy'); ?>"><label class="uturnedu-label">About page introduction</label><textarea name="about_hero_intro" class="uturnedu-textarea" rows="2"><?php echo esc_textarea($settings['about_hero_intro'] ?? 'Practical, ethical and student-first guidance for your study abroad journey.'); ?></textarea></div>
+                        <div class="uturnedu-form-group"><label class="uturnedu-label">Services page title</label><input type="text" name="services_hero_title" class="uturnedu-input" value="<?php echo esc_attr($settings['services_hero_title'] ?? 'Our Services'); ?>"><label class="uturnedu-label">Services page introduction</label><textarea name="services_hero_intro" class="uturnedu-textarea" rows="2"><?php echo esc_textarea($settings['services_hero_intro'] ?? 'Explore practical support for each important decision in your application journey.'); ?></textarea></div>
+                        <div class="uturnedu-form-group"><label class="uturnedu-label">Contact page title</label><input type="text" name="contact_hero_title" class="uturnedu-input" value="<?php echo esc_attr($settings['contact_hero_title'] ?? 'Contact ILMA Education Consultancy'); ?>"><label class="uturnedu-label">Contact page introduction</label><textarea name="contact_hero_intro" class="uturnedu-textarea" rows="2"><?php echo esc_textarea($settings['contact_hero_intro'] ?? 'Have questions about entry requirements, study destinations or your next application step?'); ?></textarea></div>
+                        <div class="uturnedu-form-group"><label class="uturnedu-label">Apply page title</label><input type="text" name="apply_hero_title" class="uturnedu-input" value="<?php echo esc_attr($settings['apply_hero_title'] ?? 'Start your study abroad application'); ?>"><label class="uturnedu-label">Apply page introduction</label><textarea name="apply_hero_intro" class="uturnedu-textarea" rows="2"><?php echo esc_textarea($settings['apply_hero_intro'] ?? 'Share your profile and our advisors will help you understand suitable destinations and next steps.'); ?></textarea></div>
+                        <div class="uturnedu-form-group"><label class="uturnedu-label">Consultation page title</label><input type="text" name="reserve_hero_title" class="uturnedu-input" value="<?php echo esc_attr($settings['reserve_hero_title'] ?? 'Reserve In-Person Consultation'); ?>"><label class="uturnedu-label">Consultation page introduction</label><textarea name="reserve_hero_intro" class="uturnedu-textarea" rows="2"><?php echo esc_textarea($settings['reserve_hero_intro'] ?? 'Schedule a dedicated 1-on-1 counselling session at our Mohammadpur office.'); ?></textarea></div>
                     </div>
                 </div>
 
@@ -1055,6 +1157,22 @@ function uturnedu_render_dashboard_page() {
                         <div class="uturnedu-form-group">
                             <label class="uturnedu-label">Support / Senior Counselor Email</label>
                             <input type="email" name="email_support" class="uturnedu-input" value="<?php echo esc_attr($settings['email_support'] ?? 'rawshan@ilmaedubd.com'); ?>">
+                        </div>
+
+                        <div class="uturnedu-form-group">
+                            <label class="uturnedu-label">Form notification email</label>
+                            <input type="email" name="form_notification_email" class="uturnedu-input" value="<?php echo esc_attr($settings['form_notification_email'] ?? $settings['email_primary'] ?? 'info@ilmaedubd.com'); ?>">
+                            <span class="uturnedu-help">Destination for future email notifications from website forms.</span>
+                        </div>
+
+                        <div class="uturnedu-form-group">
+                            <label class="uturnedu-label">Auto-reply preference</label>
+                            <select name="form_auto_reply_enabled" class="uturnedu-select"><option value="no" <?php selected($settings['form_auto_reply_enabled'] ?? 'no', 'no'); ?>>Do not send auto-reply</option><option value="yes" <?php selected($settings['form_auto_reply_enabled'] ?? 'no', 'yes'); ?>>Send auto-reply when configured</option></select>
+                        </div>
+
+                        <div class="uturnedu-form-group" style="grid-column: span 2;">
+                            <label class="uturnedu-label">Form success message</label>
+                            <textarea name="form_success_message" class="uturnedu-textarea" rows="2"><?php echo esc_textarea($settings['form_success_message'] ?? 'Thank you. Our team will review your details and contact you shortly.'); ?></textarea>
                         </div>
 
                         <div class="uturnedu-form-group">

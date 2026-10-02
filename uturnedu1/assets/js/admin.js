@@ -14,6 +14,29 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   tabBtns.forEach((btn) => btn.addEventListener('click', () => activateTab(btn.dataset.tab, true)));
+  document.querySelectorAll('[data-tab-jump]').forEach((jump) => {
+    jump.addEventListener('click', () => activateTab(jump.dataset.tabJump, true));
+  });
+  // Lightweight lead details drawer keeps the inbox scannable while exposing the full record.
+  const leadDrawer = document.createElement('div');
+  leadDrawer.className = 'uturnedu-lead-drawer';
+  leadDrawer.setAttribute('aria-hidden', 'true');
+  leadDrawer.innerHTML = '<div class="uturnedu-lead-drawer-backdrop" data-lead-close></div><aside class="uturnedu-lead-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="uturnedu-lead-drawer-title"><button type="button" class="uturnedu-lead-drawer-close" data-lead-close aria-label="Close lead details">×</button><span class="uturnedu-section-eyebrow">Lead details</span><h2 id="uturnedu-lead-drawer-title">Student enquiry</h2><div class="uturnedu-lead-detail-grid"><div><small>Name</small><strong data-lead-detail="name"></strong></div><div><small>Status</small><strong data-lead-detail="status"></strong></div><div><small>Phone</small><strong data-lead-detail="phone"></strong></div><div><small>Email</small><strong data-lead-detail="email"></strong></div><div><small>Country / interest</small><strong data-lead-detail="country"></strong></div><div><small>Source</small><strong data-lead-detail="source"></strong></div><div><small>Received</small><strong data-lead-detail="received"></strong></div></div><div class="uturnedu-lead-detail-message"><small>Message / notes</small><p data-lead-detail="message"></p></div></aside></div>';
+  document.body.appendChild(leadDrawer);
+  const closeLeadDrawer = () => { leadDrawer.classList.remove('is-open'); leadDrawer.setAttribute('aria-hidden', 'true'); };
+  leadDrawer.querySelectorAll('[data-lead-close]').forEach((control) => control.addEventListener('click', closeLeadDrawer));
+  document.querySelectorAll('.uturnedu-view-lead').forEach((button) => {
+    button.addEventListener('click', () => {
+      ['name', 'status', 'phone', 'email', 'country', 'source', 'received', 'message'].forEach((key) => {
+        const target = leadDrawer.querySelector(`[data-lead-detail="${key}"]`);
+        if (target) target.textContent = button.dataset[`lead${key.charAt(0).toUpperCase()}${key.slice(1)}`] || '—';
+      });
+      leadDrawer.classList.add('is-open');
+      leadDrawer.setAttribute('aria-hidden', 'false');
+      leadDrawer.querySelector('.uturnedu-lead-drawer-close').focus();
+    });
+  });
+
   const queryTab = new URLSearchParams(window.location.search).get('tab');
   const initialTab = window.location.hash.replace('#', '') || (queryTab ? `tab-${queryTab}` : 'tab-overview');
   activateTab(document.getElementById(initialTab) ? initialTab : 'tab-overview', false);
@@ -112,6 +135,16 @@ document.addEventListener('DOMContentLoaded', function () {
     target.addEventListener('change', renderMediaState);
     renderMediaState();
   });
+
+  const contentSearch = document.querySelector('[data-content-search]');
+  if (contentSearch) {
+    contentSearch.addEventListener('input', () => {
+      const needle = contentSearch.value.trim().toLowerCase();
+      document.querySelectorAll('[data-content-library] article').forEach((item) => {
+        item.hidden = Boolean(needle) && !item.textContent.toLowerCase().includes(needle);
+      });
+    });
+  }
 
   // Quick filters in Content Studio keep the library calm on sites with many items.
   document.querySelectorAll('[data-content-filter]').forEach((filterButton) => {

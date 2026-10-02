@@ -1016,3 +1016,69 @@ button.uturnedu-mini-stat {
   .uturnedu-media-preview { align-self: flex-start; }
   .uturnedu-dash-brand { align-items: flex-start; }
 }
+
+/* ==========================================================================
+   Dedicated ILMA dashboard controls: forms, lead drawer and safe filters.
+   ========================================================================== */
+.uturnedu-core-page-copy-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.uturnedu-core-page-copy-grid .uturnedu-form-group { padding: 14px; border: 1px solid #edf2f7; border-radius: 10px; background: #fbfdff; }
+.uturnedu-core-page-copy-grid .uturnedu-label { margin-top: 0; }
+.uturnedu-dashboard-stat-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; margin-top: 16px; overflow: hidden; border: 1px solid #e2e8f0; border-radius: 12px; background: #e2e8f0; }
+.uturnedu-dashboard-stat-strip > div { display: flex; min-width: 0; flex-direction: column; gap: 3px; padding: 13px 14px; background: #fff; }
+.uturnedu-dashboard-stat-strip span { color: #64748b; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+.uturnedu-dashboard-stat-strip strong { color: #0f172a; font-size: 21px; line-height: 1.1; }
+.uturnedu-dashboard-stat-strip small { color: #94a3b8; font-size: 10px; }
+.uturnedu-content-search { width: 170px; min-height: 38px; padding: 8px 11px; border: 1px solid #bfdbfe; border-radius: 8px; background: #fff; color: #0f172a; font-size: 12px; }
+.uturnedu-content-search:focus { outline: 2px solid rgba(37, 99, 235, .2); border-color: #60a5fa; }
+.uturnedu-dashboard-wrap [hidden] { display: none !important; }
+.uturnedu-filter-date { display: flex; align-items: center; gap: 5px; color: #64748b; font-size: 10px; font-weight: 800; white-space: nowrap; }
+.uturnedu-filter-date .uturnedu-input { min-width: 130px; }
+.uturnedu-view-lead { display: block; margin-top: 5px; padding: 0; border: 0; background: transparent; color: #2563eb; font-size: 10px; font-weight: 800; cursor: pointer; }
+.uturnedu-crm-delete { display: inline-block; margin-top: 6px; color: #dc2626; font-size: 10px; font-weight: 700; text-decoration: none; }
+.uturnedu-crm-delete:hover { text-decoration: underline; }
+.uturnedu-view-lead:hover { color: #1e40af; text-decoration: underline; }
+.uturnedu-form-overview-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 18px; }
+.uturnedu-form-overview-grid .uturnedu-card { margin: 0; }
+.uturnedu-form-overview-grid .uturnedu-mini-stat-icon { margin-bottom: 12px; }
+.uturnedu-form-overview-grid strong { display: block; color: #0f172a; font-size: 25px; line-height: 1; }
+.uturnedu-form-overview-grid h3 { margin: 8px 0 5px; color: #0f172a; font-size: 14px; }
+.uturnedu-form-overview-grid p { min-height: 38px; margin: 0 0 13px; color: #64748b; font-size: 12px; line-height: 1.5; }
+.uturnedu-form-overview-grid .uturnedu-text-action { padding: 0; border: 0; background: transparent; cursor: pointer; }
+.uturnedu-form-status { display: inline-block; padding: 4px 8px; border-radius: 999px; background: #dcfce7; color: #166534; font-size: 10px; font-weight: 800; }
+.uturnedu-form-settings-card { margin-bottom: 18px; }
+.uturnedu-form-connection-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.uturnedu-form-connection-list > div { display: flex; flex-direction: column; gap: 4px; padding: 12px; border: 1px solid #edf2f7; border-radius: 9px; background: #fbfdff; }
+.uturnedu-form-connection-list span { color: #64748b; font-size: 10px; }
+.uturnedu-form-connection-list strong { overflow-wrap: anywhere; color: #0f172a; font-size: 11px; }
+.uturnedu-lead-drawer { position: fixed; z-index: 100000; inset: 0; pointer-events: none; visibility: hidden; }
+.uturnedu-lead-drawer.is-open { pointer-events: auto; visibility: visible; }
+.uturnedu-lead-drawer-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, .45); opacity: 0; transition: opacity .2s ease; }
+.uturnedu-lead-drawer-panel { position: absolute; top: 0; right: 0; display: flex; width: min(440px, 100%); height: 100%; box-sizing: border-box; flex-direction: column; padding: 34px 28px; overflow-y: auto; background: #fff; box-shadow: -15px 0 40px rgba(15, 23, 42, .16); transform: translateX(100%); transition: transform .25s ease; }
+.uturnedu-lead-drawer.is-open .uturnedu-lead-drawer-backdrop { opacity: 1; }
+.uturnedu-lead-drawer.is-open .uturnedu-lead-drawer-panel { transform: translateX(0); }
+.uturnedu-lead-drawer-close { position: absolute; top: 15px; right: 18px; width: 32px; height: 32px; border: 0; border-radius: 8px; background: #f1f5f9; color: #475569; font-size: 22px; line-height: 1; cursor: pointer; }
+.uturnedu-lead-drawer-panel h2 { margin: 5px 0 22px; color: #0f172a; font-size: 23px; }
+.uturnedu-lead-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.uturnedu-lead-detail-grid > div, .uturnedu-lead-detail-message { display: flex; flex-direction: column; gap: 4px; padding: 11px; border: 1px solid #e5eaf1; border-radius: 9px; background: #fbfdff; }
+.uturnedu-lead-detail-grid small, .uturnedu-lead-detail-message small { color: #94a3b8; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.uturnedu-lead-detail-grid strong { overflow-wrap: anywhere; color: #0f172a; font-size: 12px; }
+.uturnedu-lead-detail-message { margin-top: 12px; }
+.uturnedu-lead-detail-message p { min-height: 80px; margin: 0; color: #475569; font-size: 12px; line-height: 1.6; white-space: pre-wrap; }
+
+@media (max-width: 1000px) {
+  .uturnedu-dashboard-stat-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .uturnedu-form-connection-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .uturnedu-core-page-copy-grid { grid-template-columns: 1fr; }
+  .uturnedu-dashboard-stat-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .uturnedu-form-overview-grid { grid-template-columns: 1fr; }
+  .uturnedu-form-overview-grid p { min-height: auto; }
+}
+@media (max-width: 600px) {
+  .uturnedu-dashboard-stat-strip { grid-template-columns: 1fr 1fr; }
+  .uturnedu-form-connection-list, .uturnedu-lead-detail-grid { grid-template-columns: 1fr; }
+  .uturnedu-content-search { width: 100%; }
+  .uturnedu-filter-date { align-items: stretch; flex-direction: column; }
+  .uturnedu-filter-date .uturnedu-input { min-width: 0; width: 100%; }
+}
