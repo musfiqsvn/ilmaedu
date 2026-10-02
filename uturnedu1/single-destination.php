@@ -27,7 +27,7 @@ $psw          = get_post_meta(get_the_ID(), '_dest_psw', true) ?: $catalog['psw'
 $ielts        = get_post_meta(get_the_ID(), '_dest_ielts', true) ?: $catalog['ielts'];
 $universities = get_post_meta(get_the_ID(), '_dest_universities', true);
 $universities = $universities ? array_filter(array_map('trim', explode(',', $universities))) : $catalog['universities'];
-$whatsapp     = uturnedu_whatsapp_url('Hello ILMA Education, I would like to discuss studying in ' . $title . '.');
+$whatsapp     = uturnedu_whatsapp_url('Hello ILMA Education Consultancy, I would like to discuss studying in ' . $title . '.');
 ?>
 
 <main>
@@ -94,7 +94,7 @@ $whatsapp     = uturnedu_whatsapp_url('Hello ILMA Education, I would like to dis
     </div>
   </section>
 
-  <section id="apply" class="section destination-apply-section" aria-labelledby="apply-title"><div class="container"><div class="destination-apply-panel"><div><span class="section-badge section-badge-dark">04 · Apply now</span><h2 id="apply-title">Ready to discuss <?php echo esc_html($title); ?>?</h2><p>When you are ready, ILMA can help you turn your shortlist into a clear application conversation.</p></div><div class="destination-apply-actions"><button type="button" class="btn btn-accent btn-lg open-consultancy-modal" data-country="<?php echo esc_attr($title); ?>">Apply now <span aria-hidden="true">↗</span></button><?php if ($whatsapp): ?><a href="<?php echo esc_url($whatsapp); ?>" class="btn btn-whatsapp btn-lg" target="_blank" rel="noopener">Chat with Us <span aria-hidden="true">↗</span></a><?php endif; ?></div></div></div></section>
+  <section id="apply" class="section destination-apply-section" aria-labelledby="apply-title"><div class="container"><div class="destination-apply-panel"><div><span class="section-badge section-badge-dark">04 · Apply now</span><h2 id="apply-title">Ready to discuss <?php echo esc_html($title); ?>?</h2><p>When you are ready, Our team can help you turn your shortlist into a clear application conversation.</p></div><div class="destination-apply-actions"><button type="button" class="btn btn-accent btn-lg open-consultancy-modal" data-country="<?php echo esc_attr($title); ?>">Apply now <span aria-hidden="true">↗</span></button><?php if ($whatsapp): ?><a href="<?php echo esc_url($whatsapp); ?>" class="btn btn-whatsapp btn-lg" target="_blank" rel="noopener">Chat with Us <span aria-hidden="true">↗</span></a><?php endif; ?></div></div></div></section>
 </main>
 
 <?php get_footer(); ?>

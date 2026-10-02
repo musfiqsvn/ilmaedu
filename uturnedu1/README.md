@@ -17,8 +17,8 @@ A self-contained WordPress theme for ILMA Education Consultancy. The theme keeps
   - Universities to explore
   - Check your eligibility
   - Apply now
-- Original ILMA service content covering selection, eligibility, applications, visas, scholarships, pre-departure and post-study planning.
-- Dedicated Why Select ILMA, process, contact and WhatsApp conversion areas.
+- Original service content covering selection, eligibility, applications, visas, scholarships, pre-departure and post-study planning.
+- Dedicated Why select us, process, contact and WhatsApp conversion areas.
 - Configurable WhatsApp number in **UTurnEdu Settings**. It is used by the floating action, CTA links and contact areas rather than repeated hardcoded links.
 - Accessible mobile drawer, focus states, labelled forms and reduced-motion support.
 

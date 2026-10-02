@@ -123,7 +123,7 @@ function uturnedu_ajax_submit_contact() {
     }
 
     wp_send_json_success([
-        'message' => __('Thank you for contacting ILMA Education. We will reply to your message promptly.', 'uturnedu1')
+        'message' => __('Thank you for contacting ILMA Education Consultancy. We will reply to your message promptly.', 'uturnedu1')
     ]);
 }
 add_action('wp_ajax_uturnedu_submit_contact', 'uturnedu_ajax_submit_contact');

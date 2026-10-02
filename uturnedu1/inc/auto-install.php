@@ -44,7 +44,7 @@ function uturnedu_run_auto_installer($force = false) {
             'title'     => 'Our Services',
             'slug'      => 'services',
             'template'  => 'page-services.php',
-            'content'   => 'Comprehensive, 100% free education consultancy services tailored to your academic dreams.'
+            'content'   => 'Practical education consultancy guidance tailored to your academic goals.'
         ],
         'reserve-consultation' => [
             'title'     => 'Reserve In-Person Consultation',
@@ -98,7 +98,7 @@ function uturnedu_run_auto_installer($force = false) {
             'title'     => 'Refund Policy',
             'slug'      => 'refund-policy',
             'template'  => 'page-legal.php',
-            'content'   => 'ILMA Education Consultancy provides 100% free guidance and transparent policies regarding third-party university fees.'
+            'content'   => 'ILMA Education Consultancy provides clear guidance and transparent information about third-party university fees.'
         ],
     ];
 
@@ -148,7 +148,7 @@ function uturnedu_run_auto_installer($force = false) {
             // Add items
             $nav_items = [
                 ['title' => 'Study Destinations', 'url' => home_url('/destinations/')],
-                ['title' => 'Why Select ILMA', 'url' => home_url('/#why-ilma')],
+                ['title' => 'Why select us', 'url' => home_url('/#why-ilma')],
                 ['title' => 'About', 'url' => home_url('/about/')],
                 ['title' => 'Services', 'url' => home_url('/services/')],
                 ['title' => 'Contact Us', 'url' => home_url('/contact/')],
@@ -232,13 +232,13 @@ function uturnedu_run_auto_installer($force = false) {
             'icon'    => '✈️',
             'badge'   => 'High Success Rate',
             'process' => "1. Financial Assessment & Document Verification\n2. SOP & Cover Letter Formulation\n3. Biometrics & Embassy Interview Mock Prep\n4. Visa Submission & Tracking",
-            'content' => "Navigating international visa requirements can be complex. ILMA Education Consultancy provides step-by-step guidance, rigorous financial documentation checks, mock interview training, and genuine SOP reviews ensuring 98%+ success.",
+            'content' => "Navigating international visa requirements can be complex. ILMA Education Consultancy provides step-by-step guidance, rigorous financial documentation checks, mock interview training, and genuine SOP reviews and careful document preparation.",
         ],
         [
             'title'   => 'University & Course Selection',
             'slug'    => 'university-course-selection',
             'icon'    => '🎓',
-            'badge'   => '100% Free',
+            'badge'   => 'Free initial guidance',
             'process' => "1. Academic & Budget Profile Analysis\n2. Country & Course Shortlisting\n3. Intake Timeline Planning\n4. Application Submission to Multiple Partner Unis",
             'content' => "Our advisors help you compare courses and universities across the United Kingdom, New Zealand, Canada, Malaysia, South Korea and Japan so your shortlist reflects your academic background and future goals.",
         ],
@@ -318,7 +318,7 @@ function uturnedu_run_auto_installer($force = false) {
             'university' => 'Waseda University',
             'program'    => 'Business and Technology pathway',
             'rating'     => '5',
-            'content'    => 'The ILMA team helped me compare my options, organise my documents and understand the steps for applying to Japan. The process felt clear and personal.',
+            'content'    => 'The ILMA Education Consultancy team helped me compare my options, organise my documents and understand the steps for applying to Japan. The process felt clear and personal.',
         ],
         [
             'title'      => 'Farhana Rahman',
@@ -326,7 +326,7 @@ function uturnedu_run_auto_installer($force = false) {
             'university' => 'Hanyang University',
             'program'    => 'Technology and engineering pathway',
             'rating'     => '5',
-            'content'    => 'ILMA helped me understand the requirements for a South Korea application and prepare my documents in a much more organised way. I always knew what to do next.',
+            'content'    => 'ILMA Education Consultancy helped me understand the requirements for a South Korea application and prepare my documents in a much more organised way. I always knew what to do next.',
         ],
     ];
 
@@ -442,7 +442,7 @@ function uturnedu_run_auto_installer($force = false) {
         [
             'title'   => 'How to Prepare for Higher Study Abroad: 7 Step Roadmap',
             'slug'    => 'how-to-prepare-for-higher-study-abroad',
-            'content' => "Starting your study abroad journey early gives you the best chance of scoring top scholarships and getting your visa on time. Follow this 7-step proven roadmap formulated by ILMA Education counselors.\n\n### The 7 Steps:\n1. Transcript & Certificate Preparation\n2. IELTS / PTE / Duolingo Preparation\n3. Country & University Matching\n4. Recommendation Letters & SOP Drafting\n5. Financial Planning & Bank Statement Readiness\n6. Application Submission across Multiple Intakes\n7. Visa File Processing & Mock Interviews",
+            'content' => "Starting your study abroad journey early gives you the best chance of scoring top scholarships and getting your visa on time. Follow this 7-step proven roadmap formulated by ILMA Education Consultancy counselors.\n\n### The 7 Steps:\n1. Transcript & Certificate Preparation\n2. IELTS / PTE / Duolingo Preparation\n3. Country & University Matching\n4. Recommendation Letters & SOP Drafting\n5. Financial Planning & Bank Statement Readiness\n6. Application Submission across Multiple Intakes\n7. Visa File Processing & Mock Interviews",
         ],
         [
             'title'   => 'Get Tuition-Free & High Scholarship Opportunities in Canada',
@@ -475,7 +475,7 @@ function uturnedu_run_auto_installer($force = false) {
                 'image'     => get_template_directory_uri() . '/assets/images/hero-students-2026.jpg',
             ],
             [
-                'title'     => 'Header Flash Notice: 100% Free Consultation Days',
+                'title'     => 'Header Flash Notice: Free consultation days',
                 'placement' => 'header_top',
                 'url'       => home_url('/reserve-consultation/'),
                 'image'     => '',
@@ -511,18 +511,18 @@ function uturnedu_run_auto_installer($force = false) {
         'phone_hotline'         => '+880 1848-638406',
         'email_primary'         => 'info@ilmaedubd.com',
         'email_support'         => 'rawshan@ilmaedubd.com',
-        'stat_universities'     => '100+',
-        'stat_free_consult'     => '100%',
-        'stat_successful_apps'  => '367+',
-        'stat_counselors'       => '09+',
+        'stat_universities'     => '',
+        'stat_free_consult'     => '',
+        'stat_successful_apps'  => '',
+        'stat_counselors'       => '',
         'facebook_url'          => 'https://www.facebook.com/ilmaeducationbd',
         'instagram_url'         => 'https://www.instagram.com/ilmaeducation',
         'youtube_url'           => 'https://www.youtube.com/@ilmaeducation',
         'whatsapp_number'       => '+8801848638406',
         'popup_enabled'         => 'yes',
         'popup_delay'           => '5',
-        'popup_heading'         => 'Start Your Study Abroad Journey with 100% Free Guidance!',
-        'popup_subheading'      => 'Meet certified counselors at our office or get immediate profile assessment.',
+        'popup_heading'         => 'Start your study abroad journey with clear, practical guidance.',
+        'popup_subheading'      => 'Meet our counselors at the office or request a practical profile review.'
         'popup_cta_text'        => 'Book Free Consultation',
         'popup_cta_action'      => 'modal',
         'popup_frequency'       => 'session',
@@ -532,6 +532,52 @@ function uturnedu_run_auto_installer($force = false) {
     update_option('uturnedu_setup_version', $target_version);
     update_option('uturnedu_installed', 1);
 }
+
+/** Apply safe copy polish to an already-created primary menu without overwriting user-managed content. */
+function uturnedu_migrate_public_copy_polish() {
+    if (get_option('uturnedu_copy_polish_version') === '1.0.0') {
+        return;
+    }
+    $menu = wp_get_nav_menu_object('Primary Menu');
+    if ($menu) {
+        foreach ((array) wp_get_nav_menu_items($menu->term_id) as $item) {
+            if ($item->title === 'Why Select ILMA' || $item->title === 'Why select ILMA') {
+                wp_update_nav_menu_item($menu->term_id, $item->ID, ['menu-item-title' => 'Why select us']);
+            }
+        }
+    }
+    $settings = get_option('uturnedu_settings', []);
+    $safe_defaults = [
+        'popup_heading' => ['Start Your Study Abroad Journey with 100% Free Guidance!', 'Start your study abroad journey with clear, practical guidance.'],
+        'stat_universities' => ['100+', ''],
+        'stat_free_consult' => ['100%', ''],
+        'stat_successful_apps' => ['367+', ''],
+        'stat_counselors' => ['09+', ''],
+    ];
+    foreach ($safe_defaults as $key => $values) {
+        if (($settings[$key] ?? '') === $values[0]) {
+            $settings[$key] = $values[1];
+        }
+    }
+    update_option('uturnedu_settings', $settings);
+    $homepage = get_option('uturnedu_homepage_content', []);
+    $homepage_copy = [
+        'why_kicker' => ['Why select ILMA', 'Why select us'],
+        'services_kicker' => ['How ILMA helps', 'How we help'],
+        'contact_kicker' => ['Contact ILMA', 'Contact us'],
+        'video_title' => ['See how ILMA helps students move forward', 'See how we help students move forward'],
+    ];
+    foreach ($homepage_copy as $key => $values) {
+        if (($homepage[$key] ?? '') === $values[0]) {
+            $homepage[$key] = $values[1];
+        }
+    }
+    if (is_array($homepage) && $homepage) {
+        update_option('uturnedu_homepage_content', $homepage);
+    }
+    update_option('uturnedu_copy_polish_version', '1.0.0');
+}
+add_action('admin_init', 'uturnedu_migrate_public_copy_polish', 20);
 
 // Hook on theme activation
 add_action('after_switch_theme', 'uturnedu_run_auto_installer');

@@ -47,7 +47,7 @@ get_header();
         <div style="flex: 1; min-width: 240px;">
           <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Guidance by ILMA Education Consultancy</h3>
           <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0;">
-            Serving Bangladeshi students with 100% free international admission and visa counseling since 2013 at CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh
+            Serving Bangladeshi students with practical international admission and visa guidance from CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh
           </p>
         </div>
         <div>

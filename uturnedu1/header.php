@@ -28,7 +28,7 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
   if (is_singular('destination')) {
       $meta_description = 'Study in ' . get_the_title() . ' with ILMA Education Consultancy. Explore universities, entry considerations and your next application step.';
   } elseif (is_page('contact')) {
-      $meta_description = 'Contact ILMA Education Consultancy for practical guidance on study destinations, university applications and eligibility.';
+      $meta_description = 'Contact us for practical guidance on study destinations, university applications and eligibility.';
   } elseif (is_page('apply-now')) {
       $meta_description = 'Start your study abroad application with ILMA Education Consultancy. Share your profile for practical destination and application guidance.';
   }
@@ -43,7 +43,7 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
     "name": "ILMA Education Consultancy",
     "url": "<?php echo esc_url(home_url('/')); ?>",
     "logo": "<?php echo esc_url($logo_rgb); ?>",
-    "description": "International Application Processing Centre dedicated to guiding students into leading universities worldwide since 2013.",
+    "description": "International education guidance focused on clear study options, applications and next steps.",
     "telephone": "<?php echo esc_js($settings['phone_primary'] ?? '+8801848638406'); ?>",
     "email": "info@ilmaedubd.com",
     "address": {
@@ -78,7 +78,7 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
       ?>
       <div class="top-notice-bar">
         <span>⚡ 2026/2027 Admissions Open!</span>
-        <span><?php echo esc_html($h_ad->post_title); ?> — Apply with 100% Free Processing.</span>
+        <span><?php echo esc_html($h_ad->post_title); ?> — Apply with clear guidance.</span>
         <a href="<?php echo esc_url(home_url('/#eligibility')); ?>" class="track-ad-click" data-ad-id="<?php echo esc_attr($h_ad->ID); ?>">Check your eligibility →</a>
       </div>
       <?php
@@ -102,8 +102,8 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
         <a href="<?php echo esc_url(home_url('/')); ?>" class="brand-logo" title="ILMA Education Consultancy">
           <img src="<?php echo esc_url($logo_rgb); ?>" alt="ILMA Education Consultancy Logo" width="55" height="50">
           <div class="brand-text-wrap">
-            <span class="brand-title">ILMA</span>
-            <span class="brand-sub">Education Consultancy</span>
+            <span class="brand-title">ILMA Education Consultancy</span>
+            <span class="brand-sub">Study Abroad Guidance</span>
           </div>
         </a>
 
@@ -133,7 +133,7 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
               </ul>
             </li>
 
-            <li class="nav-item"><a href="<?php echo esc_url(home_url('/#why-ilma')); ?>" class="nav-link">Why Select ILMA</a></li>
+            <li class="nav-item"><a href="<?php echo esc_url(home_url('/#why-ilma')); ?>" class="nav-link">Why select us</a></li>
             <li class="nav-item"><a href="<?php echo esc_url(home_url('/about/')); ?>" class="nav-link <?php echo is_page('about') ? 'active' : ''; ?>">About</a></li>
 
             <li class="nav-item">
@@ -182,10 +182,10 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
   <aside id="mobile-navigation" class="mobile-drawer" aria-label="Mobile navigation">
     <div class="drawer-header">
       <div class="brand-logo">
-        <img src="<?php echo esc_url($logo_rgb); ?>" alt="ILMA Logo" width="45" height="40">
+        <img src="<?php echo esc_url($logo_rgb); ?>" alt="ILMA Education Consultancy logo" width="45" height="40">
         <div class="brand-text-wrap">
-          <span class="brand-title">ILMA</span>
-          <span class="brand-sub">Education Consultancy</span>
+          <span class="brand-title">ILMA Education Consultancy</span>
+          <span class="brand-sub">Study Abroad Guidance</span>
         </div>
       </div>
       <button type="button" class="close-drawer-btn" aria-label="Close mobile menu" style="background: none; border: none; cursor: pointer; color: var(--text-main); font-size: 1.5rem;">✕</button>
@@ -193,7 +193,7 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
 
     <ul class="mobile-nav-list">
       <li><a href="<?php echo esc_url(home_url('/destinations/')); ?>" class="mobile-nav-link">Study Destinations</a></li>
-      <li><a href="<?php echo esc_url(home_url('/#why-ilma')); ?>" class="mobile-nav-link">Why Select ILMA</a></li>
+      <li><a href="<?php echo esc_url(home_url('/#why-ilma')); ?>" class="mobile-nav-link">Why select us</a></li>
       <li><a href="<?php echo esc_url(home_url('/about/')); ?>" class="mobile-nav-link">About</a></li>
       <li><a href="<?php echo esc_url(home_url('/services/')); ?>" class="mobile-nav-link">Services</a></li>
       <li><a href="<?php echo esc_url(home_url('/contact/')); ?>" class="mobile-nav-link">Contact Us</a></li>

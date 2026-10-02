@@ -86,7 +86,7 @@ function uturnedu_admin_enqueue_scripts($hook) {
     if (strpos($hook, 'uturnedu') !== false || strpos($hook, 'uturnedu_dashboard') !== false) {
         wp_enqueue_style('uturnedu-google-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap', [], null);
         wp_enqueue_style('uturnedu-admin-css', get_template_directory_uri() . '/assets/css/admin.css', [], '2.2.0');
-        wp_enqueue_script('uturnedu-admin-js', get_template_directory_uri() . '/assets/js/admin.js', ['jquery'], '2.2.0', true);
+        wp_enqueue_script('uturnedu-admin-js', get_template_directory_uri() . '/assets/js/admin.js', ['jquery'], '2.2.1', true);
         wp_localize_script('uturnedu-admin-js', 'uturneduAdminData', [
             'nonce' => wp_create_nonce('uturnedu_admin_nonce'),
         ]);
@@ -111,8 +111,11 @@ function uturnedu_custom_login_styles() {
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 16px 0;
+            box-sizing: border-box;
             position: relative;
             overflow-x: hidden;
         }
@@ -140,6 +143,8 @@ function uturnedu_custom_login_styles() {
         }
         #login {
             width: 420px !important;
+            max-width: calc(100vw - 32px) !important;
+            box-sizing: border-box !important;
             padding: 40px 30px !important;
             margin: auto !important;
             position: relative;
@@ -150,10 +155,21 @@ function uturnedu_custom_login_styles() {
             background-size: contain !important;
             background-position: center !important;
             background-repeat: no-repeat !important;
+            background-color: transparent !important;
+            display: block !important;
             width: 100% !important;
             height: 80px !important;
             margin-bottom: 24px !important;
+            text-indent: -9999px !important;
+            overflow: hidden !important;
             filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+        }
+        .login form,
+        .login #login_error,
+        .login .message,
+        .login .success {
+            box-sizing: border-box !important;
+            width: 100% !important;
         }
         .login form {
             background: rgba(255, 255, 255, 0.98) !important;
@@ -163,6 +179,13 @@ function uturnedu_custom_login_styles() {
             box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
             padding: 32px 28px !important;
         }
+        .login #login_error,
+        .login .message,
+        .login .success {
+            border-radius: 10px !important;
+            margin: 0 0 16px !important;
+            padding: 12px 14px !important;
+        }
         .login label {
             font-size: 13px !important;
             font-weight: 600 !important;
@@ -170,7 +193,11 @@ function uturnedu_custom_login_styles() {
             margin-bottom: 6px !important;
         }
         .login input[type="text"],
+        .login input[type="email"],
         .login input[type="password"] {
+            box-sizing: border-box !important;
+            width: 100% !important;
+            min-height: 44px !important;
             border: 1.5px solid #CBD5E1 !important;
             border-radius: 10px !important;
             padding: 10px 14px !important;
@@ -180,18 +207,21 @@ function uturnedu_custom_login_styles() {
             transition: all 0.2s ease !important;
         }
         .login input[type="text"]:focus,
+        .login input[type="email"]:focus,
         .login input[type="password"]:focus {
             border-color: #2563EB !important;
             background: #FFFFFF !important;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
         }
         .login .button.button-primary {
+            box-sizing: border-box !important;
             background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%) !important;
             border: none !important;
             border-radius: 10px !important;
             font-size: 15px !important;
             font-weight: 700 !important;
             padding: 10px 20px !important;
+            min-height: 44px !important;
             height: auto !important;
             width: 100% !important;
             margin-top: 15px !important;
@@ -242,6 +272,13 @@ function uturnedu_custom_login_styles() {
             font-size: 11px;
             color: #94A3B8;
             margin-top: 2px;
+        }
+        @media (max-width: 480px) {
+            body.login { padding: 12px 0 !important; }
+            #login { padding: 24px 16px !important; max-width: calc(100vw - 16px) !important; }
+            .login form { padding: 24px 18px !important; }
+            #login h1 a { height: 64px !important; margin-bottom: 16px !important; }
+            .uturn-login-badge { margin-top: 20px; padding: 10px 12px; }
         }
     </style>
     <?php

@@ -2648,7 +2648,7 @@ button:disabled { cursor: wait; opacity: 0.7; }
 .text-link-button { border: 0; padding: 0; background: transparent; color: var(--primary); font: inherit; font-weight: 800; cursor: pointer; }
 .text-link-button:hover { color: var(--primary-hover); text-decoration: underline; }
 
-/* Why select ILMA */
+/* Why select us */
 .split-section-heading { display: flex; justify-content: space-between; align-items: end; gap: 3rem; margin-bottom: 2.5rem; }
 .split-section-heading > div { max-width: 590px; }
 .split-section-heading > p { max-width: 430px; margin: 0 0 .2rem; font-size: .95rem; }
@@ -3010,4 +3010,14 @@ button:disabled { cursor: wait; opacity: 0.7; }
 @media (max-width: 560px) {
   .student-perspectives-grid { grid-template-columns: 1fr; }
   .perspective-card { min-height: 0; }
+}
+
+/* Keep the full organisation name readable without crowding desktop navigation. */
+@media (min-width: 992px) {
+  .brand-text-wrap { max-width: 190px; }
+  .brand-title { font-size: 1rem; }
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+  .brand-title { font-size: .92rem; }
+  .brand-sub { font-size: .62rem; }
 }

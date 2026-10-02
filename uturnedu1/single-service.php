@@ -26,7 +26,7 @@ $steps   = $process ? explode("\n", $process) : [];
     <div class="grid grid-2 gap-8 items-center">
       <div>
         <span class="section-badge section-badge-accent" style="margin-bottom: 1rem;">
-          100% Free Service
+          Free initial guidance
         </span>
 
         <h1 class="hero-title" style="font-size: clamp(2.2rem, 3.8vw, 3.2rem);">
@@ -87,7 +87,7 @@ $steps   = $process ? explode("\n", $process) : [];
       <!-- Sticky Sidebar -->
       <div>
         <div style="position: sticky; top: 100px; background: var(--surface-0); border: 1px solid var(--surface-200); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow-md);">
-          <span class="section-badge section-badge-accent" style="margin-bottom: 0.75rem;">100% Free Service</span>
+          <span class="section-badge section-badge-accent" style="margin-bottom: 0.75rem;">Free initial guidance</span>
           <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem;">Get Help with <?php the_title(); ?></h3>
           <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
             Fill in your details and our senior counselor will reach out to you within 24 hours.

@@ -17,7 +17,7 @@ get_header();
     <span class="section-badge">Comprehensive Support</span>
     <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;">Our Educational Consultancy Services</h1>
     <p style="max-width: 720px; margin: 0 auto; font-size: 1.1rem;">
-      ILMA Education Consultancy provides 100% free guidance from initial career counseling to flight orientation. Discover how our certified mentors support your journey.
+      ILMA Education Consultancy provides practical guidance from your first course conversation through application preparation and pre-departure planning.
     </p>
   </div>
 </section>
@@ -71,7 +71,7 @@ get_header();
 <section class="section section-bg-alt">
   <div class="container text-center">
     <div class="section-title-wrap">
-      <span class="section-badge section-badge-accent">100% Free Service</span>
+      <span class="section-badge section-badge-accent">Free initial guidance</span>
       <h2 class="section-title">Need Guidance with Your University Application?</h2>
       <p class="section-subtitle">
         Talk with our certified education counselors for an immediate profile audit.

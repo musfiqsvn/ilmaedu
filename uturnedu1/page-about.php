@@ -18,7 +18,7 @@ $settings = get_option('uturnedu_settings', []);
 
 <section class="section section-bg-alt" style="padding: 4rem 0 3rem 0;">
   <div class="container text-center">
-    <span class="section-badge">About Us Education Consultancy</span>
+    <span class="section-badge">About us</span>
     <h1 style="margin-top: 0.5rem; margin-bottom: 1rem;">Expand Your Journey to Global Insight</h1>
     <p style="max-width: 700px; margin: 0 auto; font-size: 1.1rem;">
       Helping ambitious Bangladeshi students explore university opportunities across the United Kingdom, New Zealand, Canada, Malaysia, South Korea, and Japan.
@@ -31,11 +31,11 @@ $settings = get_option('uturnedu_settings', []);
   <div class="container">
     <div class="grid grid-2 gap-10 items-center">
       <div>
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/counseling-session.jpg'); ?>" alt="ILMA Education Counselors" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); width: 100%;">
+        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/counseling-session.jpg'); ?>" alt="ILMA Education Consultancy counselors" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl); width: 100%;">
       </div>
 
       <div>
-        <span class="section-badge section-badge-accent">Our Journey Since 2013</span>
+        <span class="section-badge section-badge-accent">Our approach</span>
         <h2 style="margin-bottom: 1.25rem;">Authentic, Dependable &amp; Resourceful Guidance</h2>
 
         <p style="font-size: 1.05rem; line-height: 1.7; color: var(--text-main); font-weight: 500; margin-bottom: 1.25rem;">
@@ -43,21 +43,21 @@ $settings = get_option('uturnedu_settings', []);
         </p>
 
         <p style="margin-bottom: 1.25rem;">
-          The experienced team at ILMA Education Consultancy provides authentic, dependable, and resourceful guidance to students aspiring to study abroad. The well-trained counselors of ILMA Education Consultancy are dedicated to supporting students with comprehensive services whenever needed. Additionally, they receive ongoing training from industry experts to ensure their knowledge remains current and relevant.
+          The experienced team provides authentic, dependable and resourceful guidance to students aspiring to study abroad. Our counselors support students with practical services throughout the application journey and continue to develop their knowledge through ongoing professional training.
         </p>
 
         <p style="margin-bottom: 1.5rem;">
-          To inspiring intellectual adventure, ILMA Education Consultancy is also committed to providing top-quality marketing services to our partner education recruitment organizations. Our primary goal is to serve as a bridge between students and overseas educational institutions, ensuring that each student finds the best academic destination to match their goals and aspirations.
+          Alongside student guidance, ILMA Education Consultancy also supports education recruitment organisations with thoughtful, professional marketing services. Our primary goal is to serve as a bridge between students and overseas educational institutions, ensuring that each student finds the best academic destination to match their goals and aspirations.
         </p>
 
         <div class="grid grid-2 gap-4">
           <div style="background: var(--surface-50); border: 1px solid var(--surface-200); padding: 1.25rem; border-radius: var(--radius-md);">
-            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">100+</div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Global Universities</div>
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary);">6</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Study destinations</div>
           </div>
           <div style="background: var(--surface-50); border: 1px solid var(--surface-200); padding: 1.25rem; border-radius: var(--radius-md);">
-            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-red);">100% Free</div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Service Free Counseling</div>
+            <div style="font-size: 1.5rem; font-weight: 800; color: var(--accent-red);">Free</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Initial guidance</div>
           </div>
         </div>
       </div>
@@ -85,7 +85,7 @@ $settings = get_option('uturnedu_settings', []);
         </div>
         <h3 style="font-size: 1.3rem; margin-bottom: 0.75rem;">Our Vision</h3>
         <p style="font-size: 0.925rem;">
-          To become Bangladesh’s most trusted international education consultancy, recognized for ethical student recruitment, zero false promises, and exceptional visa success rates.
+          To be a trusted international education consultancy in Bangladesh, recognised for ethical student recruitment, clear communication and practical support.
         </p>
       </div>
 
@@ -95,7 +95,7 @@ $settings = get_option('uturnedu_settings', []);
         </div>
         <h3 style="font-size: 1.3rem; margin-bottom: 0.75rem;">Our Core Values</h3>
         <p style="font-size: 0.925rem;">
-          Integrity, 100% transparency in admission costs, student-first advocacy, continuous counselor professional development, and long-term mentorship.
+          Integrity, transparent guidance around admission costs, student-first advocacy, continuous counselor development and long-term mentorship.
         </p>
       </div>
     </div>
@@ -109,22 +109,22 @@ $settings = get_option('uturnedu_settings', []);
       <span class="section-badge">Expert Leadership</span>
       <h2 class="section-title">Dedicated Counselors at Your Service</h2>
       <p class="section-subtitle">
-        Our certified counseling team brings over a decade of hands-on expertise in international admissions and immigration guidelines.
+        Our counseling team brings practical experience in international admissions and current immigration guidance.
       </p>
     </div>
 
     <div class="grid grid-3 gap-8">
       <div class="card text-center">
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/WhatsApp-Image-2025-09-21-at-12.00.19-PM-819x1024.jpeg'); ?>" alt="ILMA Counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
+        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/WhatsApp-Image-2025-09-21-at-12.00.19-PM-819x1024.jpeg'); ?>" alt="ILMA Education Consultancy counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
         <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Senior Admission Director</h3>
         <div style="font-size: 0.85rem; color: var(--primary); font-weight: 700; margin-bottom: 0.75rem;">UK &amp; Canada Specialist</div>
         <p style="font-size: 0.875rem; color: var(--text-muted);">
-          10+ years specializing in Russell Group university admissions, CAS processing, and Canadian DLI acceptance letters.
+          Practical support for university applications, document preparation and offer-letter requirements across the United Kingdom and Canada.
         </p>
       </div>
 
       <div class="card text-center">
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/counseling-session.jpg'); ?>" alt="ILMA Counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
+        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/counseling-session.jpg'); ?>" alt="ILMA Education Consultancy counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
         <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Visa &amp; Interview Strategist</h3>
         <div style="font-size: 0.85rem; color: var(--accent-red); font-weight: 700; margin-bottom: 0.75rem;">South Korea &amp; Japan guidance</div>
         <p style="font-size: 0.875rem; color: var(--text-muted);">
@@ -133,11 +133,11 @@ $settings = get_option('uturnedu_settings', []);
       </div>
 
       <div class="card text-center">
-        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/hero-students-2026.jpg'); ?>" alt="ILMA Counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
+        <img src="<?php echo esc_url(get_template_directory_uri() . '/assets/images/hero-students-2026.jpg'); ?>" alt="ILMA Education Consultancy counselor" style="width: 140px; height: 140px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem auto; border: 4px solid var(--primary-light);">
         <h3 style="font-size: 1.2rem; margin-bottom: 0.25rem;">Scholarship &amp; Asian Hub Lead</h3>
         <div style="font-size: 0.85rem; color: var(--accent-emerald); font-weight: 700; margin-bottom: 0.75rem;">Malaysia &amp; New Zealand</div>
         <p style="font-size: 0.875rem; color: var(--text-muted);">
-          Specialist in EMGS eVAL processing, UK twinning transfer programs, and New Zealand institution placements.
+          Support for comparing Malaysia and New Zealand study routes, programme requirements and application timelines.
         </p>
       </div>
     </div>

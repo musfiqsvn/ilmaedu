@@ -19,7 +19,7 @@ $phone2   = $settings['phone_secondary'] ?? '01823345573';
 $email    = $settings['email_primary'] ?? 'info@ilmaedubd.com';
 $email2   = $settings['email_support'] ?? 'rawshan@ilmaedubd.com';
 $address  = $settings['address'] ?? 'CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh';
-$whatsapp = uturnedu_whatsapp_url('Hello ILMA Education, I would like to speak with an advisor.');
+$whatsapp = uturnedu_whatsapp_url('Hello ILMA Education Consultancy, I would like to speak with an advisor.');
 ?>
 
 <section class="section section-bg-alt" style="padding: 4rem 0 3rem 0;">

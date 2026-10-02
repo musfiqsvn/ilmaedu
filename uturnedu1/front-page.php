@@ -18,7 +18,7 @@ $settings = get_option('uturnedu_settings', []);
 $address  = $settings['address'] ?? 'CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh';
 $phone    = $settings['phone_primary'] ?? '01329272046';
 $email    = $settings['email_primary'] ?? 'info@ilmaedubd.com';
-$whatsapp = uturnedu_whatsapp_url('Hello ILMA Education, I would like help choosing a study destination.');
+$whatsapp = uturnedu_whatsapp_url('Hello ILMA Education Consultancy, I would like help choosing a study destination.');
 $destinations = uturnedu_destination_catalog();
 $services = uturnedu_service_catalog();
 $home_content = uturnedu_get_homepage_content();
@@ -79,7 +79,7 @@ if ($service_posts) {
     </div>
   </section>
 
-  <section class="trust-strip" aria-label="ILMA support principles">
+  <section class="trust-strip" aria-label="Our support principles">
     <div class="container trust-strip-grid">
       <div><span class="trust-strip-icon" aria-hidden="true">◎</span><span><strong>Student-first advice</strong><small>Recommendations built around your goals</small></span></div>
       <div><span class="trust-strip-icon" aria-hidden="true">↗</span><span><strong>Clear next steps</strong><small>Understand requirements before you apply</small></span></div>
@@ -135,7 +135,7 @@ if ($service_posts) {
 
       <div class="section-foot-cta">
         <p>Not sure which destination fits your profile?</p>
-        <button type="button" class="text-link-button open-consultancy-modal">Speak with an ILMA advisor <span aria-hidden="true">→</span></button>
+        <button type="button" class="text-link-button open-consultancy-modal">Speak with our advisor <span aria-hidden="true">→</span></button>
       </div>
     </div>
   </section>
@@ -190,7 +190,7 @@ if ($service_posts) {
         <?php endforeach; ?>
       </div>
 
-      <div class="center-cta-row"><a href="<?php echo esc_url(home_url('/services/')); ?>" class="btn btn-outline btn-lg">Explore all ILMA services <span aria-hidden="true">→</span></a></div>
+      <div class="center-cta-row"><a href="<?php echo esc_url(home_url('/services/')); ?>" class="btn btn-outline btn-lg">Explore all our services <span aria-hidden="true">→</span></a></div>
     </div>
   </section>
 
@@ -218,7 +218,7 @@ if ($service_posts) {
   ?>
     <section class="section student-perspectives-section section-bg-alt" aria-labelledby="perspectives-title">
       <div class="container">
-        <div class="section-title-wrap"><span class="section-badge section-badge-accent">Student perspectives</span><h2 id="perspectives-title" class="section-title">Support should feel personal</h2><p class="section-subtitle">A few words from students whose stories are already part of the ILMA journey.</p></div>
+        <div class="section-title-wrap"><span class="section-badge section-badge-accent">Student perspectives</span><h2 id="perspectives-title" class="section-title">Support should feel personal</h2><p class="section-subtitle">A few words from students whose stories are already part of our journey.</p></div>
         <div class="student-perspectives-grid">
           <?php while ($testi_query->have_posts()): $testi_query->the_post(); ?>
             <article class="perspective-card"><div class="stars-row" aria-label="5 out of 5 stars">★★★★★</div><p class="perspective-quote">“<?php echo esc_html(wp_trim_words(get_the_content(), 30)); ?>”</p><div class="perspective-name"><?php the_title(); ?></div><div class="perspective-meta"><?php echo esc_html(get_post_meta(get_the_ID(), '_testi_program', true)); ?> · <?php echo esc_html(get_post_meta(get_the_ID(), '_testi_country', true)); ?></div></article>

@@ -145,10 +145,10 @@ function uturnedu_handle_settings_save() {
         'whatsapp_number'         => sanitize_text_field($_POST['whatsapp_number'] ?? ''),
 
         // Stats & Badges
-        'stat_universities'       => sanitize_text_field($_POST['stat_universities'] ?? '100+'),
-        'stat_free_consult'       => sanitize_text_field($_POST['stat_free_consult'] ?? '100%'),
-        'stat_successful_apps'    => sanitize_text_field($_POST['stat_successful_apps'] ?? '367+'),
-        'stat_counselors'         => sanitize_text_field($_POST['stat_counselors'] ?? '09+'),
+        'stat_universities'       => sanitize_text_field($_POST['stat_universities'] ?? ''),
+        'stat_free_consult'       => sanitize_text_field($_POST['stat_free_consult'] ?? ''),
+        'stat_successful_apps'    => sanitize_text_field($_POST['stat_successful_apps'] ?? ''),
+        'stat_counselors'         => sanitize_text_field($_POST['stat_counselors'] ?? ''),
 
         // Social Accounts
         'facebook_url'            => esc_url_raw($_POST['facebook_url'] ?? ''),
@@ -341,7 +341,7 @@ function uturnedu_render_dashboard_page() {
                 <div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <h1 class="uturnedu-dash-title">UTurnEdu Management Suite</h1>
-                        <span class="uturnedu-pill uturnedu-pill-accent">Production v2.2</span>
+                        <span class="uturnedu-pill uturnedu-pill-accent">Production v2.2.1</span>
                     </div>
                     <p class="uturnedu-dash-sub">
                         📍 Primary Agency: <strong>ILMA Education Consultancy</strong> &nbsp;•&nbsp; 🏢 Office: <strong><?php echo esc_html($settings['office_area'] ?? 'Mohammadpur, Dhaka'); ?></strong> &nbsp;•&nbsp; Powered by <strong>UTurn Digital Solutions</strong>
@@ -376,7 +376,7 @@ function uturnedu_render_dashboard_page() {
                     <div class="uturnedu-stat-icon" style="background: rgba(37, 99, 235, 0.1); color: #2563EB;">📥</div>
                     <div class="uturnedu-stat-num"><?php echo esc_html($leads_count); ?></div>
                     <div class="uturnedu-stat-label">Total Student Inquiries</div>
-                    <div class="uturnedu-stat-meta" style="color: #059669;">+100% Free Counseling Requests</div>
+                    <div class="uturnedu-stat-meta" style="color: #059669;">Live counselling requests</div>
                 </div>
 
                 <div class="uturnedu-card uturnedu-stat-card">
@@ -440,10 +440,10 @@ function uturnedu_render_dashboard_page() {
                         <label class="uturnedu-label">Destination heading<input class="uturnedu-input" name="destination_title" value="<?php echo esc_attr($homepage_content['destination_title']); ?>"></label>
                         <label class="uturnedu-label">Destination introduction<textarea class="uturnedu-textarea" name="destination_intro" rows="3"><?php echo esc_textarea($homepage_content['destination_intro']); ?></textarea></label>
                     </fieldset>
-                    <fieldset><legend>Why ILMA & services</legend>
-                        <label class="uturnedu-label">Why ILMA eyebrow<input class="uturnedu-input" name="why_kicker" value="<?php echo esc_attr($homepage_content['why_kicker']); ?>"></label>
-                        <label class="uturnedu-label">Why ILMA heading<input class="uturnedu-input" name="why_title" value="<?php echo esc_attr($homepage_content['why_title']); ?>"></label>
-                        <label class="uturnedu-label">Why ILMA introduction<textarea class="uturnedu-textarea" name="why_intro" rows="3"><?php echo esc_textarea($homepage_content['why_intro']); ?></textarea></label>
+                    <fieldset><legend>Why us & services</legend>
+                        <label class="uturnedu-label">Why us eyebrow<input class="uturnedu-input" name="why_kicker" value="<?php echo esc_attr($homepage_content['why_kicker']); ?>"></label>
+                        <label class="uturnedu-label">Why us heading<input class="uturnedu-input" name="why_title" value="<?php echo esc_attr($homepage_content['why_title']); ?>"></label>
+                        <label class="uturnedu-label">Why us introduction<textarea class="uturnedu-textarea" name="why_intro" rows="3"><?php echo esc_textarea($homepage_content['why_intro']); ?></textarea></label>
                         <?php for ($card = 1; $card <= 4; $card++): ?><label class="uturnedu-label">Why card <?php echo $card; ?> heading<input class="uturnedu-input" name="why_card_<?php echo $card; ?>_title" value="<?php echo esc_attr($homepage_content['why_card_'.$card.'_title']); ?>"></label><label class="uturnedu-label">Why card <?php echo $card; ?> copy<textarea class="uturnedu-textarea" name="why_card_<?php echo $card; ?>_text" rows="2"><?php echo esc_textarea($homepage_content['why_card_'.$card.'_text']); ?></textarea></label><?php endfor; ?>
                         <label class="uturnedu-label">Services eyebrow<input class="uturnedu-input" name="services_kicker" value="<?php echo esc_attr($homepage_content['services_kicker']); ?>"></label>
                         <label class="uturnedu-label">Services heading<input class="uturnedu-input" name="services_title" value="<?php echo esc_attr($homepage_content['services_title']); ?>"></label>
@@ -719,7 +719,7 @@ function uturnedu_render_dashboard_page() {
 
                     <div class="uturnedu-form-group">
                         <label class="uturnedu-label">Popup Headline / Title</label>
-                        <input type="text" name="popup_heading" class="uturnedu-input" value="<?php echo esc_attr($settings['popup_heading'] ?? 'Start Your Study Abroad Journey with 100% Free Guidance!'); ?>">
+                        <input type="text" name="popup_heading" class="uturnedu-input" value="<?php echo esc_attr($settings['popup_heading'] ?? 'Start your study abroad journey with clear, practical guidance.'); ?>">
                     </div>
 
                     <div class="uturnedu-form-group">

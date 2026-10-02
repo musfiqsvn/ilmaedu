@@ -183,7 +183,7 @@ function uturnedu_render_service_metabox($post) {
     </p>
     <p>
         <label><strong>Service Tag / Badge:</strong></label><br>
-        <input type="text" name="_service_badge" value="<?php echo esc_attr($badge); ?>" class="widefat" placeholder="e.g. 100% Free, Most Popular, Step-by-Step">
+        <input type="text" name="_service_badge" value="<?php echo esc_attr($badge); ?>" class="widefat" placeholder="e.g. Free initial guidance, Most Popular, Step-by-Step">
     </p>
     <p>
         <label><strong>Process Steps (One per line):</strong></label><br>

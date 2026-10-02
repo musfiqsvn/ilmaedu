@@ -16,7 +16,7 @@ $email        = $settings['email_primary'] ?? 'info@ilmaedubd.com';
 $email_sec    = $settings['email_support'] ?? 'rawshan@ilmaedubd.com';
 $address      = !empty($settings['address']) ? $settings['address'] : 'CL Tower, 772/1A, Bosila Road, Mohammadpur, Dhaka - 1207, Bangladesh';
 $fb           = $settings['facebook_url'] ?? 'https://www.facebook.com/ilmaeducationbd';
-$whatsapp_url = uturnedu_whatsapp_url('Hello ILMA Education, I would like to know more about study abroad opportunities.');
+$whatsapp_url = uturnedu_whatsapp_url('Hello ILMA Education Consultancy, I would like to know more about study abroad opportunities.');
 $insta        = $settings['instagram_url'] ?? 'https://www.instagram.com/ilmaeducation';
 $site_title   = get_bloginfo('name');
 $logo_dark    = !empty($settings['site_logo_transparent']) ? $settings['site_logo_transparent'] : get_template_directory_uri() . '/assets/images/ILMA-Education-logo-transparent.png';
@@ -26,7 +26,7 @@ $popup_enabled    = ($settings['popup_enabled'] ?? 'yes') === 'yes';
 $popup_type       = $settings['popup_type'] ?? 'image_and_text'; // textual | image_only | image_and_text
 $popup_delay      = (int) ($settings['popup_delay'] ?? 5);
 $popup_frequency  = $settings['popup_frequency'] ?? 'session';
-$popup_heading    = $settings['popup_heading'] ?? 'Start Your Study Abroad Journey with 100% Free Guidance!';
+$popup_heading    = $settings['popup_heading'] ?? 'Start your study abroad journey with clear, practical guidance.';
 $popup_subheading = $settings['popup_subheading'] ?? 'Meet certified counselors at our Mohammadpur office or get immediate profile assessment.';
 $popup_cta_text   = $settings['popup_cta_text'] ?? 'Claim Free Consultation';
 $popup_cta_action = $settings['popup_cta_action'] ?? 'modal';
@@ -87,7 +87,7 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
             </div>
 
             <p style="font-size: 0.78rem; color: var(--text-sub); margin: 0;">
-              ✓ 100% Free Service • ✓ No Hidden File Opening Fees • ✓ Certified Senior Counselors
+              ✓ Free initial guidance • ✓ No hidden file-opening fees • ✓ Experienced counselors
             </p>
           </div>
 
@@ -121,7 +121,7 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
               </a>
 
               <p style="font-size: 0.75rem; color: var(--text-sub); text-align: center; margin-top: 0.85rem;">
-                100% Free Service • No Hidden File Opening Fees • Visit Our Office
+                Free initial guidance • No hidden file-opening fees • Visit our office
               </p>
             </div>
           </div>
@@ -214,8 +214,8 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
             <img src="<?php echo esc_url($logo_dark); ?>" alt="<?php echo esc_attr($site_title); ?>" style="height: 46px; width: auto; object-fit: contain;">
           </div>
           <div>
-            <div style="color: #FFFFFF; font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em;">ILMA</div>
-            <div style="color: #94A3B8; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase;">Education Consultancy</div>
+            <div style="color: #FFFFFF; font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em;">ILMA Education Consultancy</div>
+            <div style="color: #94A3B8; font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase;">Study Abroad Guidance</div>
           </div>
         </a>
 
