@@ -248,6 +248,66 @@ function uturnedu_service_catalog() {
     ];
 }
 
+/** Return editable homepage copy, with sensible fallbacks for a fresh install. */
+function uturnedu_get_homepage_content() {
+    $defaults = [
+        'hero_kicker'          => 'International study guidance, made clear',
+        'hero_cta'             => 'Check your eligibility',
+        'hero_secondary_cta'   => 'Explore destination',
+        'destination_kicker'   => 'Start with a destination',
+        'destination_title'    => 'Where could your next chapter take you?',
+        'destination_intro'    => 'Compare the places that fit your ambitions, budget and preferred way of learning. Each guide takes you from first questions to a practical application conversation.',
+        'why_kicker'           => 'Why select ILMA',
+        'why_title'            => 'A more considered way to plan your study abroad journey.',
+        'why_intro'            => 'Good guidance is not about sending every student to the same place. It is about listening carefully, setting realistic options and helping you make an informed decision.',
+        'why_card_1_title'     => 'Personalised counselling', 'why_card_1_text' => 'Discuss your academic background, interests and preferred learning environment before shortlisting options.',
+        'why_card_2_title'     => 'Thoughtful university selection', 'why_card_2_text' => 'Compare course fit, entry requirements, location and budget instead of choosing on rankings alone.',
+        'why_card_3_title'     => 'Eligibility clarity', 'why_card_3_text' => 'Understand the documents, language requirements and timelines you need for a confident next step.',
+        'why_card_4_title'     => 'Support that stays practical', 'why_card_4_text' => 'From application preparation to visa and pre-departure guidance, know who to ask and what happens next.',
+        'services_kicker'      => 'How ILMA helps',
+        'services_title'       => 'Support for every important decision',
+        'services_intro'       => 'Move forward with a clear plan, from your first course conversation to the day you prepare to leave.',
+        'process_kicker'       => 'A clear process',
+        'process_title'        => 'From first question to application',
+        'process_intro'        => 'Every student starts in a different place. Our process gives you a useful next step without making the journey feel complicated.',
+        'process_1_title'      => 'Tell us your plan', 'process_1_text' => 'Share your subject interests, study level and preferred destinations.',
+        'process_2_title'      => 'Review your fit', 'process_2_text' => 'We discuss eligibility, documents, budget and realistic course options.',
+        'process_3_title'      => 'Prepare your application', 'process_3_text' => 'Build a focused shortlist and organise the information each institution needs.',
+        'process_4_title'      => 'Move forward with support', 'process_4_text' => 'Continue with visa, scholarship and pre-departure guidance when relevant.',
+        'eligibility_kicker'   => 'Your next step',
+        'eligibility_title'   => 'Not sure where you are eligible to apply?',
+        'eligibility_text'    => 'Share a few details and an ILMA advisor can help you understand suitable destinations, course routes and the documents to prepare.',
+        'eligibility_cta'     => 'Check your eligibility',
+        'contact_kicker'      => 'Contact ILMA',
+        'contact_title'       => 'Let’s make your next step clearer.',
+        'contact_text'        => 'Tell us what you are considering. We can help you start with a destination, a course question or an eligibility check.',
+        'video_enabled'       => 'no',
+        'video_url'           => '',
+        'video_poster'        => '',
+        'video_title'         => 'See how ILMA helps students move forward',
+        'video_text'          => 'Add an introduction video, office tour or student guidance video from the dashboard when you are ready.',
+    ];
+
+    $saved = get_option('uturnedu_homepage_content', []);
+    return array_merge($defaults, is_array($saved) ? $saved : []);
+}
+
+/** Safely render an optional YouTube/Vimeo embed or local MP4 from the builder. */
+function uturnedu_render_video_embed($url, $poster = '') {
+    $url = trim((string) $url);
+    if ($url === '') {
+        return '';
+    }
+
+    $extension = strtolower(pathinfo((string) wp_parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION));
+    if (in_array($extension, ['mp4', 'webm', 'ogg'], true)) {
+        return '<video class="ilma-video-player" controls preload="metadata"' . ($poster ? ' poster="' . esc_url($poster) . '"' : '') . '><source src="' . esc_url($url) . '" type="video/' . esc_attr($extension) . '">' . esc_html__('Your browser does not support the video tag.', 'uturnedu1') . '</video>';
+    }
+
+    $embed = wp_oembed_get($url, ['width' => 1000, 'height' => 560]);
+    return $embed ? '<div class="ilma-video-embed">' . $embed . '</div>' : '';
+}
+
 /** Return a catalog entry by slug or title code. */
 function uturnedu_get_destination_data($key) {
     $key = sanitize_title($key);
@@ -265,6 +325,11 @@ function uturnedu_get_destination_data($key) {
 /** Resolve a local destination image for cards and detail pages. */
 function uturnedu_get_destination_image($code) {
     $destination = uturnedu_get_destination_data($code);
+    $post = $destination ? uturnedu_get_destination_post($destination['slug']) : null;
+    $managed_image = $post ? get_post_meta($post->ID, '_dest_image_url', true) : '';
+    if ($managed_image) {
+        return esc_url($managed_image);
+    }
     $filename = $destination['image'] ?? 'hero-students-2026.jpg';
     return get_template_directory_uri() . '/assets/images/' . $filename;
 }
@@ -278,7 +343,7 @@ function uturnedu_get_destination_flag($code) {
 
 /** Return the configured WhatsApp link without duplicating the number in templates. */
 function uturnedu_whatsapp_url($message = '') {
-    $number = preg_replace('/[^0-9]/', '', uturnedu_get_setting('whatsapp_number', '+8801329272046'));
+    $number = preg_replace('/[^0-9]/', '', uturnedu_get_setting('whatsapp_number', '+8801848638406'));
     if (!$number) {
         return '';
     }

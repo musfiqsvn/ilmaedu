@@ -59,6 +59,9 @@ add_action('after_setup_theme', 'uturnedu_setup');
 function uturnedu_enqueue_scripts() {
     wp_enqueue_style('uturnedu-google-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap', [], null);
     wp_enqueue_style('uturnedu-main', get_template_directory_uri() . '/assets/css/main.css', [], UTURNEDU_VERSION);
+    if (is_page('apply-now')) {
+        wp_enqueue_style('uturnedu-apply', get_template_directory_uri() . '/assets/css/apply.css', ['uturnedu-main'], UTURNEDU_VERSION);
+    }
     wp_enqueue_style('uturnedu-style', get_stylesheet_uri(), ['uturnedu-main'], UTURNEDU_VERSION);
 
     wp_enqueue_script('uturnedu-main-js', get_template_directory_uri() . '/assets/js/main.js', [], UTURNEDU_VERSION, true);
@@ -82,8 +85,8 @@ add_action('wp_enqueue_scripts', 'uturnedu_enqueue_scripts');
 function uturnedu_admin_enqueue_scripts($hook) {
     if (strpos($hook, 'uturnedu') !== false || strpos($hook, 'uturnedu_dashboard') !== false) {
         wp_enqueue_style('uturnedu-google-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap', [], null);
-        wp_enqueue_style('uturnedu-admin-css', get_template_directory_uri() . '/assets/css/admin.css', [], '1.1.0');
-        wp_enqueue_script('uturnedu-admin-js', get_template_directory_uri() . '/assets/js/admin.js', ['jquery'], '1.1.0', true);
+        wp_enqueue_style('uturnedu-admin-css', get_template_directory_uri() . '/assets/css/admin.css', [], '2.2.0');
+        wp_enqueue_script('uturnedu-admin-js', get_template_directory_uri() . '/assets/js/admin.js', ['jquery'], '2.2.0', true);
         wp_localize_script('uturnedu-admin-js', 'uturneduAdminData', [
             'nonce' => wp_create_nonce('uturnedu_admin_nonce'),
         ]);

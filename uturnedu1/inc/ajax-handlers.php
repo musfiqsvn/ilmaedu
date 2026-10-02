@@ -28,8 +28,15 @@ function uturnedu_ajax_submit_lead() {
     $study_level   = sanitize_text_field($_POST['study_level'] ?? $_POST['education_level'] ?? 'Undergraduate');
     $ielts_score   = sanitize_text_field($_POST['ielts_score'] ?? $_POST['ielts'] ?? '');
     $target_intake = sanitize_text_field($_POST['target_intake'] ?? $_POST['intake'] ?? '');
+    $budget        = sanitize_text_field($_POST['budget'] ?? '');
     $notes         = sanitize_textarea_field($_POST['notes'] ?? '');
     $source        = sanitize_text_field($_POST['source'] ?? 'Website Inquiry Modal');
+    $utm_source   = sanitize_text_field($_POST['utm_source'] ?? '');
+    $utm_medium   = sanitize_text_field($_POST['utm_medium'] ?? '');
+    $utm_campaign = sanitize_text_field($_POST['utm_campaign'] ?? '');
+    $utm_term     = sanitize_text_field($_POST['utm_term'] ?? '');
+    $utm_content  = sanitize_text_field($_POST['utm_content'] ?? '');
+    $page_url     = esc_url_raw($_POST['page_url'] ?? '');
 
     if (empty($name) || empty($phone)) {
         wp_send_json_error(['message' => __('Please provide at least your Full Name and Mobile Number.', 'uturnedu1')]);
@@ -55,8 +62,15 @@ function uturnedu_ajax_submit_lead() {
     update_post_meta($post_id, '_lead_study_level', $study_level);
     update_post_meta($post_id, '_lead_ielts', $ielts_score);
     update_post_meta($post_id, '_lead_target_intake', $target_intake);
+    update_post_meta($post_id, '_lead_budget', $budget);
     update_post_meta($post_id, '_lead_source', $source);
     update_post_meta($post_id, '_lead_notes', $notes);
+    update_post_meta($post_id, '_lead_utm_source', $utm_source);
+    update_post_meta($post_id, '_lead_utm_medium', $utm_medium);
+    update_post_meta($post_id, '_lead_utm_campaign', $utm_campaign);
+    update_post_meta($post_id, '_lead_utm_term', $utm_term);
+    update_post_meta($post_id, '_lead_utm_content', $utm_content);
+    update_post_meta($post_id, '_lead_page_url', $page_url);
     update_post_meta($post_id, '_lead_status', 'New');
     update_post_meta($post_id, '_lead_submitted_at', current_time('mysql'));
 
@@ -97,7 +111,11 @@ function uturnedu_ajax_submit_contact() {
         update_post_meta($post_id, '_lead_name', $name);
         update_post_meta($post_id, '_lead_phone', $phone);
         update_post_meta($post_id, '_lead_email', $email);
-        update_post_meta($lead_id, '_lead_country', 'General Inquiry');
+        update_post_meta($post_id, '_lead_country', 'General Inquiry');
+        update_post_meta($post_id, '_lead_utm_source', sanitize_text_field($_POST['utm_source'] ?? ''));
+        update_post_meta($post_id, '_lead_utm_medium', sanitize_text_field($_POST['utm_medium'] ?? ''));
+        update_post_meta($post_id, '_lead_utm_campaign', sanitize_text_field($_POST['utm_campaign'] ?? ''));
+        update_post_meta($post_id, '_lead_page_url', esc_url_raw($_POST['page_url'] ?? ''));
         update_post_meta($post_id, '_lead_source', 'Contact Form: ' . $subject);
         update_post_meta($post_id, '_lead_notes', $message);
         update_post_meta($post_id, '_lead_status', 'New');
@@ -339,6 +357,27 @@ function uturnedu_ajax_admin_update_lead_status() {
     wp_send_json_error();
 }
 add_action('wp_ajax_uturnedu_admin_update_lead_status', 'uturnedu_ajax_admin_update_lead_status');
+
+/** Update the CRM fields used by the inline dashboard editor. */
+function uturnedu_ajax_admin_update_lead_details() {
+    check_ajax_referer('uturnedu_admin_nonce', 'nonce');
+    if (!current_user_can('edit_posts')) {
+        wp_send_json_error(['message' => 'Unauthorized']);
+    }
+    $lead_id = (int) ($_POST['lead_id'] ?? 0);
+    $allowed_statuses = ['New', 'Contacted', 'Qualified', 'Follow-up', 'Applied', 'Converted', 'Closed'];
+    $status = sanitize_text_field($_POST['status'] ?? 'New');
+    if (!$lead_id || get_post_type($lead_id) !== 'lead' || !in_array($status, $allowed_statuses, true)) {
+        wp_send_json_error(['message' => 'Invalid lead update.']);
+    }
+    update_post_meta($lead_id, '_lead_status', $status);
+    update_post_meta($lead_id, '_lead_follow_up_date', sanitize_text_field($_POST['follow_up_date'] ?? ''));
+    update_post_meta($lead_id, '_lead_owner', sanitize_text_field($_POST['owner'] ?? ''));
+    update_post_meta($lead_id, '_lead_notes', sanitize_textarea_field($_POST['notes'] ?? ''));
+    update_post_meta($lead_id, '_lead_last_updated', current_time('mysql'));
+    wp_send_json_success(['message' => 'Lead updated']);
+}
+add_action('wp_ajax_uturnedu_admin_update_lead_details', 'uturnedu_ajax_admin_update_lead_details');
 
 /**
  * 7. Admin Update Appointment Status AJAX

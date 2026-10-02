@@ -99,6 +99,7 @@ add_action('add_meta_boxes', 'uturnedu_add_custom_meta_boxes');
 function uturnedu_render_destination_metabox($post) {
     wp_nonce_field('uturnedu_save_meta', 'uturnedu_meta_nonce');
     $flag = get_post_meta($post->ID, '_dest_flag', true);
+    $image_url = get_post_meta($post->ID, '_dest_image_url', true);
     $country_code = get_post_meta($post->ID, '_dest_code', true);
     $capital = get_post_meta($post->ID, '_dest_capital', true);
     $currency = get_post_meta($post->ID, '_dest_currency', true);
@@ -115,6 +116,11 @@ function uturnedu_render_destination_metabox($post) {
         <p>
             <label><strong>Flag Emoji / Code:</strong></label><br>
             <input type="text" name="_dest_flag" value="<?php echo esc_attr($flag); ?>" class="widefat" placeholder="e.g. 🇨🇦 or ca">
+        </p>
+        <p style="grid-column:1 / -1;">
+            <label><strong>Managed Destination Image URL:</strong></label><br>
+            <input type="url" name="_dest_image_url" value="<?php echo esc_url($image_url); ?>" class="widefat" placeholder="Paste a Media Library URL, or leave blank for the theme image.">
+            <small>Used by homepage cards and the six-country hero. Upload the image in Media first, then paste its URL here.</small>
         </p>
         <p>
             <label><strong>Country ISO Code:</strong></label><br>
@@ -262,9 +268,14 @@ function uturnedu_render_lead_metabox($post) {
     $qualification = get_post_meta($post->ID, '_lead_qualification', true);
     $target_intake = get_post_meta($post->ID, '_lead_target_intake', true);
     $study_level = get_post_meta($post->ID, '_lead_study_level', true);
+    $ielts = get_post_meta($post->ID, '_lead_ielts', true);
+    $budget = get_post_meta($post->ID, '_lead_budget', true);
     $source = get_post_meta($post->ID, '_lead_source', true);
     $status = get_post_meta($post->ID, '_lead_status', true) ?: 'new';
     $notes = get_post_meta($post->ID, '_lead_notes', true);
+    $follow_up_date = get_post_meta($post->ID, '_lead_follow_up_date', true);
+    $follow_up_note = get_post_meta($post->ID, '_lead_follow_up_note', true);
+    $owner = get_post_meta($post->ID, '_lead_owner', true);
     ?>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
         <p>
@@ -291,6 +302,8 @@ function uturnedu_render_lead_metabox($post) {
             <label><strong>Target Study Level:</strong></label><br>
             <input type="text" name="_lead_study_level" value="<?php echo esc_attr($study_level); ?>" class="widefat">
         </p>
+        <p><label><strong>English Test / IELTS:</strong></label><br><input type="text" name="_lead_ielts" value="<?php echo esc_attr($ielts); ?>" class="widefat"></p>
+        <p><label><strong>Approximate Budget:</strong></label><br><input type="text" name="_lead_budget" value="<?php echo esc_attr($budget); ?>" class="widefat"></p>
         <p>
             <label><strong>Inquiry Source:</strong></label><br>
             <input type="text" name="_lead_source" value="<?php echo esc_attr($source); ?>" class="widefat">
@@ -310,6 +323,11 @@ function uturnedu_render_lead_metabox($post) {
         <label><strong>Counselor Internal Notes:</strong></label><br>
         <textarea name="_lead_notes" class="widefat" rows="3"><?php echo esc_textarea($notes); ?></textarea>
     </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+        <p><label><strong>Next Follow-up Date:</strong></label><br><input type="date" name="_lead_follow_up_date" value="<?php echo esc_attr($follow_up_date); ?>" class="widefat"></p>
+        <p><label><strong>Follow-up Note:</strong></label><br><input type="text" name="_lead_follow_up_note" value="<?php echo esc_attr($follow_up_note); ?>" class="widefat"></p>
+        <p><label><strong>Owner / Counselor:</strong></label><br><input type="text" name="_lead_owner" value="<?php echo esc_attr($owner); ?>" class="widefat"></p>
+    </div>
     <?php
 }
 
@@ -463,13 +481,13 @@ function uturnedu_save_custom_meta($post_id) {
     }
 
     $fields = [
-        '_dest_flag', '_dest_code', '_dest_capital', '_dest_currency', '_dest_tuition',
+        '_dest_flag', '_dest_image_url', '_dest_code', '_dest_capital', '_dest_currency', '_dest_tuition',
         '_dest_living_cost', '_dest_intakes', '_dest_work_rights', '_dest_psw',
         '_dest_ielts', '_dest_visa_rate', '_dest_universities',
         '_service_icon', '_service_badge', '_service_process',
         '_testi_country', '_testi_university', '_testi_program', '_testi_rating',
         '_counselor_role', '_counselor_exp', '_counselor_countries', '_counselor_email', '_counselor_phone',
-        '_lead_phone', '_lead_email', '_lead_country', '_lead_qualification', '_lead_target_intake', '_lead_study_level', '_lead_source', '_lead_status', '_lead_notes',
+        '_lead_phone', '_lead_email', '_lead_ielts', '_lead_budget', '_lead_country', '_lead_qualification', '_lead_target_intake', '_lead_study_level', '_lead_source', '_lead_status', '_lead_notes', '_lead_follow_up_date', '_lead_follow_up_note', '_lead_owner',
         '_appt_ref', '_appt_date', '_appt_time', '_appt_counselor', '_appt_phone', '_appt_email', '_appt_country', '_appt_status',
         '_slot_start_time', '_slot_end_time', '_slot_capacity', '_slot_counselor_name', '_slot_active',
         '_ad_placement', '_ad_target_url', '_ad_image_url', '_ad_active'

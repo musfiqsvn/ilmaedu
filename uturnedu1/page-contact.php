@@ -94,7 +94,7 @@ $whatsapp = uturnedu_whatsapp_url('Hello ILMA Education, I would like to speak w
         <a href="<?php echo esc_url(home_url('/reserve-consultation/')); ?>" class="btn btn-accent btn-block btn-lg" style="font-weight: 700;">
           Reserve In-Person Slot at Mohammadpur 📅
         </a>
-        <?php if ($whatsapp): ?><a href="<?php echo esc_url($whatsapp); ?>" class="btn btn-whatsapp btn-block" target="_blank" rel="noopener" style="margin-top: 0.75rem;">Chat with ILMA on WhatsApp ↗</a><?php endif; ?>
+        <?php if ($whatsapp): ?><a href="<?php echo esc_url($whatsapp); ?>" class="btn btn-whatsapp btn-block" target="_blank" rel="noopener" style="margin-top: 0.75rem;">Chat with Us ↗</a><?php endif; ?>
       </div>
 
       <!-- Right Contact Form -->

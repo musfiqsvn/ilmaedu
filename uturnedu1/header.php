@@ -29,6 +29,8 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
       $meta_description = 'Study in ' . get_the_title() . ' with ILMA Education Consultancy. Explore universities, entry considerations and your next application step.';
   } elseif (is_page('contact')) {
       $meta_description = 'Contact ILMA Education Consultancy for practical guidance on study destinations, university applications and eligibility.';
+  } elseif (is_page('apply-now')) {
+      $meta_description = 'Start your study abroad application with ILMA Education Consultancy. Share your profile for practical destination and application guidance.';
   }
   ?>
   <meta name="description" content="<?php echo esc_attr($meta_description); ?>">
@@ -42,7 +44,7 @@ $favicon      = get_template_directory_uri() . '/assets/images/canada.png';
     "url": "<?php echo esc_url(home_url('/')); ?>",
     "logo": "<?php echo esc_url($logo_rgb); ?>",
     "description": "International Application Processing Centre dedicated to guiding students into leading universities worldwide since 2013.",
-    "telephone": "+8801329272046",
+    "telephone": "<?php echo esc_js($settings['phone_primary'] ?? '+8801848638406'); ?>",
     "email": "info@ilmaedubd.com",
     "address": {
       "@type": "PostalAddress",

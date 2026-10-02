@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 
 function uturnedu_run_auto_installer($force = false) {
     $current_version = get_option('uturnedu_setup_version');
-    $target_version  = '2.1.0';
+    $target_version  = '2.2.0';
 
     if (!$force && $current_version === $target_version) {
         return;
@@ -62,7 +62,13 @@ function uturnedu_run_auto_installer($force = false) {
             'title'     => 'Contact Us',
             'slug'      => 'contact',
             'template'  => 'page-contact.php',
-            'content'   => 'Get in touch with Us Education Consultancy in Mohammadpur, Dhaka.'
+            'content'   => 'Get in touch with ILMA Education Consultancy in Mohammadpur, Dhaka.'
+        ],
+        'apply-now' => [
+            'title'     => 'Apply Now',
+            'slug'      => 'apply-now',
+            'template'  => 'page-apply-now.php',
+            'content'   => 'Start your study abroad application conversation with ILMA Education Consultancy.'
         ],
         'privacy-policy' => [
             'title'     => 'Privacy Policy',
@@ -512,7 +518,7 @@ function uturnedu_run_auto_installer($force = false) {
         'facebook_url'          => 'https://www.facebook.com/ilmaeducationbd',
         'instagram_url'         => 'https://www.instagram.com/ilmaeducation',
         'youtube_url'           => 'https://www.youtube.com/@ilmaeducation',
-        'whatsapp_number'       => '+8801329272046',
+        'whatsapp_number'       => '+8801848638406',
         'popup_enabled'         => 'yes',
         'popup_delay'           => '5',
         'popup_heading'         => 'Start Your Study Abroad Journey with 100% Free Guidance!',
@@ -532,7 +538,7 @@ add_action('after_switch_theme', 'uturnedu_run_auto_installer');
 
 // Check on admin init if setup is required
 add_action('admin_init', function() {
-    if (get_option('uturnedu_setup_version') !== '2.1.0') {
+    if (get_option('uturnedu_setup_version') !== '2.2.0') {
         uturnedu_run_auto_installer();
     }
 });

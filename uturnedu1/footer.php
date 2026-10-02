@@ -230,7 +230,7 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
           <a href="<?php echo esc_url($insta); ?>" class="social-icon" target="_blank" rel="noopener" aria-label="Instagram">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01M6.5 2h11A4.5 4.5 0 0122 6.5v11a4.5 4.5 0 01-4.5 4.5h-11A4.5 4.5 0 012 17.5v-11A4.5 4.5 0 016.5 2z"/></svg>
           </a>
-          <a href="<?php echo esc_url($whatsapp_url); ?>" class="social-icon" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <a href="<?php echo esc_url($whatsapp_url); ?>" class="social-icon" target="_blank" rel="noopener" aria-label="Chat with Us">
             <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2z"/></svg>
           </a>
         </div>
@@ -310,9 +310,9 @@ $popup_image_url  = !empty($settings['popup_image_url']) ? $settings['popup_imag
      class="whatsapp-float-btn"
      target="_blank"
      rel="noopener"
-     aria-label="Chat on WhatsApp">
+     aria-label="Chat with Us">
     <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm5.72 14.15c-.24.67-1.39 1.25-1.92 1.3-.5.05-1.12.08-3.41-.85-2.73-1.11-4.48-3.9-4.62-4.08-.14-.19-1.11-1.48-1.11-2.82 0-1.35.7-2.01.95-2.28.24-.27.53-.34.71-.34.18 0 .36 0 .52.01.17.01.39-.06.61.47.23.55.77 1.88.84 2.02.07.14.12.31.02.5-.09.19-.14.31-.28.47-.14.16-.3.35-.43.47-.14.14-.29.29-.12.58.17.29.74 1.23 1.59 1.98 1.09.97 2.01 1.27 2.3 1.41.29.14.46.12.63-.07.17-.19.74-.86.94-1.15.2-.29.4-.24.67-.14.28.1.1.75 2.29 1.89 2.51.14.22.23.36.27.42.04.06.04.34-.2 1.01z"/></svg>
-    <span class="whatsapp-float-label">Chat with ILMA</span>
+    <span class="whatsapp-float-label">Chat with Us</span>
   </a>
 
   </div><!-- /.site-boxed-container -->

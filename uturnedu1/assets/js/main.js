@@ -244,6 +244,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const config = getBackendConfig();
       const formData = new FormData(form);
+      const queryParams = new URLSearchParams(window.location.search);
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach((key) => {
+        if (!formData.get(key) && queryParams.get(key)) formData.set(key, queryParams.get(key));
+      });
+      if (!formData.get('page_url')) formData.set('page_url', window.location.href);
 
       try {
         let res;
