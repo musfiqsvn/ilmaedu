@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const active = index === heroIndex;
         slide.classList.toggle('is-active', active);
         slide.setAttribute('aria-hidden', active ? 'false' : 'true');
+        slide.inert = !active;
       });
       heroDots.forEach((dot, index) => {
         const active = index === heroIndex;
@@ -95,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function startHeroTimer() {
       stopHeroTimer();
       if (!reduceMotion && heroSlides.length > 1) {
-        heroTimer = window.setInterval(() => showHeroSlide(heroIndex + 1), 6500);
+        heroTimer = window.setInterval(() => showHeroSlide(heroIndex + 1), 5000);
       }
     }
 
@@ -130,8 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 4. Universal Free Consultancy Modal
+  // 5. Universal Free Consultancy Modal
   const modalOverlay = document.getElementById('consultancyModalOverlay');
+  const popupOverlay = document.getElementById('ilmaPopupOverlay');
   const modalTriggers = document.querySelectorAll('.open-consultancy-modal');
   const modalCloseBtns = document.querySelectorAll('.modal-close-trigger');
 
@@ -178,8 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 5. 5-Second Popup Logic
-  const popupOverlay = document.getElementById('ilmaPopupOverlay');
+  // 6. 5-Second Popup Logic
   if (popupOverlay) {
     const delaySec = parseInt(popupOverlay.getAttribute('data-delay')) || 5;
     const frequency = popupOverlay.getAttribute('data-frequency') || 'session';
@@ -228,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 6. Lead Forms Submission (AJAX for WordPress & Node)
+  // 7. Lead Forms Submission (AJAX for WordPress & Node)
   const leadForms = document.querySelectorAll('.ajax-lead-form');
   leadForms.forEach(form => {
     form.addEventListener('submit', async (e) => {
@@ -299,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 7. Contact Us Page Form Submission
+  // 8. Contact Us Page Form Submission
   const contactForm = document.getElementById('contactPageForm');
   if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {

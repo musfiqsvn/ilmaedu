@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 
 function uturnedu_run_auto_installer($force = false) {
     $current_version = get_option('uturnedu_setup_version');
-    $target_version  = '2.0.0';
+    $target_version  = '2.1.0';
 
     if (!$force && $current_version === $target_version) {
         return;
@@ -37,13 +37,13 @@ function uturnedu_run_auto_installer($force = false) {
         'destinations' => [
             'title'     => 'Study Destinations',
             'slug'      => 'destinations',
-            'template'  => 'archive-destination.php',
+            'template'  => 'page-destinations.php',
             'content'   => 'Explore study destinations in the United Kingdom, New Zealand, Canada, Malaysia, South Korea and Japan.'
         ],
         'services' => [
             'title'     => 'Our Services',
             'slug'      => 'services',
-            'template'  => 'archive-service.php',
+            'template'  => 'page-services.php',
             'content'   => 'Comprehensive, 100% free education consultancy services tailored to your academic dreams.'
         ],
         'reserve-consultation' => [
@@ -466,7 +466,7 @@ function uturnedu_run_auto_installer($force = false) {
                 'title'     => 'September 2026 Major Intake Promo Banner',
                 'placement' => 'home_middle',
                 'url'       => home_url('/reserve-consultation/'),
-                'image'     => get_template_directory_uri() . '/assets/images/home_banner.jpg',
+                'image'     => get_template_directory_uri() . '/assets/images/hero-students-2026.jpg',
             ],
             [
                 'title'     => 'Header Flash Notice: 100% Free Consultation Days',
@@ -532,7 +532,7 @@ add_action('after_switch_theme', 'uturnedu_run_auto_installer');
 
 // Check on admin init if setup is required
 add_action('admin_init', function() {
-    if (get_option('uturnedu_setup_version') !== '2.0.0') {
+    if (get_option('uturnedu_setup_version') !== '2.1.0') {
         uturnedu_run_auto_installer();
     }
 });

@@ -52,7 +52,7 @@ Destination and service cards are rendered from reusable data. Adding another de
 
 1. Upload `uturnedu1` to `wp-content/themes/` or zip the folder for WordPress upload.
 2. Activate it under **Appearance → Themes**.
-3. The installer creates the core pages, custom post type starter data and menus. Existing `usa` and `australia` starter destinations migrate to South Korea and Japan when the theme updates to setup version `2.0.0`.
+3. The installer creates the core pages, custom post type starter data and menus. Existing `usa` and `australia` starter destinations migrate to South Korea and Japan when the theme updates to setup version `2.1.0`.
 4. Update contact details, WhatsApp number, logos and other settings under **UTurnEdu Dashboard → Agency Settings**.
 
 The theme uses native WordPress APIs and does not require Elementor, WPBakery or a third-party page builder.

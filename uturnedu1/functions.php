@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define Theme Constants
-define('UTURNEDU_VERSION', '2.0.0');
+define('UTURNEDU_VERSION', '2.1.0');
 define('UTURNEDU_DIR', get_template_directory());
 define('UTURNEDU_URI', get_template_directory_uri());
 

@@ -59,7 +59,7 @@ $services = uturnedu_service_catalog();
           <button type="button" class="country-hero-dot <?php echo $index === 0 ? 'is-active' : ''; ?>" data-hero-dot="<?php echo esc_attr($index); ?>" role="tab" aria-label="Show <?php echo esc_attr($destination['title']); ?> banner" aria-selected="<?php echo $index === 0 ? 'true' : 'false'; ?>"><span><?php echo esc_html($destination['title']); ?></span></button>
         <?php endforeach; ?>
       </div>
-      <span class="country-hero-autoplay">Auto-changing destinations</span>
+      <span class="country-hero-autoplay">Changes every 5 seconds</span>
     </div>
   </section>
 
